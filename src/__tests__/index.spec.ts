@@ -13,15 +13,12 @@ jest.mock('../ext/ext', () => jest.fn());
 jest.mock('../locale', () => jest.fn());
 jest.mock('../hooks', () => ({
   useCore: jest.fn(),
-  useModels: jest.fn(),
-  useInteractions: jest.fn(),
   useRender: jest.fn(),
 }));
 
 describe('container supernova', () => {
   beforeEach(() => {
     jest.mock('@nebula.js/stardust', () => jest.fn());
-    nebula.useState = jest.fn().mockReturnValue([{}, jest.fn()]);
     const container = supernova(env);
     container.component();
   });
@@ -43,7 +40,6 @@ describe('container supernova', () => {
   });
 
   it('should call all hooks', () => {
-    expect(useState).toHaveBeenCalledTimes(1);
     expect(useCore).toHaveBeenCalledTimes(1);
     expect(useRender).toHaveBeenCalledTimes(1);
   });
