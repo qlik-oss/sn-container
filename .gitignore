@@ -1,0 +1,14 @@
+*.log
+.cache
+.DS_Store
+.idea
+.vscode
+.npmrc
+sn-container-ext
+
+node_modules/
+coverage/
+dist/
+core/esm/
+test/rendering/test-report
+test/rendering/artifacts
