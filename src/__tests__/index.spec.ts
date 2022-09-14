@@ -1,6 +1,3 @@
-import * as nebula from '@nebula.js/stardust';
-import { useState } from '@nebula.js/stardust';
-
 import env from '../mocks/environment';
 import supernova from '..';
 import qae from '../qae';
