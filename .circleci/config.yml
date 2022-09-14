@@ -97,7 +97,7 @@ jobs:
 
   test:
     environment:
-      CC_TEST_REPORTER_ID: c56054fc95a077713c5287d098f0389be0a0a63682a6ba2390b0597a20cc2074
+      CC_TEST_REPORTER_ID: 59b6981ca16974795365184a8409d698492051729af53f21a645b05b17642ab9
     working_directory: ~/container
     docker:
       - image: circleci/node:16.10-browsers
