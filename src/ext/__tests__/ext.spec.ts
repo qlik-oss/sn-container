@@ -21,5 +21,6 @@ describe('data-definition', () => {
   it('should contain correct settings', () => {
     const { settings } = ext.definition.items;
     expect(settings.uses).toEqual('settings');
+    // comment test
   });
 });
