@@ -20,15 +20,7 @@ module.exports = {
   },
   parse: {
     types: {
-      HyperCubeDef: {},
-      NxAttrDimDef: {},
-      NxAttrExprDef: {},
-      NxDimension: {},
-      NxInlineDimensionDef: {},
-      NxInlineMeasureDef: {},
-      NxMeasure: {},
       StringExpression: {},
-      ValueExpression: {},
     },
   },
 };

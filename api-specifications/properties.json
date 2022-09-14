@@ -3,7 +3,7 @@
   "info": {
     "name": "@nebula.js/sn-container:properties",
     "description": "Container generic object definition",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "license": "MIT",
     "stability": "experimental",
     "x-qlik-visibility": "public"
@@ -11,7 +11,48 @@
   "entries": {
     "properties": {
       "kind": "namespace",
-      "entries": {}
+      "entries": {
+        "showTitles": {
+          "description": "Show title for the visualization.",
+          "optional": true,
+          "defaultValue": true,
+          "type": "boolean"
+        },
+        "subtitle": {
+          "description": "Visualization subtitle.",
+          "optional": true,
+          "defaultValue": "",
+          "kind": "union",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "StringExpression"
+            }
+          ],
+          "type": "any"
+        },
+        "title": {
+          "description": "Visualization title.",
+          "optional": true,
+          "defaultValue": "",
+          "kind": "union",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "StringExpression"
+            }
+          ],
+          "type": "any"
+        },
+        "version": {
+          "description": "Current version of this generic object definition",
+          "type": "string"
+        }
+      }
     }
   },
   "definitions": {}
