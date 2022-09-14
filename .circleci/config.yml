@@ -115,21 +115,6 @@ jobs:
             ./cc-test-reporter before-build
             yarn test:unit
             ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
-      - run:
-          name: Install playwright
-          command: npx playwright install
-          when: always
-      - run:
-          name: Run rendering tests
-          command: |
-            yarn test:rendering
-          when: always
-      - store_artifacts:
-          path: test/rendering/container.render.ts-snapshots
-      - store_artifacts:
-          path: test/rendering/artifacts
-      - store_artifacts:
-          path: test/rendering/test-report
 
 workflows:
   version: 2
