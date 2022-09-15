@@ -19,10 +19,6 @@ Run unit tests with:
 
 `yarn test:unit`
 
-Run Rendering Tests
-
-[Rendering test guide](../test/rendering/README.md)
-
 ## Other
 
 Use `yarn lint` to check linin.
