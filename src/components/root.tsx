@@ -15,12 +15,13 @@ export default function Root({layout}: RootProps) {
     height: '100%',
     width: '100%',
   };
+  const testLayout = { children: [{id: 0, label: 'BarChart'}, {id: 1, label: 'PieChart'}]};
 
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={createTheme(getTheme())}>
         <Box className="container-root" style={rootStyle}>
-          <Container layout={layout} />
+          <Container layout={testLayout ?? layout} />
         </Box>
       </ThemeProvider>
     </StyledEngineProvider>
