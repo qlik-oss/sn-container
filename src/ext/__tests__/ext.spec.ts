@@ -1,12 +1,7 @@
 import extFn from '../ext';
 
 describe('data-definition', () => {
-  const env = {
-    translator: {
-      get: (translationProperty: any) => translationProperty,
-    },
-  };
-  const ext = extFn(env);
+  const ext = extFn();
 
   it('should have correct properties', () => {
     expect(ext).toHaveProperty('definition');
