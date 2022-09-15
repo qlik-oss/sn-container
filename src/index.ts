@@ -8,7 +8,7 @@ export default function supernova(env: EnvironmentType) {
 
   return {
     qae: createQae(),
-    ext: ext(env),
+    ext: ext(),
     component() {
       const core = useCore();
       useRender({ core });
