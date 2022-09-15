@@ -23,6 +23,7 @@ describe('use-core', () => {
   beforeEach(() => {
     jest.spyOn(nebula, 'useEffect').mockImplementation(React.useEffect);
     jest.spyOn(nebula, 'useElement').mockReturnValue({});
+    jest.spyOn(nebula, 'useLayout').mockReturnValue({});
     jest.spyOn(nebula, 'useOptions').mockReturnValue({});
     jest.spyOn(nebula, 'useStaleLayout').mockReturnValue({});
     jest.spyOn(useViewState, 'default').mockReturnValue('some-view-state');
