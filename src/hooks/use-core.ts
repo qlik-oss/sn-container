@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useElement, useLayout } from '@nebula.js/stardust';
+import { useElement, useLayout, useState, useEffect  } from '@nebula.js/stardust';
 import useViewState from './use-view-state';
 
 const useCore = () => {
