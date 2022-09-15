@@ -1,4 +1,4 @@
-export default function ext({ translator }) {
+export default function ext() {
   const content = {
     uses: 'data',
     items: {
