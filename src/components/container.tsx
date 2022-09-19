@@ -1,40 +1,18 @@
 import React, { useState } from 'react';
 import { Tabs, Tab, Box, Typography } from '@mui/material';
+import TabPanel from './TabPanel';
 import { COLORS } from '../theme/src/internal/variables';
 
 type TODO = any;
 
-interface TabPanelProps {
-  children?: TODO;
-  index: number;
-  value: number;
-}
-
 export default function Container({ layout }: TODO) {
   const [tabValue, setTabValue] = useState(0);
+  if (!layout) return null;
+
   const handleChange = (_event: Event, newValue: number) => {
     setTabValue(newValue);
   };
-  const TabPanel = (props: TabPanelProps) => {
-    const { children, value, index, ...other } = props;
 
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </div>
-    );
-  };
-  if (!layout) return null;
   return (
     <Box>
       <Tabs value={tabValue} onChange={handleChange}>

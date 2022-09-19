@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { StyledEngineProvider, ThemeProvider, createTheme } from '@mui/material/styles';
-import Container from './container';
+import Container from './Container';
 import getTheme from '../theme/src';
 
 type TODO = any;
