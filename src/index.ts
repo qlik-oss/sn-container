@@ -1,4 +1,4 @@
-import { useRender, useCore } from './hooks';
+import { useRender, useCore, useModels } from './hooks';
 import createQae from './qae';
 import ext from './ext/ext';
 import locale from './locale';
@@ -11,7 +11,8 @@ export default function supernova(env: EnvironmentType) {
     ext: ext(),
     component() {
       const core = useCore();
-      useRender({ core });
+      const models = useModels({ core });
+      useRender({ core, models });
     },
   };
 }

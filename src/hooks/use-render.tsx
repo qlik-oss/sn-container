@@ -3,21 +3,21 @@ import ReactDOM from 'react-dom';
 import { useEffect } from '@nebula.js/stardust';
 import Root from '../components/Root';
 
-type TODO = any;
-
 type UseRenderProps = {
   core: {
     element: HTMLElement;
-    layout: TODO;
   };
+  models: {
+    containerModel: ContainerModel;
+  }
 };
 
-const UseRender = ({ core }: UseRenderProps) => {
+const UseRender = ({ core, models }: UseRenderProps) => {
   useEffect(() => {
-    if (core?.element && core.layout) {
-      ReactDOM.render(<Root layout={core.layout} />, core.element);
+    if (core?.element && models) {
+      ReactDOM.render(<Root models={models} />, core.element);
     }
-  }, [core]);
+  }, [core, models]);
 };
 
 export default UseRender;

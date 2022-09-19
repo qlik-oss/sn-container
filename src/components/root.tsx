@@ -4,13 +4,13 @@ import { StyledEngineProvider, ThemeProvider, createTheme } from '@mui/material/
 import Container from './Container';
 import getTheme from '../theme/src';
 
-type TODO = any;
-
 interface RootProps {
-  layout: TODO;
+  models: {
+    containerModel: ContainerModel;
+  }
 };
 
-export default function Root({layout}: RootProps) {
+export default function Root({models}: RootProps) {
   const rootStyle = {
     height: '100%',
     width: '100%',
@@ -21,7 +21,7 @@ export default function Root({layout}: RootProps) {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={createTheme(getTheme())}>
         <Box className="container-root" style={rootStyle}>
-          <Container layout={testLayout ?? layout} />
+          <Container layout={testLayout ?? models.containerModel.layoutService.getLayout()} />
         </Box>
       </ThemeProvider>
     </StyledEngineProvider>
