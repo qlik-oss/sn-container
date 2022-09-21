@@ -1,4 +1,3 @@
 declare interface ThemeService {
-    getTheme(): string;
+  getTheme(): string;
 }
-  
