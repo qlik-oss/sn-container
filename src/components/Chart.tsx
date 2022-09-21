@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Box } from '@mui/material';
 
 interface ChartProps {
   id: String;
@@ -15,9 +16,9 @@ export default function Chart({ id, embed }: ChartProps) {
   }, [id]);
 
   return (
-    <div
+    <Box
       ref={el}
-      style={{
+      sx={{
         height: '100%',
         width: '100%',
       }}
