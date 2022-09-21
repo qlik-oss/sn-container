@@ -16,12 +16,21 @@ const TabPanel = (props: TabPanelProps) => {
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
+      style={{
+        height: 'calc(100% - 48px)',
+        width: '100%',
+      }}
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+        <Box
+          p={3}
+          style={{
+            height: '100%',
+            width: '100%',
+          }}
+        >
+          {children}
         </Box>
       )}
     </div>
