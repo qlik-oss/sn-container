@@ -35,7 +35,7 @@ export default function Container({ containerModel }: CotaninerProps) {
       </Tabs>
       {layout.children?.map((chart: TODO, index: number) => (
         <TabPanel value={tabValue} index={index}>
-          <Chart id="LmjmDj" embed={containerModel.embed} />
+          <Chart id={chart.cId} embed={containerModel.embed} />
         </TabPanel>
       ))}
     </Box>
