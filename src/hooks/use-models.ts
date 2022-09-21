@@ -1,4 +1,4 @@
-import { useEffect, useState, useStaleLayout, useTheme, useEmbed } from '@nebula.js/stardust';
+import { useEffect, useState, useStaleLayout, useTheme, useEmbed, useApp } from '@nebula.js/stardust';
 import createContainerModel from '../models/container-model';
 import { layoutService as createLayoutService, themeService as createThemeService } from 'qlik-chart-modules';
 import themeStyleMatrix from '../services/theme-service/theme-style-matrix';
@@ -11,6 +11,7 @@ type UseModelsProps = {
 };
 
 const UseModels = ({ core }: UseModelsProps) => {
+  const app = useApp();
   const layout = useStaleLayout();
   const theme = useTheme();
   const embed = useEmbed();
@@ -31,7 +32,7 @@ const UseModels = ({ core }: UseModelsProps) => {
     setModels({
       containerModel,
     });
-  }, [core]);
+  }, [core, layout, app]);
 
   return models;
 };
