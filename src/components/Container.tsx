@@ -15,7 +15,7 @@ export default function Container({ containerModel }: CotaninerProps) {
   const layout = containerModel.layoutService.getLayout();
   if (!layout) return null;
 
-  const handleChange = (_event: Event, newValue: number) => {
+  const handleChange = (_event: any, newValue: number) => {
     setTabValue(newValue);
   };
   return (
@@ -29,13 +29,18 @@ export default function Container({ containerModel }: CotaninerProps) {
         {layout.children?.map((chart: TODO) => (
           <Tab
             id={`container-tab-${chart.refId}`}
-            label={<Typography color={COLORS.TEXT_PRIMARY}>{chart.label}</Typography>}
+            sx={{ fontFamily: 'inherit', maxWidth: 200, minWidth: 100, flex: '1 1 0', alignItems: 'flex-start' }}
+            label={
+              <Typography variant="inherit" fontSize="13px" color={COLORS.TEXT_PRIMARY}>
+                {chart.label}
+              </Typography>
+            }
           ></Tab>
         ))}
       </Tabs>
-      {layout.children?.map((chart: TODO, index: number) => (
+      {layout.qChildList?.qItems.map((chart: TODO, index: number) => (
         <TabPanel value={tabValue} index={index}>
-          <Chart id={chart.cId} embed={containerModel.embed} />
+          <Chart chart={chart} containerModel={containerModel} />
         </TabPanel>
       ))}
     </Box>

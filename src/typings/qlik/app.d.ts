@@ -2,6 +2,7 @@
 interface App {
   getOnTheFlyWithHiddenListObject(): Promise<GenericObject>;
   getDimensionListObject(): Promise<GenericObject>;
+  getObject(id: string): Promise<GenericObject>;
 }
 
 interface GenericObject {
