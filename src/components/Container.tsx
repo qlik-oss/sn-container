@@ -29,6 +29,7 @@ export default function Container({ containerModel }: CotaninerProps) {
         {layout.children?.map((chart: TODO) => (
           <Tab
             id={`container-tab-${chart.refId}`}
+            key={chart.refId}
             sx={{ fontFamily: 'inherit', maxWidth: 200, minWidth: 100, flex: '1 1 0', alignItems: 'flex-start' }}
             label={
               <Typography variant="inherit" fontSize="13px" color={COLORS.TEXT_PRIMARY}>
@@ -39,7 +40,7 @@ export default function Container({ containerModel }: CotaninerProps) {
         ))}
       </Tabs>
       {layout.qChildList?.qItems.map((chart: TODO, index: number) => (
-        <TabPanel value={tabValue} index={index}>
+        <TabPanel value={tabValue} index={index} key={chart.qInfo.qId}>
           <Chart chart={chart} containerModel={containerModel} />
         </TabPanel>
       ))}

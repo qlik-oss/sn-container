@@ -25,7 +25,7 @@ export default function Chart({ chart, containerModel }: ChartProps) {
   };
 
   useEffect(() => {
-    const chartId = chart?.qInfo.qId;
+    const chartId = chart.qInfo.qId;
     app.getObject(chartId).then((object) => {
       embed.render({
         id: chartId,
@@ -35,7 +35,7 @@ export default function Chart({ chart, containerModel }: ChartProps) {
         style,
       });
     });
-  }, [chart?.qInfo.qId]);
+  }, [chart.qInfo.qId]);
 
   return (
     <Box
