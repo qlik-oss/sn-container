@@ -25,10 +25,6 @@ describe('<Container>', () => {
     };
   });
 
-  afterEach(() => {
-    wrapper.unmount();
-  });
-
   it('renders the component without children correctly', () => {
     wrapper = shallow(<Container containerModel={containerModel} />);
     expect(wrapper.find('#simple-tabpanel-0')).toHaveLength(0);
