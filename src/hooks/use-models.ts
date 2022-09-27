@@ -5,7 +5,7 @@ import themeStyleMatrix from '../services/theme-service/theme-style-matrix';
 import layoutServiceMeta from '../services/layout-service/meta';
 
 type UseModelsProps = {
-  core: {
+  core?: {
     element: HTMLElement;
   };
 };
