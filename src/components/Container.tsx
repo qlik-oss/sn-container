@@ -15,6 +15,13 @@ export default function Container({ containerModel }: CotaninerProps) {
   const layout = containerModel.layoutService.getLayout();
   if (!layout) return null;
 
+  const children = layout.children.map((child: any) => {
+    const childListItem = layout.qChildList?.qItems.find((itmInner) =>
+      child.isMaster ? itmInner.qData.qExtendsId === child.refId : itmInner.qData.containerChildId === child.refId
+    );
+    return { ...child, ...childListItem };
+  });
+
   const handleChange = (_event: any, newValue: number) => {
     setTabValue(newValue);
   };
@@ -26,7 +33,7 @@ export default function Container({ containerModel }: CotaninerProps) {
       }}
     >
       <Tabs value={tabValue} onChange={handleChange}>
-        {layout.children?.map((chart: TODO) => (
+        {children?.map((chart: TODO) => (
           <Tab
             id={`container-tab-${chart.refId}`}
             key={chart.refId}
@@ -39,11 +46,14 @@ export default function Container({ containerModel }: CotaninerProps) {
           ></Tab>
         ))}
       </Tabs>
-      {layout.qChildList?.qItems.map((chart: TODO, index: number) => (
-        <TabPanel value={tabValue} index={index} key={chart.qInfo.qId}>
-          <Chart chart={chart} containerModel={containerModel} />
-        </TabPanel>
-      ))}
+      {children.map(
+        (chart: TODO, index: number) =>
+          chart.qInfo && (
+            <TabPanel value={tabValue} index={index} key={chart.qInfo.qId}>
+              <Chart chart={chart} containerModel={containerModel} />
+            </TabPanel>
+          )
+      )}
     </Box>
   );
 }
