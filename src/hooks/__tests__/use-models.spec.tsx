@@ -3,6 +3,7 @@
  */
 
 import * as nebula from '@nebula.js/stardust';
+import * as qlikChartModules from 'qlik-chart-modules';
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
@@ -29,6 +30,13 @@ describe('use-core', () => {
     jest.spyOn(nebula, 'useEmbed').mockReturnValue({});
     jest.spyOn(nebula, 'useApp').mockReturnValue({});
     jest.spyOn(nebula, 'useOptions').mockReturnValue({});
+    jest.spyOn(qlikChartModules, 'themeService').mockReturnValue({});
+    jest.spyOn(qlikChartModules, 'layoutService').mockReturnValue({});
+    jest.mock('../../models/container-model', () => {
+      return {
+        default: jest.fn(),
+      };
+    });
     mount(<Component />);
   });
 
