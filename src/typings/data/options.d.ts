@@ -1,3 +1,5 @@
+declare type Direction = 'rtl' | 'ltr';
+
 declare interface Options {
-  direction?: 'rtl' | 'ltr';
+  direction?: Direction;
 }

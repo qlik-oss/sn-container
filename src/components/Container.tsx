@@ -4,8 +4,6 @@ import TabPanel from './TabPanel';
 import Chart from './Chart';
 import { COLORS } from '../theme/src/internal/variables';
 
-type TODO = any;
-
 interface CotaninerProps {
   containerModel: ContainerModel;
 }
@@ -15,13 +13,15 @@ export default function Container({ containerModel }: CotaninerProps) {
   const layout = containerModel.layoutService.getLayout();
   if (!layout) return null;
 
-  const children =
-    layout.children?.map((child: any) => {
-      const childListItem = layout.qChildList?.qItems.find((itmInner) =>
-        child.isMaster ? itmInner.qData.qExtendsId === child.refId : itmInner.qData.containerChildId === child.refId
-      );
-      return { ...child, ...childListItem };
-    }) ?? [];
+  const children: ChartObject[] = [];
+  layout.children?.map((child: LayoutChild) => {
+    const childListItem = layout.qChildList?.qItems.find((itmInner) =>
+      child.isMaster ? itmInner.qData.qExtendsId === child.refId : itmInner.qData.containerChildId === child.refId
+    );
+    if (childListItem) {
+      children.push({ ...child, ...childListItem });
+    }
+  });
 
   const handleChange = (_event: any, newValue: number) => {
     setTabValue(newValue);
@@ -34,7 +34,7 @@ export default function Container({ containerModel }: CotaninerProps) {
       }}
     >
       <Tabs value={tabValue} onChange={handleChange}>
-        {children.map((chart: TODO) => (
+        {children.map((chart: ChartObject) => (
           <Tab
             id={`container-tab-${chart.refId}`}
             key={chart.refId}
@@ -48,7 +48,7 @@ export default function Container({ containerModel }: CotaninerProps) {
         ))}
       </Tabs>
       {children.map(
-        (chart: TODO, index: number) =>
+        (chart: ChartObject, index: number) =>
           chart.qInfo && (
             <TabPanel value={tabValue} index={index} key={chart.qInfo.qId}>
               <Chart chart={chart} containerModel={containerModel} />

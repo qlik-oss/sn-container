@@ -7,6 +7,7 @@ import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import useRender from '../use-render';
+import models from '../../mocks/models';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -15,7 +16,7 @@ describe('use-render', () => {
   const element = document.createElement('div');
   const core: any = { element };
   const Component = () => {
-    useRender({ core });
+    useRender({ core, models });
     return <div />;
   };
 

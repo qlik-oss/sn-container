@@ -15,7 +15,7 @@ describe('use-view-state', () => {
     useViewState();
     return <div />;
   };
-  let setViewState: any;
+  let setViewState;
 
   beforeEach(() => {
     jest.spyOn(nebula, 'useEffect').mockImplementation(React.useEffect);

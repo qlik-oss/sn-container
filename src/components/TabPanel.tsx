@@ -1,10 +1,8 @@
 import React from 'react';
 import { Box } from '@mui/material';
 
-type TODO = any;
-
 interface TabPanelProps {
-  children?: TODO;
+  children?: any;
   index: number;
   value: number;
 }

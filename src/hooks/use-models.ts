@@ -4,11 +4,11 @@ import { layoutService as createLayoutService, themeService as createThemeServic
 import themeStyleMatrix from '../services/theme-service/theme-style-matrix';
 import layoutServiceMeta from '../services/layout-service/meta';
 
-type UseModelsProps = {
+interface UseModelsProps {
   core?: {
     element: HTMLElement;
   };
-};
+}
 
 const UseModels = ({ core }: UseModelsProps) => {
   const app = useApp();

@@ -1,16 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 
-interface ChartProps {
-  chart: any;
+interface ChartComponentProps {
+  chart: ChartObject;
   containerModel: ContainerModel;
 }
 
-export default function Chart({ chart, containerModel }: ChartProps) {
+export default function Chart({ chart, containerModel }: ChartComponentProps) {
   const { embed, app, options } = containerModel;
   const el = useRef();
   const direction = options.direction;
-  const chartOptions: any = {
+  const chartOptions: EmbedOptions = {
     direction,
     isReadonly: false,
     isPopover: false,
@@ -18,7 +18,7 @@ export default function Chart({ chart, containerModel }: ChartProps) {
     selections: true,
   };
 
-  const style: any = {
+  const style: EmbedStyle = {
     height: '100%',
     width: '100%',
     border: 'unset',
