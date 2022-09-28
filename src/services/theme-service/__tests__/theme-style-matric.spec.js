@@ -1,1 +1,0 @@
-describe('theme-style-matrix', () => {});

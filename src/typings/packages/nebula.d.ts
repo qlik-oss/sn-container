@@ -1,20 +1,20 @@
 declare module '@nebula.js/stardust';
 
 /** Environment. (supernova parameter) */
-declare type EnvironmentType = {
+declare interface EnvironmentType {
   translator: TranslatorType;
-};
+}
 
 /** Translator. */
-declare type TranslatorType = {
+declare interface TranslatorType {
   get: Function;
   add: Function;
-};
+}
 
-declare type RectType = {
+declare interface RectType {
   width: number;
   height: number;
-};
+}
 
 declare interface Selections {
   isActive(): boolean;

@@ -3,7 +3,7 @@ import supernova from '..';
 import qae from '../qae';
 import ext from '../ext/ext';
 import locale from '../locale';
-import { useRender, useCore } from '../hooks';
+import { useRender, useCore, useModels } from '../hooks';
 
 jest.mock('../qae', () => jest.fn());
 jest.mock('../ext/ext', () => jest.fn());
@@ -11,6 +11,7 @@ jest.mock('../locale', () => jest.fn());
 jest.mock('../hooks', () => ({
   useCore: jest.fn(),
   useRender: jest.fn(),
+  useModels: jest.fn(),
 }));
 
 describe('container supernova', () => {
@@ -39,5 +40,6 @@ describe('container supernova', () => {
   it('should call all hooks', () => {
     expect(useCore).toHaveBeenCalledTimes(1);
     expect(useRender).toHaveBeenCalledTimes(1);
+    expect(useModels).toHaveBeenCalledTimes(1);
   });
 });

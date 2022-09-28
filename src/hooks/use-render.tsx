@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import { useEffect } from '@nebula.js/stardust';
 import Root from '../components/Root';
 
-type UseRenderProps = {
+interface UseRenderProps {
   core: {
     element: HTMLElement;
   };
   models: {
     containerModel: ContainerModel;
-  }
-};
+  };
+}
 
 const UseRender = ({ core, models }: UseRenderProps) => {
   useEffect(() => {

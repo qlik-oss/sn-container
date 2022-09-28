@@ -1,10 +1,8 @@
 import React from 'react';
 import { Box } from '@mui/material';
 
-type TODO = any;
-
 interface TabPanelProps {
-  children?: TODO;
+  children?: any;
   index: number;
   value: number;
 }
@@ -12,11 +10,11 @@ interface TabPanelProps {
 const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
-      style={{
+      sx={{
         height: 'calc(100% - 48px)',
         width: '100%',
       }}
@@ -24,7 +22,6 @@ const TabPanel = (props: TabPanelProps) => {
     >
       {value === index && (
         <Box
-          p={3}
           style={{
             height: '100%',
             width: '100%',
@@ -33,7 +30,7 @@ const TabPanel = (props: TabPanelProps) => {
           {children}
         </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
