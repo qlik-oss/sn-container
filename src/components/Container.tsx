@@ -15,8 +15,8 @@ export default function Container({ containerModel }: CotaninerProps) {
 
   const children: ChartObject[] = [];
   layout.children?.map((child: LayoutChild) => {
-    const childListItem = layout.qChildList?.qItems.find((itmInner) =>
-      child.isMaster ? itmInner.qData.qExtendsId === child.refId : itmInner.qData.containerChildId === child.refId
+    const childListItem = layout.qChildList?.qItems.find((innerItem) =>
+      child.isMaster ? innerItem.qData.qExtendsId === child.refId : innerItem.qData.containerChildId === child.refId
     );
     if (childListItem) {
       children.push({ ...child, ...childListItem });
@@ -37,6 +37,7 @@ export default function Container({ containerModel }: CotaninerProps) {
         {children.map((chart: ChartObject) => (
           <Tab
             id={`container-tab-${chart.refId}`}
+            data-testid={`container-tab-${chart.refId}`}
             key={chart.refId}
             sx={{ fontFamily: 'inherit', maxWidth: 200, minWidth: 100, flex: '1 1 0', alignItems: 'flex-start' }}
             label={
@@ -50,7 +51,7 @@ export default function Container({ containerModel }: CotaninerProps) {
       {children.map(
         (chart: ChartObject, index: number) =>
           chart.qInfo && (
-            <TabPanel value={tabValue} index={index} key={chart.qInfo.qId}>
+            <TabPanel data-testid={`tab-panel-${chart.refId}`} value={tabValue} index={index} key={chart.qInfo.qId}>
               <Chart chart={chart} containerModel={containerModel} />
             </TabPanel>
           )

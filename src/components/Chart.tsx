@@ -26,12 +26,12 @@ export default function Chart({ chart, containerModel }: ChartComponentProps) {
 
   useEffect(() => {
     const chartId = chart.qInfo.qId;
-    app.getObject(chartId).then((object) => {
+    app.getObject(chartId).then((model) => {
       embed.render({
         id: chartId,
         element: el.current,
         options: chartOptions,
-        model: object,
+        model,
         style,
       });
     });
