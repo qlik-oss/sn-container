@@ -4,15 +4,15 @@ declare interface LayoutService {
 }
 
 declare interface LayoutChild {
-  refId: 'string';
-  label: 'string';
+  refId: string;
+  label: string;
   isMaster: boolean;
-  cId: 'string';
+  cId: string;
 }
 
 declare interface QInfo {
-  qId: 'string';
-  qType: 'string';
+  qId: string;
+  qType: string;
 }
 
 declare interface QMeta {
@@ -20,11 +20,11 @@ declare interface QMeta {
 }
 
 declare interface QData {
-  title: 'string';
-  visualization: 'string';
-  containerChildId: 'string';
-  qExtendsId: 'string';
-  showCondition: 'stirng';
+  title: string;
+  visualization: string;
+  containerChildId: string;
+  qExtendsId: string;
+  showCondition: string;
 }
 
 declare interface QChild {
