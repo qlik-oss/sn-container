@@ -7,7 +7,7 @@ declare interface LayoutChild {
   refId: string;
   label: string;
   isMaster: boolean;
-  cId: string;
+  cId?: string;
 }
 
 declare interface QInfo {
