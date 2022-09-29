@@ -121,7 +121,7 @@ export default function Container({ containerModel }: CotaninerProps) {
     >
       {layout.showTabs !== false && (
         <Box>
-          {layout.useScrollButton && (
+          {layout.useScrollButton !== false && (
             <>
               <Button>
                 <PreviousIcon />
@@ -131,12 +131,12 @@ export default function Container({ containerModel }: CotaninerProps) {
               </Button>
             </>
           )}
-          {layout.useDropdown && (
-            <Button sx={{ paddingLeft: layout.useScrollButton ? 4 : 0 }}>
+          {layout.useDropdown !== false && (
+            <Button sx={{ marginLeft: layout.useScrollButton !== false ? '4px' : '0px' }}>
               <UnorderedListIcon />
             </Button>
           )}
-          <Tabs value={tabValue} onChange={handleChange}>
+          <Tabs value={tabValue} onChange={handleChange} sx={{ display: 'inline-flex' }}>
             {children.map((chart: ChartObject) => (
               <Tab
                 id={`container-tab-${chart.refId}`}
@@ -144,7 +144,7 @@ export default function Container({ containerModel }: CotaninerProps) {
                 key={chart.refId}
                 sx={{ fontFamily: 'inherit', maxWidth: 200, minWidth: 100, flex: '1 1 0', alignItems: 'flex-start' }}
                 label={
-                  <Typography variant="inherit" fontSize="13px" color={COLORS.TEXT_PRIMARY}>
+                  <Typography variant="inherit" fontSize="13px" color={COLORS.TEXT_PRIMARY} whiteSpace="nowrap">
                     {chart.label}
                   </Typography>
                 }
