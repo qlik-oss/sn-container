@@ -3,8 +3,8 @@ import { Box } from '@mui/material';
 
 interface TabPanelProps {
   children?: any;
-  activeTab: string | undefined;
-  value: string | undefined;
+  activeTab: number;
+  value: number | undefined;
 }
 
 const TabPanel = (props: TabPanelProps) => {

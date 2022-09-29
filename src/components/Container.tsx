@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { Tabs, Tab, Box, Typography } from '@mui/material';
+import { Tabs, Tab, Box, Typography, Button } from '@mui/material';
 import TabPanel from './TabPanel';
 import Chart from './Chart';
+import NextIcon from '../icons/Next';
+import PreviousIcon from '../icons/Previous';
+import UnorderedListIcon from '../icons/UnorderedList';
 import { COLORS } from '../theme/src/internal/variables';
 
 interface CotaninerProps {
@@ -26,7 +29,7 @@ const mockedLayout: any = {
     },
     {
       refId: 'GmJHVvD',
-      label: 'Pie chart',
+      label: 'Pie chartwith a veryveryveryveryveryveryveryveryveryvery',
       isMaster: false,
       cId: 'JyrDhv',
     },
@@ -89,7 +92,11 @@ const mockedLayout: any = {
 
 export default function Container({ containerModel }: CotaninerProps) {
   const layout = containerModel.layoutService.getLayout();
-  const [tabValue, setTabValue] = useState(layout.defaultTab ?? layout.qChildList?.qItems[0]?.qInfo.qId);
+  const [tabValue, setTabValue] = useState(
+    layout.defaultTab
+      ? mockedLayout.qChildList?.qItems.findIndex((child: QChild) => child.qInfo.qId === layout.defaultTab)
+      : 0
+  );
   if (!layout) return null;
 
   const children: ChartObject[] = [];
@@ -113,32 +120,43 @@ export default function Container({ containerModel }: CotaninerProps) {
       }}
     >
       {layout.showTabs !== false && (
-        <Tabs value={tabValue} onChange={handleChange}>
-          {children.map((chart: ChartObject) => (
-            <Tab
-              id={`container-tab-${chart.refId}`}
-              data-testid={`container-tab-${chart.refId}`}
-              key={chart.refId}
-              sx={{ fontFamily: 'inherit', maxWidth: 200, minWidth: 100, flex: '1 1 0', alignItems: 'flex-start' }}
-              value={chart.qInfo.qId}
-              label={
-                <Typography variant="inherit" fontSize="13px" color={COLORS.TEXT_PRIMARY}>
-                  {chart.label}
-                </Typography>
-              }
-            ></Tab>
-          ))}
-        </Tabs>
+        <Box>
+          {layout.useScrollButton && (
+            <>
+              <Button>
+                <PreviousIcon />
+              </Button>
+              <Button>
+                <NextIcon />
+              </Button>
+            </>
+          )}
+          {layout.useDropdown && (
+            <Button sx={{ paddingLeft: layout.useScrollButton ? 4 : 0 }}>
+              <UnorderedListIcon />
+            </Button>
+          )}
+          <Tabs value={tabValue} onChange={handleChange}>
+            {children.map((chart: ChartObject) => (
+              <Tab
+                id={`container-tab-${chart.refId}`}
+                data-testid={`container-tab-${chart.refId}`}
+                key={chart.refId}
+                sx={{ fontFamily: 'inherit', maxWidth: 200, minWidth: 100, flex: '1 1 0', alignItems: 'flex-start' }}
+                label={
+                  <Typography variant="inherit" fontSize="13px" color={COLORS.TEXT_PRIMARY}>
+                    {chart.label}
+                  </Typography>
+                }
+              ></Tab>
+            ))}
+          </Tabs>
+        </Box>
       )}
       {children.map(
-        (chart: ChartObject) =>
+        (chart: ChartObject, index: number) =>
           chart.qInfo && (
-            <TabPanel
-              data-testid={`tab-panel-${chart.refId}`}
-              value={tabValue}
-              activeTab={chart.qInfo.qId}
-              key={chart.qInfo.qId}
-            >
+            <TabPanel data-testid={`tab-panel-${chart.refId}`} value={tabValue} activeTab={index} key={chart.qInfo.qId}>
               <Chart chart={chart} containerModel={containerModel} />
             </TabPanel>
           )

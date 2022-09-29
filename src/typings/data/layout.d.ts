@@ -41,6 +41,4 @@ declare interface Layout extends ContainerProperties {
   snapshotData?: any;
   children: LayoutChild[];
   qChildList: QChildList;
-  borders?: string;
-  showTabs?: boolean;
 }

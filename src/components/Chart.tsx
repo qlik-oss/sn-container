@@ -38,12 +38,19 @@ export default function Chart({ chart, containerModel }: ChartComponentProps) {
     });
   }, [chart.qInfo.qId]);
 
+  let border = '';
+  if (layout.borders === 'noBorder') {
+    border = 'unset !important';
+  } else if (layout.borders === 'border') {
+    border = '1px solid rgba(0, 0, 0, 0.1) !important';
+  }
+
   return (
     <Box
       ref={el}
       sx={{
         '.qv-object-wrapper .qv-object.qvt-visualization': {
-          border: layout.borders !== 'noBorder' ? '' : 'unset !important',
+          border,
         },
         position: 'relative',
         height: '100%',

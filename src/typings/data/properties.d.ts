@@ -1,6 +1,9 @@
 declare interface ContainerProperties extends BasicProperties {
-  showTabs: boolean;
-  defaultTab: boolean;
+  borders?: string;
+  showTabs?: boolean;
+  useDropdown?: boolean;
+  useScrollButton?: boolean;
+  defaultTab: string;
 }
 
 declare interface PropertyHandler {

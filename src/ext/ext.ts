@@ -119,26 +119,6 @@ export default function ext() {
               return data.showTabs !== false;
             },
           },
-          showIcons: {
-            type: 'boolean',
-            translation: 'Object.Container.Props.ShowIcons',
-            ref: 'showIcons',
-            component: 'switch',
-            options: [
-              {
-                value: true,
-                translation: 'properties.on',
-              },
-              {
-                value: false,
-                translation: 'properties.off',
-              },
-            ],
-            defaultValue: false,
-            show(data: ContainerProperties) {
-              return data.showTabs !== false;
-            },
-          },
           activeTab: {
             type: 'string',
             translation: 'Object.Container.Props.DefaultTab',
