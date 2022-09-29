@@ -1870,25 +1870,25 @@
     fs-extra "10.1.0"
     inquirer "8.2.4"
 
-"@nebula.js/cli-sense@2.13.0":
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/cli-sense/-/cli-sense-2.13.0.tgz#634024db91571c6c8442462c48f0911c34b2d8a9"
-  integrity sha512-zk1fcq+uN8Wn1hxeokf0Awn9lJlaMRnnz5csWhox2wvGult1pCmQ626C7o1yQ5mBfwg6dzhUwdGt6PnPGDMpHg==
+"@nebula.js/cli-sense@3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@nebula.js/cli-sense/-/cli-sense-3.0.2.tgz#d3f69d4944a591d8faee361a4b19cd8b95946b7b"
+  integrity sha512-wxzYxGL6WHCc+zcl++T6EVoq5FmmtBeWX5R/GZmCnOpE13/ACFYFxqd62iT2fleEahGMAOuBmUuoXSowXf7SCw==
   dependencies:
-    "@babel/cli" "7.17.10"
-    "@babel/core" "7.17.10"
-    "@babel/preset-env" "7.17.10"
-    "@nebula.js/stardust" "^2.13.0"
-    "@rollup/plugin-commonjs" "22.0.0"
+    "@babel/cli" "7.18.10"
+    "@babel/core" "7.18.13"
+    "@babel/preset-env" "7.18.10"
+    "@nebula.js/stardust" "^3.0.2"
+    "@rollup/plugin-commonjs" "22.0.2"
     "@rollup/plugin-node-resolve" "13.3.0"
     "@rollup/plugin-replace" "4.0.0"
     extend "3.0.2"
     fs-extra "10.1.0"
     node-event-emitter "0.0.1"
-    rollup "2.72.1"
+    rollup "2.79.0"
     rollup-plugin-babel "4.4.0"
     rollup-plugin-terser "7.0.2"
-    yargs "17.4.1"
+    yargs "17.5.1"
 
 "@nebula.js/cli-serve@3.0.2":
   version "3.0.2"
@@ -1921,10 +1921,10 @@
     import-cwd "3.0.0"
     yargs "17.4.1"
 
-"@nebula.js/stardust@^2.13.0":
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/@nebula.js/stardust/-/stardust-2.13.0.tgz#71028476a0c96cab974afb2cc37ee0c1189dc410"
-  integrity sha512-/WyeSWq+4YfgfbCBhbplSkvMZZK7IaHuLMghtWlvJPJ4U+rpT8cn9oaTZ88xGd1D3merkvLFFUaOavj96cywzA==
+"@nebula.js/stardust@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@nebula.js/stardust/-/stardust-3.0.2.tgz#47e61391e152113d72350d1115cb40baa26fc444"
+  integrity sha512-7LK12K013+tqICVUH46g5O2rqJ7jUS+Z1qlAfXUIhLFWqbvH1CWF9CVswVg9gpRksgwTFcssbK25jby8duIjkA==
   dependencies:
     "@types/qlik-engineapi" "12.67.12"
 
