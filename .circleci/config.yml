@@ -21,7 +21,7 @@ jobs:
   install:
     <<: *defaults
     docker:
-      - image: circleci/node:16.13-browsers
+      - image: circleci/node:17.2-browsers
     steps:
       - checkout
       - restore_cache: *restore_yarn_cache
@@ -37,7 +37,7 @@ jobs:
   build:
     <<: *defaults
     docker:
-      - image: circleci/node:16.13-browsers
+      - image: circleci/node:17.2-browsers
       - image: qlikcore/engine:12.1126.0
         command: -S AcceptEULA=yes
       - image: mcr.microsoft.com/playwright:focal
@@ -60,7 +60,7 @@ jobs:
   publish-dev:
     <<: *defaults
     docker:
-      - image: circleci/node:16.13-browsers
+      - image: circleci/node:17.2-browsers
     steps:
       - attach_workspace:
           at: ~/container
@@ -71,7 +71,7 @@ jobs:
   publish:
     <<: *defaults
     docker:
-      - image: circleci/node:16.13-browsers
+      - image: circleci/node:17.2-browsers
     steps:
       - attach_workspace:
           at: ~/container
@@ -99,7 +99,7 @@ jobs:
       CC_TEST_REPORTER_ID: 59b6981ca16974795365184a8409d698492051729af53f21a645b05b17642ab9
     working_directory: ~/container
     docker:
-      - image: circleci/node:16.13-browsers
+      - image: circleci/node:17.2-browsers
     steps:
       - attach_workspace:
           at: ~/container
