@@ -52,7 +52,7 @@
     "@nebula.js/cli": "2.13.0",
     "@nebula.js/cli-build": "2.13.0",
     "@nebula.js/cli-sense": "2.13.0",
-    "@nebula.js/cli-serve": "2.13.0",
+    "@nebula.js/cli-serve": "3.0.2",
     "@rollup/plugin-typescript": "8.5.0",
     "@types/enzyme": "3.10.12",
     "@types/jest": "27.5.2",
