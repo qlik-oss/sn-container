@@ -3,24 +3,24 @@ import { Box } from '@mui/material';
 
 interface TabPanelProps {
   children?: any;
-  index: number;
-  value: number;
+  activeTab: string | undefined;
+  value: string | undefined;
 }
 
 const TabPanel = (props: TabPanelProps) => {
-  const { children, value, index, ...other } = props;
+  const { children, value, activeTab, ...other } = props;
   return (
     <Box
       role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
+      hidden={value !== activeTab}
+      id={`simple-tabpanel-${activeTab}`}
       sx={{
         height: 'calc(100% - 48px)',
         width: '100%',
       }}
       {...other}
     >
-      {value === index && (
+      {value === activeTab && (
         <Box
           style={{
             height: '100%',

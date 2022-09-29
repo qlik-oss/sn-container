@@ -7,9 +7,10 @@ interface ChartComponentProps {
 }
 
 export default function Chart({ chart, containerModel }: ChartComponentProps) {
-  const { embed, app, options } = containerModel;
+  const { embed, app, options, layoutService } = containerModel;
   const el = useRef();
   const direction = options.direction;
+  const layout = layoutService.getLayout();
   const chartOptions: EmbedOptions = {
     direction,
     isReadonly: false,
@@ -41,7 +42,9 @@ export default function Chart({ chart, containerModel }: ChartComponentProps) {
     <Box
       ref={el}
       sx={{
-        '.qv-object-wrapper .qv-object.qvt-visualization': { border: 'unset !important' },
+        '.qv-object-wrapper .qv-object.qvt-visualization': {
+          border: layout.borders !== 'noBorder' ? '' : 'unset !important',
+        },
         position: 'relative',
         height: '100%',
         width: '100%',
