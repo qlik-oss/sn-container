@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Tabs, Tab, Box, Typography, Button } from '@mui/material';
+import { Tabs, Box, Typography } from '@mui/material';
+import { TabButton, TextContainer } from './common/styled';
+import ScrollButtons from './ScrollButtons';
+import MenuButton from './MenuButton';
 import TabPanel from './TabPanel';
 import Chart from './Chart';
-import NextIcon from '../icons/Next';
-import PreviousIcon from '../icons/Previous';
-import UnorderedListIcon from '../icons/UnorderedList';
 import { COLORS } from '../theme/src/internal/variables';
 
 interface CotaninerProps {
@@ -25,7 +25,18 @@ const mockedLayout: any = {
       refId: '700c5c46-acce-4f79-b482-7939818d05fb',
       label: 'barbull',
       isMaster: true,
-      cId: 'LpPpcBz',
+    },
+    {
+      refId: 'GmJHVvD',
+      label: 'Pie chartwith a veryveryveryveryveryveryveryveryveryvery',
+      isMaster: false,
+      cId: 'JyrDhv',
+    },
+    {
+      refId: 'GmJHVvD',
+      label: 'Pie chartwith a veryveryveryveryveryveryveryveryveryvery',
+      isMaster: false,
+      cId: 'JyrDhv',
     },
     {
       refId: 'GmJHVvD',
@@ -53,7 +64,7 @@ const mockedLayout: any = {
     qItems: [
       {
         qInfo: {
-          qId: 'a21c88de-3d72-4712-8e7c-5f6e32ddb958',
+          qId: 'c8b39d19-d5dc-481c-8c96-b16ec9daf8f6',
           qType: 'sn-bullet-chart',
         },
         qMeta: {
@@ -83,6 +94,38 @@ const mockedLayout: any = {
           showCondition: '',
         },
       },
+      {
+        qInfo: {
+          qId: '0c691b1e-107a-48ce-8a40-8559cae56727',
+          qType: 'piechart',
+        },
+        qMeta: {
+          privileges: ['read', 'update', 'delete', 'exportdata'],
+        },
+        qData: {
+          title: '',
+          visualization: 'piechart',
+          containerChildId: 'GmJHVvD',
+          qExtendsId: '',
+          showCondition: '',
+        },
+      },
+      {
+        qInfo: {
+          qId: '0c691b1e-107a-48ce-8a40-8559cae56727',
+          qType: 'piechart',
+        },
+        qMeta: {
+          privileges: ['read', 'update', 'delete', 'exportdata'],
+        },
+        qData: {
+          title: '',
+          visualization: 'piechart',
+          containerChildId: 'GmJHVvD',
+          qExtendsId: '',
+          showCondition: '',
+        },
+      },
     ],
   },
   supportRefresh: false,
@@ -92,20 +135,20 @@ const mockedLayout: any = {
 
 export default function Container({ containerModel }: CotaninerProps) {
   const layout = containerModel.layoutService.getLayout();
+  if (!layout) return null;
   const [tabValue, setTabValue] = useState(
     layout.defaultTab
       ? mockedLayout.qChildList?.qItems.findIndex((child: QChild) => child.qInfo.qId === layout.defaultTab)
       : 0
   );
-  if (!layout) return null;
 
-  const children: ChartObject[] = [];
+  const chartObjects: ChartObject[] = [];
   mockedLayout.children?.map((child: LayoutChild) => {
     const childListItem = mockedLayout.qChildList?.qItems.find((innerItem: any) =>
       child.isMaster ? innerItem.qData.qExtendsId === child.refId : innerItem.qData.containerChildId === child.refId
     );
     if (childListItem) {
-      children.push({ ...child, ...childListItem });
+      chartObjects.push({ ...child, ...childListItem });
     }
   });
 
@@ -120,40 +163,36 @@ export default function Container({ containerModel }: CotaninerProps) {
       }}
     >
       {layout.showTabs !== false && (
-        <Box>
+        <Box display="flex" alignItems="center">
           {layout.useScrollButton !== false && (
-            <>
-              <Button>
-                <PreviousIcon />
-              </Button>
-              <Button>
-                <NextIcon />
-              </Button>
-            </>
+            <ScrollButtons chartObjects={chartObjects} tabValue={tabValue} setTabValue={setTabValue} />
           )}
-          {layout.useDropdown !== false && (
-            <Button sx={{ marginLeft: layout.useScrollButton !== false ? '4px' : '0px' }}>
-              <UnorderedListIcon />
-            </Button>
-          )}
-          <Tabs value={tabValue} onChange={handleChange} sx={{ display: 'inline-flex' }}>
-            {children.map((chart: ChartObject) => (
-              <Tab
+          {layout.useDropdown !== false && <MenuButton layout={layout} />}
+          <Tabs value={tabValue} onChange={handleChange} sx={{ display: 'inline-flex', minHeight: 'unset' }}>
+            {chartObjects.map((chart: ChartObject) => (
+              <TabButton
                 id={`container-tab-${chart.refId}`}
                 data-testid={`container-tab-${chart.refId}`}
                 key={chart.refId}
-                sx={{ fontFamily: 'inherit', maxWidth: 200, minWidth: 100, flex: '1 1 0', alignItems: 'flex-start' }}
                 label={
-                  <Typography variant="inherit" fontSize="13px" color={COLORS.TEXT_PRIMARY} whiteSpace="nowrap">
-                    {chart.label}
-                  </Typography>
+                  <TextContainer>
+                    <Typography
+                      variant="inherit"
+                      component="span"
+                      fontSize="13px"
+                      color={COLORS.TEXT_PRIMARY}
+                      whiteSpace="nowrap"
+                    >
+                      {chart.label}
+                    </Typography>
+                  </TextContainer>
                 }
-              ></Tab>
+              ></TabButton>
             ))}
           </Tabs>
         </Box>
       )}
-      {children.map(
+      {chartObjects.map(
         (chart: ChartObject, index: number) =>
           chart.qInfo && (
             <TabPanel data-testid={`tab-panel-${chart.refId}`} value={tabValue} activeTab={index} key={chart.qInfo.qId}>
