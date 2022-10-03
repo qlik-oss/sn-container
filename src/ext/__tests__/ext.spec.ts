@@ -9,8 +9,8 @@ describe('data-definition', () => {
   });
 
   it('should contain correct data', () => {
-    const { content } = ext.definition.items;
-    expect(content.uses).toEqual('data');
+    const { data } = ext.definition.items;
+    expect(data.uses).toEqual('data');
   });
 
   it('should contain correct settings', () => {
