@@ -13,6 +13,7 @@ declare interface ContainerProperties extends BasicProperties {
   label: string;
   children: PropertiesChild[];
   defaultTab: string;
+  condition: any;
 }
 
 declare interface PropertyHandler {

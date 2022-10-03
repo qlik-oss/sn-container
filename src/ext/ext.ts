@@ -21,6 +21,7 @@ function fetchContainerTabs(qItems: QChild[], children: PropertiesChild[]) {
 export default function ext() {
   const data = {
     uses: 'data',
+    show: false,
   };
 
   const settings = {
@@ -151,7 +152,6 @@ export default function ext() {
       component: 'accordion',
       items: {
         data,
-        content,
         settings,
       },
     },
