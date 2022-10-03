@@ -1,4 +1,4 @@
-import { Button, Tab, styled, Box } from '@mui/material';
+import { Button, Tab, styled, Box, ListItemButton } from '@mui/material';
 import { GREYSCALE } from '../../theme/src/internal/variables';
 
 export const NavigationButton = styled(Button)(() => ({
@@ -32,3 +32,9 @@ export const TextContainer = styled(Box)(() => ({
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
 }));
+
+export const PopoverListItemButton = styled(ListItemButton)({
+  wordBreak: 'break-word',
+  minHeight: '24px',
+  padding: '4px 4px 4px 12px',
+});

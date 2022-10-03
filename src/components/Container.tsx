@@ -28,13 +28,19 @@ const mockedLayout: any = {
     },
     {
       refId: 'GmJHVvD',
-      label: 'Pie chartwith a veryveryveryveryveryveryveryveryveryvery',
+      label: 'Pie chartwith',
       isMaster: false,
       cId: 'JyrDhv',
     },
     {
       refId: 'GmJHVvD',
-      label: 'Pie chartwith a veryveryveryveryveryveryveryveryveryvery',
+      label: 'Pie chartwith 2',
+      isMaster: false,
+      cId: 'JyrDhv',
+    },
+    {
+      refId: 'GmJHVvD',
+      label: 'Pie chart 3',
       isMaster: false,
       cId: 'JyrDhv',
     },
@@ -143,7 +149,7 @@ export default function Container({ containerModel }: CotaninerProps) {
   );
 
   const chartObjects: ChartObject[] = [];
-  mockedLayout.children?.map((child: LayoutChild) => {
+  mockedLayout.children?.map((child: PropertiesChild) => {
     const childListItem = mockedLayout.qChildList?.qItems.find((innerItem: any) =>
       child.isMaster ? innerItem.qData.qExtendsId === child.refId : innerItem.qData.containerChildId === child.refId
     );
@@ -167,7 +173,9 @@ export default function Container({ containerModel }: CotaninerProps) {
           {layout.useScrollButton !== false && (
             <ScrollButtons chartObjects={chartObjects} tabValue={tabValue} setTabValue={setTabValue} />
           )}
-          {layout.useDropdown !== false && <MenuButton layout={layout} />}
+          {layout.useDropdown !== false && (
+            <MenuButton layout={layout} chartObjects={chartObjects} tabValue={tabValue} setTabValue={setTabValue} />
+          )}
           <Tabs value={tabValue} onChange={handleChange} sx={{ display: 'inline-flex', minHeight: 'unset' }}>
             {chartObjects.map((chart: ChartObject) => (
               <TabButton

@@ -3,13 +3,6 @@ declare interface LayoutService {
   getLayout(): Layout;
 }
 
-declare interface LayoutChild {
-  refId: string;
-  label: string;
-  isMaster: boolean;
-  cId?: string;
-}
-
 declare interface QInfo {
   qId: string;
   qType: string;
@@ -39,6 +32,5 @@ declare interface QChildList {
 
 declare interface Layout extends ContainerProperties {
   snapshotData?: any;
-  children: LayoutChild[];
   qChildList: QChildList;
 }

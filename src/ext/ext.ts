@@ -1,4 +1,4 @@
-function fetchContainerTabs(qItems: QChild[], children: LayoutChild[]) {
+function fetchContainerTabs(qItems: QChild[], children: PropertiesChild[]) {
   const options: DropdownOption[] = [];
   children.forEach((child, index) => {
     const item = qItems.find(
@@ -151,6 +151,7 @@ export default function ext() {
       component: 'accordion',
       items: {
         data,
+        content,
         settings,
       },
     },
