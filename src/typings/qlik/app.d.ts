@@ -3,7 +3,7 @@ interface App {
   getOnTheFlyWithHiddenListObject(): Promise<GenericObject>;
   getDimensionListObject(): Promise<GenericObject>;
   getObject(id: string): Promise<GenericObject>;
-  getMasterObjectList(): Promise<BasicProperties[]>;
+  getMasterObjectList(): Promise<MasterObject[]>;
   properties: AppProperties;
 }
 
@@ -29,3 +29,13 @@ interface LibraryDimension {
     qId: string;
   };
 }
+
+type MasterObject = {
+  name: string;
+  visualization: string;
+  icon: string | undefined;
+  visible?: boolean;
+  isLibraryItem?: boolean;
+  isThirdParty?: boolean;
+  qExtendsId?: string;
+};

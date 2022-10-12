@@ -17,6 +17,7 @@ declare interface ContainerProperties extends BasicProperties {
 }
 
 declare interface PropertyHandler {
+  app: App;
   layout: Layout;
 }
 

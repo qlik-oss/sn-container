@@ -3,6 +3,7 @@ import createContainerModel from '../models/container-model';
 import { layoutService as createLayoutService, themeService as createThemeService } from 'qlik-chart-modules';
 import themeStyleMatrix from '../services/theme-service/theme-style-matrix';
 import layoutServiceMeta from '../services/layout-service/meta';
+import Visualizations from '../utils/visualizations';
 
 interface UseModelsProps {
   core?: {
@@ -33,7 +34,8 @@ const UseModels = ({ core }: UseModelsProps) => {
     setModels({
       containerModel,
     });
-  }, [core, layout, app, options]);
+    Visualizations.registerTypes(embed.getRegisteredTypes());
+  }, [core, layout, app, options, embed]);
 
   return models;
 };
