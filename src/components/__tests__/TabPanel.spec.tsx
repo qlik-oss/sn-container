@@ -12,8 +12,7 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('<TabPanel>', () => {
   it('renders the component correctly', () => {
     const wrapper = shallow(
-      <TabPanel index={0} value={0}>
-        {' '}
+      <TabPanel activeTab={0} value={0}>
         <div id="childElementId" />
       </TabPanel>
     );

@@ -3,6 +3,12 @@ interface App {
   getOnTheFlyWithHiddenListObject(): Promise<GenericObject>;
   getDimensionListObject(): Promise<GenericObject>;
   getObject(id: string): Promise<GenericObject>;
+  getMasterObjectList(): Promise<BasicProperties[]>;
+  properties: AppProperties;
+}
+
+interface AppProperties {
+  published: boolean;
 }
 
 interface GenericObject {
