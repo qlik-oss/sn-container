@@ -1,4 +1,13 @@
-import { useEffect, useState, useStaleLayout, useTheme, useEmbed, useApp, useOptions } from '@nebula.js/stardust';
+import {
+  useEffect,
+  useState,
+  useStaleLayout,
+  useTheme,
+  useEmbed,
+  useApp,
+  useOptions,
+  useTranslator,
+} from '@nebula.js/stardust';
 import createContainerModel from '../models/container-model';
 import { layoutService as createLayoutService, themeService as createThemeService } from 'qlik-chart-modules';
 import themeStyleMatrix from '../services/theme-service/theme-style-matrix';
@@ -17,6 +26,7 @@ const UseModels = ({ core }: UseModelsProps) => {
   const theme = useTheme();
   const embed = useEmbed();
   const options = useOptions();
+  const translator = useTranslator();
 
   const [models, setModels] = useState();
 
@@ -30,12 +40,12 @@ const UseModels = ({ core }: UseModelsProps) => {
     });
     const themeService = createThemeService({ theme, styleMatrix: themeStyleMatrix });
 
-    const containerModel = createContainerModel({ layoutService, themeService, embed, app, options });
+    const containerModel = createContainerModel({ layoutService, themeService, embed, app, options, translator });
     setModels({
       containerModel,
     });
     Visualizations.registerTypes(embed.getRegisteredTypes());
-  }, [core, layout, app, options, embed]);
+  }, [core, layout, app, options, embed, translator]);
 
   return models;
 };

@@ -6,6 +6,7 @@ import MenuButton from './MenuButton';
 import TabPanel from './TabPanel';
 import Chart from './Chart';
 import { COLORS } from '../theme/src/internal/variables';
+import containerUtil from '../utils/container-util';
 
 interface CotaninerProps {
   containerModel: ContainerModel;
@@ -144,13 +145,13 @@ export default function Container({ containerModel }: CotaninerProps) {
   if (!layout) return null;
   const [tabValue, setTabValue] = useState(
     layout.defaultTab
-      ? mockedLayout.qChildList?.qItems.findIndex((child: QChild) => child.qInfo.qId === layout.defaultTab)
+      ? layout.qChildList?.qItems.findIndex((child: QChild) => child.qInfo.qId === layout.defaultTab)
       : 0
   );
 
   const chartObjects: ChartObject[] = [];
-  mockedLayout.children?.map((child: PropertiesChild) => {
-    const childListItem = mockedLayout.qChildList?.qItems.find((innerItem: any) =>
+  layout.children?.map((child: PropertiesChild) => {
+    const childListItem = layout.qChildList?.qItems.find((innerItem: any) =>
       child.isMaster ? innerItem.qData.qExtendsId === child.refId : innerItem.qData.containerChildId === child.refId
     );
     if (childListItem) {
@@ -191,7 +192,7 @@ export default function Container({ containerModel }: CotaninerProps) {
                       color={COLORS.TEXT_PRIMARY}
                       whiteSpace="nowrap"
                     >
-                      {chart.label}
+                      {containerUtil.getTranslationFromChild(chart, containerModel.translator)}
                     </Typography>
                   </TextContainer>
                 }

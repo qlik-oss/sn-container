@@ -4,6 +4,7 @@ declare interface ContainerModelProps {
   embed: Embed;
   app: App;
   options: Options;
+  translator: TranslatorType;
 }
 
 declare interface ContainerModel {
@@ -12,4 +13,5 @@ declare interface ContainerModel {
   embed: Embed;
   app: App;
   options: Options;
+  translator: TranslatorType;
 }

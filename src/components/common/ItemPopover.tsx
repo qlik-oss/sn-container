@@ -37,7 +37,6 @@ export default function ItemPopover({ anchorEl, onClose, onSelect, items }: Item
         {items.map((itemType) => (
           <>
             <PopoverListItem>
-              {' '}
               <span title={itemType.translation}>{itemType.translation}</span>
             </PopoverListItem>
             {itemType.values.map((item) => (

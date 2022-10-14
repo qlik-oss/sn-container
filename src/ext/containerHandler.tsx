@@ -2,6 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Visualizations from '../utils/visualizations';
 import AddChartWrapper from '../components/ext/AddChartWrapper';
+import Util from '../utils/util';
+import containerUtil from '../utils/container-util';
+import propertiesGenerator from '../utils/properties-generator';
+
+type TODO = any;
 
 function removeObject(model: PropertyModel, childId: string) {
   const qChild = model.layout.qChildList.qItems.filter((c: QChild) => c.qInfo.qId === childId);
@@ -9,27 +14,16 @@ function removeObject(model: PropertyModel, childId: string) {
   model.properties.children = model.properties.children.filter(
     (child) => child.cId !== childId && child.refId !== refId
   );
-  model.setProperties(model.properties);
-  model.destroyChild(childId);
+  model.setProperties(model.properties).then(() => model.destroyChild(childId));
 }
 
 function getMasterObjects(layout: Layout) {
   return layout.children ? layout.children.filter((c) => c.isMaster).map((c) => c.refId) : [];
 }
 
-function forbiddenVisualization(visualization: any) {
-  const forbiddenVisualizations = [
-    'container',
-    'qlik-show-hide-container',
-    'qlik-tabbed-container',
-    'qlik-trellis-container',
-  ];
-  return forbiddenVisualizations.indexOf(visualization) > -1;
-}
-
 function getAvailableCharts(mo: MasterObject[], model: PropertyModel, translator: TranslatorType) {
   const layoutMasterObjects = getMasterObjects(model.layout);
-  const chartValues = Visualizations.getRegisteredNames().map((visualization: any) => {
+  const chartValues = Visualizations.getRegisteredNames().map((visualization: string) => {
     const libInfo = Visualizations.getType(visualization).getLibraryInfo();
     return {
       name: libInfo.translationKey ? translator.get(libInfo.translationKey) : libInfo.name,
@@ -44,9 +38,10 @@ function getAvailableCharts(mo: MasterObject[], model: PropertyModel, translator
     translation: translator.get('Object.Container.MasterItems'),
     values: mo
       .filter(
-        (mo: any) => !forbiddenVisualization(mo.qData.visualization) && layoutMasterObjects.indexOf(mo.qInfo.qId) < 0
+        (mo) =>
+          !containerUtil.forbiddenVisualization(mo.qData.visualization) && layoutMasterObjects.indexOf(mo.qInfo.qId) < 0
       )
-      .map((mo: any) => {
+      .map((mo) => {
         const icon = Visualizations.getIconName(mo.qData.visualization);
         return {
           qExtendsId: mo.qInfo.qId,
@@ -60,8 +55,8 @@ function getAvailableCharts(mo: MasterObject[], model: PropertyModel, translator
   const charts = {
     translation: translator.get('Common.Charts'),
     values: chartValues
-      .filter((item: any) => {
-        const flag = item.visible && item.isLibraryItem && !forbiddenVisualization(item.visualization);
+      .filter((item) => {
+        const flag = item.visible && item.isLibraryItem && !containerUtil.forbiddenVisualization(item.visualization);
         return flag && !item.isThirdParty;
       })
       .sort((i1, i2) => (i1.name > i2.name ? 1 : -1)),
@@ -69,14 +64,49 @@ function getAvailableCharts(mo: MasterObject[], model: PropertyModel, translator
   const customObjects = {
     translation: translator.get('Common.CustomObjects'),
     values: chartValues
-      .filter((item: any) => {
-        const flag = item.visible && item.isLibraryItem && !forbiddenVisualization(item.visualization);
+      .filter((item) => {
+        const flag = item.visible && item.isLibraryItem && !containerUtil.forbiddenVisualization(item.visualization);
         return flag && item.isThirdParty;
       })
       .sort((i1, i2) => (i1.name > i2.name ? 1 : -1)),
   };
 
   return [masterObjects, charts, customObjects];
+}
+
+function addItemToContainer(model: PropertyModel, childProps: TODO, childName: string) {
+  if (containerUtil.forbiddenVisualization(childProps.visualization)) {
+    return undefined;
+  }
+  childProps.qInfo = { ...childProps.qInfo, qType: childProps.visualization || childProps.qInfo.qType };
+  if (!childProps.qExtendsId) {
+    childProps.containerChildId = Util.generateId();
+  }
+  return model.app.getUndoInfoObject().then((undoInfo) =>
+    undoInfo.startGroup().then((groupId: string) =>
+      model.createChild(childProps).then((reply) =>
+        model.getProperties().then((containerProps) => {
+          containerProps.children.push({
+            refId: childProps.qExtendsId || childProps.containerChildId,
+            label: childName,
+            isMaster: !!childProps.qExtendsId,
+          });
+          // TODO: Update the activeTab soft property
+          // model.items.activeTab = reply.id;
+          // containerUtil.applySoftPatches(model.layout, model, 'activeTab');
+          return model.setProperties(containerProps).then(() => {
+            undoInfo.endGroup(groupId);
+          });
+        })
+      )
+    )
+  );
+}
+
+function createVisualization(model: PropertyModel, childProps: TODO) {
+  return propertiesGenerator
+    .createProperties(model.app.enigmaModel, childProps.visualization)
+    .then((props) => addItemToContainer(model, props, childProps.name));
 }
 
 function showAddItemDialog(model: PropertyModel, target: HTMLElement | null, translator: TranslatorType) {
@@ -86,26 +116,13 @@ function showAddItemDialog(model: PropertyModel, target: HTMLElement | null, tra
       <AddChartWrapper
         target={target}
         items={items}
-        onSelect={(event, item) => {
+        onSelect={(_event, item) => {
           if (item.qExtendsId) {
-            console.log('adding item to container');
-            // addItemToContainer(
-            //   model,
-            //   {
-            //     qExtendsId: item.qExtendsId,
-            //     visualization: item.visualization,
-            //   },
-            //   item.name
-            // );
+            console.log('adding item to container, item===', item);
+            addItemToContainer(model, item, item.name);
           } else {
-            console.log('adding visualization to container');
-            // createVisualization(
-            //   {
-            //     id: item.visualization,
-            //     name: item.name,
-            //   },
-            //   model
-            // );
+            console.log('adding visualization to container item====', item);
+            createVisualization(model, item);
           }
         }}
       />,
@@ -126,10 +143,10 @@ const ContainerHandler = ({ translator }: EnvironmentType) => {
     removeChild(model: PropertyModel, id: string) {
       removeObject(model, id);
     },
-    addChild(model: PropertyModel, target: any) {
+    addChild(model: PropertyModel, target: HTMLElement) {
       showAddItemDialog(model, target, translator);
     },
-    editProps(refId: any, model: PropertyModel) {
+    editProps(refId: string, model: PropertyModel) {
       model.showPP = true;
       model.items.switchTo(refId);
     },
@@ -140,7 +157,7 @@ const ContainerHandler = ({ translator }: EnvironmentType) => {
     isAppPublished(app: App) {
       return app.properties.published;
     },
-    editMasterProps(_id: any, _handler: PropertyHandler) {
+    editMasterProps(_id: string, _handler: PropertyHandler) {
       // Todo: Find how to edit the master items
       // const qChild = handler.layout.qChildList.qItems.filter((c: QChild) => c.qData.qExtendsId === id);
       // const type = qChild.length > 0 ? qChild[0].qData.visualization : '';

@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import ItemPopover from '../common/ItemPopover';
 
+type TODO = any;
+
 type ChartType = {
-  values: MasterObject[];
+  values: TODO[];
   translation: string;
 };
 
 interface AddChartPopOverProps {
   target: HTMLElement | null;
   items: ChartType[];
-  onSelect: (event: any, item: MasterObject) => void;
+  onSelect: (event: any, item: TODO) => void;
 }
 
 export default function AddChartPopOver({ target, items, onSelect }: AddChartPopOverProps) {
@@ -19,7 +21,7 @@ export default function AddChartPopOver({ target, items, onSelect }: AddChartPop
     setAnchorEl(null);
   };
 
-  const handleClickOnChart = (event: any, chart: MasterObject) => {
+  const handleClickOnChart = (event: any, chart: TODO) => {
     onSelect(event, chart);
     onClose();
   };

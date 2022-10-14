@@ -1,21 +1,14 @@
 import ContainerHandler from './containerHandler';
-import Visualizations from '../utils/visualizations';
+import containerUtil from '../utils/container-util';
 
 function fetchContainerTabs(qItems: QChild[], children: PropertiesChild[], translator: TranslatorType) {
-  let translation;
   const options: DropdownOption[] = [];
   children.forEach((child, index) => {
     const item = qItems.find(
       (item) => child.refId === item.qData.containerChildId || child.refId === item.qData.qExtendsId
     );
     if (item) {
-      // ToDo - create a new nebula hook that picks up the registered visualizations
-      if (child?.label === '') {
-        const libInfo = Visualizations.getType(item.qData.visualization).getLibraryInfo();
-        translation = libInfo.translationKey ? translator.get(libInfo.translationKey) : libInfo.name;
-      } else {
-        translation = child.label;
-      }
+      const translation = containerUtil.getTranslationFromChild({ ...child, ...item }, translator);
       options[index] = { translation, value: item.qInfo.qId };
     }
   });

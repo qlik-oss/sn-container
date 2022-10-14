@@ -4,6 +4,7 @@ export default function createContainerModel({
   embed,
   app,
   options,
+  translator,
 }: ContainerModelProps) {
   const state = {
     layoutService,
@@ -11,6 +12,7 @@ export default function createContainerModel({
     embed,
     app,
     options,
+    translator,
   };
 
   return {
