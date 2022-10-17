@@ -1,1 +1,1 @@
-declare interface ChartObject extends PropertiesChild, QChild {}
+declare interface MergedLayoutChild extends PropertiesChild, QChild {}

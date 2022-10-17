@@ -33,6 +33,4 @@ declare interface QChildList {
 declare interface Layout extends ContainerProperties {
   snapshotData?: any;
   qChildList: QChildList;
-  qMeta: string[];
-  qHyperCube: any;
 }

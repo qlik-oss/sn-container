@@ -15,7 +15,7 @@ declare interface PropertyArgs {
   layout: Layout;
   properties: ContainerProperties;
   handler: PropertyHandler;
-  model: PropertyModel;
+  model: Model;
 }
 
 declare interface PropertyPatch {
@@ -24,10 +24,10 @@ declare interface PropertyPatch {
   qValue: string;
 }
 
-declare interface PropertyModel {
+declare interface Model {
   createChild(childProps: MasterObject): Promise<{ id: string }>;
   getProperties(): Promise<ContainerProperties>;
-  id(id: any, childProps: MasterObject, id1: any): unknown;
+  id(id: string, childProps: MasterObject, id1: string): unknown;
   layout: Layout;
   properties: ContainerProperties;
   handler: PropertyHandler;
@@ -36,5 +36,6 @@ declare interface PropertyModel {
   items?: any;
   showPP: boolean;
   app: App;
-  applyPatches(patches: PropertyPatch[], arg2: boolean): Promise<void>;
+  applyPatches(patches: PropertyPatch[], isSoftPatch: boolean): Promise<void>;
+  enigmaModel?: Model;
 }

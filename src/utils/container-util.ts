@@ -13,32 +13,24 @@ function forbiddenVisualization(visualization: string) {
 }
 
 // apply soft patches
-function applySoftPatches(layout: Layout, model: PropertyModel, propertyName: PropertyName) {
-  const modelItems = model.items;
+function applySoftPatches(model: Model, newValue: string | number, propertyName: PropertyName) {
+  const { layout } = model;
   // applyPatches when the model has implemented the applyPatches function
-  if (canApplySoftPatches(modelItems, propertyName, model)) {
+  if (model.applyPatches) {
     const op = layout[propertyName] !== undefined ? 'replace' : 'add';
     const patches = [
       {
         // this is the path where the property is located
-        qPath: getQPath(propertyName),
+        qPath: `/${propertyName}`,
         qOp: op.toString(),
-        qValue: JSON.stringify(modelItems[propertyName]),
+        qValue: JSON.stringify(newValue),
       },
     ];
     model.applyPatches(patches, true);
   }
 }
 
-function canApplySoftPatches(modelItems: any, propertyName: PropertyName, model: PropertyModel) {
-  return modelItems[propertyName] && model.applyPatches;
-}
-
-function getQPath(propertyName: PropertyName) {
-  return propertyName === 'activeTab' ? '/activeTab' : '/defaultTab';
-}
-
-function getTranslationFromChild(chartObject: ChartObject, translator: TranslatorType) {
+function getTranslationFromChild(chartObject: MergedLayoutChild, translator: TranslatorType) {
   let translation = '';
   if (chartObject?.label === '') {
     const libInfo = Vizualisations.getType(chartObject.qData.visualization).getLibraryInfo();

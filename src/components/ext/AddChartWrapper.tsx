@@ -8,14 +8,13 @@ type ChartType = {
   translation: string;
 };
 
-interface AddChartPopOverProps {
+interface AddChartWrapperProps {
   target: HTMLElement | null;
   items: ChartType[];
   onSelect: (event: any, item: TODO) => void;
 }
 
-export default function AddChartPopOver({ target, items, onSelect }: AddChartPopOverProps) {
-  console.log('items===', items);
+export default function AddChartWrapper({ target, items, onSelect }: AddChartWrapperProps) {
   const [anchorEl, setAnchorEl] = useState(target);
   const onClose = () => {
     setAnchorEl(null);

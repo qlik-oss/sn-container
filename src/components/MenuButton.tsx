@@ -7,14 +7,14 @@ import { COLORS } from '../theme/src/internal/variables';
 
 interface MenuButtonProps {
   layout: Layout;
-  chartObjects: ChartObject[];
+  chartObjects: MergedLayoutChild[];
   tabValue: number;
   setTabValue: (newTabValue: number) => void;
 }
 
 export default function MenuButton({ layout, chartObjects, tabValue, setTabValue }: MenuButtonProps) {
   const [anchorEl, setAnchorEl] = useState(null);
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePopoverOpen = (event: any) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
   const handlePopoverClose = () => {

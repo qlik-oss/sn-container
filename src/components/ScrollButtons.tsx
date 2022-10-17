@@ -4,7 +4,7 @@ import NextIcon from '../icons/Next';
 import PreviousIcon from '../icons/Previous';
 
 interface ScrollButtonsProps {
-  chartObjects: ChartObject[];
+  chartObjects: MergedLayoutChild[];
   tabValue: number;
   setTabValue: (newTabValue: number) => void;
 }

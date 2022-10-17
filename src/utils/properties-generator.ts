@@ -17,8 +17,6 @@ function getInitialProperties(type: string) {
 }
 
 async function createProperties(app: App, type: string) {
-  console.log('vizualizations===', Visualizations.getTypes());
-  console.log('type===', type);
   const newExtension = await getExtensionType(type);
   const initialProperties = await getInitialProperties(type);
   newExtension.mapProperties();

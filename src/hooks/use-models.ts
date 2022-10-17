@@ -5,6 +5,7 @@ import {
   useTheme,
   useEmbed,
   useApp,
+  useModel,
   useOptions,
   useTranslator,
 } from '@nebula.js/stardust';
@@ -27,6 +28,7 @@ const UseModels = ({ core }: UseModelsProps) => {
   const embed = useEmbed();
   const options = useOptions();
   const translator = useTranslator();
+  const model = useModel();
 
   const [models, setModels] = useState();
 
@@ -40,12 +42,20 @@ const UseModels = ({ core }: UseModelsProps) => {
     });
     const themeService = createThemeService({ theme, styleMatrix: themeStyleMatrix });
 
-    const containerModel = createContainerModel({ layoutService, themeService, embed, app, options, translator });
+    const containerModel = createContainerModel({
+      layoutService,
+      themeService,
+      embed,
+      app,
+      model,
+      options,
+      translator,
+    });
     setModels({
       containerModel,
     });
     Visualizations.registerTypes(embed.getRegisteredTypes());
-  }, [core, layout, app, options, embed, translator]);
+  }, [core, layout, app, model, options, embed, translator]);
 
   return models;
 };

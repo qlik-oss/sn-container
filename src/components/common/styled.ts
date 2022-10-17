@@ -1,4 +1,4 @@
-import { Button, Tab, styled, Box, ListItem, ListItemButton } from '@mui/material';
+import { Button, Tab, styled, ListItem, ListItemButton, Typography } from '@mui/material';
 import { GREYSCALE } from '../../theme/src/internal/variables';
 
 export const NavigationButton = styled(Button)(() => ({
@@ -13,24 +13,24 @@ export const NavigationButton = styled(Button)(() => ({
 
 export const TabButton = styled(Tab)(() => ({
   minHeight: 'unset',
-  padding: '8px 8px 10px 16px',
+  padding: '8px 12px 10px 12px',
   fontFamily: 'inherit',
-  maxWidth: 200,
-  minWidth: 100,
-  flex: '1 1 0',
   alignItems: 'flex-start',
   height: 38,
+  maxWidth: 200,
+  minWidth: 100,
   '&:hover': {
     paddingBottom: 8,
   },
 }));
 
-export const TextContainer = styled(Box)(() => ({
-  textAlign: 'left',
-  width: '100%',
+export const TextContainer = styled(Typography)(() => ({
+  display: 'block',
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
+  textAlign: 'left',
+  width: '100%',
 }));
 
 export const PopoverListItemButton = styled(ListItemButton)({

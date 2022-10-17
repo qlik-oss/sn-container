@@ -8,7 +8,7 @@ import propertiesGenerator from '../utils/properties-generator';
 
 type TODO = any;
 
-function removeObject(model: PropertyModel, childId: string) {
+function removeObject(model: Model, childId: string) {
   const qChild = model.layout.qChildList.qItems.filter((c: QChild) => c.qInfo.qId === childId);
   const refId = qChild.length > 0 ? qChild[0].qData.qExtendsId || qChild[0].qData.containerChildId : '';
   model.properties.children = model.properties.children.filter(
@@ -21,7 +21,7 @@ function getMasterObjects(layout: Layout) {
   return layout.children ? layout.children.filter((c) => c.isMaster).map((c) => c.refId) : [];
 }
 
-function getAvailableCharts(mo: MasterObject[], model: PropertyModel, translator: TranslatorType) {
+function getAvailableCharts(mo: MasterObject[], model: Model, translator: TranslatorType) {
   const layoutMasterObjects = getMasterObjects(model.layout);
   const chartValues = Visualizations.getRegisteredNames().map((visualization: string) => {
     const libInfo = Visualizations.getType(visualization).getLibraryInfo();
@@ -74,7 +74,7 @@ function getAvailableCharts(mo: MasterObject[], model: PropertyModel, translator
   return [masterObjects, charts, customObjects];
 }
 
-function addItemToContainer(model: PropertyModel, childProps: TODO, childName: string) {
+async function addItemToContainer(model: Model, childProps: TODO, childName: string) {
   if (containerUtil.forbiddenVisualization(childProps.visualization)) {
     return undefined;
   }
@@ -82,34 +82,26 @@ function addItemToContainer(model: PropertyModel, childProps: TODO, childName: s
   if (!childProps.qExtendsId) {
     childProps.containerChildId = Util.generateId();
   }
-  return model.app.getUndoInfoObject().then((undoInfo) =>
-    undoInfo.startGroup().then((groupId: string) =>
-      model.createChild(childProps).then((reply) =>
-        model.getProperties().then((containerProps) => {
-          containerProps.children.push({
-            refId: childProps.qExtendsId || childProps.containerChildId,
-            label: childName,
-            isMaster: !!childProps.qExtendsId,
-          });
-          // TODO: Update the activeTab soft property
-          // model.items.activeTab = reply.id;
-          // containerUtil.applySoftPatches(model.layout, model, 'activeTab');
-          return model.setProperties(containerProps).then(() => {
-            undoInfo.endGroup(groupId);
-          });
-        })
-      )
-    )
-  );
+  const undoInfo = await model.app.getUndoInfoObject();
+  const groupId: string = await undoInfo.startGroup();
+  const reply = await model.createChild(childProps);
+  const containerProps = await model.getProperties();
+  containerProps.children.push({
+    refId: childProps.qExtendsId || childProps.containerChildId,
+    label: childName,
+    isMaster: !!childProps.qExtendsId,
+  });
+  containerUtil.applySoftPatches(model, reply.id, 'activeTab');
+  await model.setProperties(containerProps);
+  return undoInfo.endGroup(groupId);
 }
 
-function createVisualization(model: PropertyModel, childProps: TODO) {
-  return propertiesGenerator
-    .createProperties(model.app.enigmaModel, childProps.visualization)
-    .then((props) => addItemToContainer(model, props, childProps.name));
+async function createVisualization(model: Model, childProps: TODO) {
+  const props = await propertiesGenerator.createProperties(model.app.enigmaModel, childProps.visualization);
+  return addItemToContainer(model, props, childProps.name);
 }
 
-function showAddItemDialog(model: PropertyModel, target: HTMLElement | null, translator: TranslatorType) {
+function showAddItemDialog(model: Model, target: HTMLElement | null, translator: TranslatorType) {
   model.app.getMasterObjectList().then((mo) => {
     const items = getAvailableCharts(mo, model, translator);
     ReactDOM.render(
@@ -118,10 +110,8 @@ function showAddItemDialog(model: PropertyModel, target: HTMLElement | null, tra
         items={items}
         onSelect={(_event, item) => {
           if (item.qExtendsId) {
-            console.log('adding item to container, item===', item);
             addItemToContainer(model, item, item.name);
           } else {
-            console.log('adding visualization to container item====', item);
             createVisualization(model, item);
           }
         }}
@@ -132,6 +122,7 @@ function showAddItemDialog(model: PropertyModel, target: HTMLElement | null, tra
 }
 
 const ContainerHandler = ({ translator }: EnvironmentType) => {
+  // ToDo find a way to load appMasterObjects before the show()
   // const appMasterObjects: string[] = [];
   // app.getMasterObjectList().then((masterObjects) => {
   //   masterObjects.forEach((mo) => {
@@ -140,18 +131,19 @@ const ContainerHandler = ({ translator }: EnvironmentType) => {
   // });
 
   return {
-    removeChild(model: PropertyModel, id: string) {
+    removeChild(model: Model, id: string) {
       removeObject(model, id);
     },
-    addChild(model: PropertyModel, target: HTMLElement) {
+    addChild(model: Model, target: HTMLElement) {
       showAddItemDialog(model, target, translator);
     },
-    editProps(refId: string, model: PropertyModel) {
+    editProps(refId: string, model: Model) {
       model.showPP = true;
       model.items.switchTo(refId);
     },
     isValidMaster(_refId: string, _app: App) {
       return true;
+      // ToDo find a way to load appMasterObjects before the show()
       // return appMasterObjects.indexOf(refId) > -1;
     },
     isAppPublished(app: App) {
@@ -159,6 +151,7 @@ const ContainerHandler = ({ translator }: EnvironmentType) => {
     },
     editMasterProps(_id: string, _handler: PropertyHandler) {
       // Todo: Find how to edit the master items
+      // Todo 2: open the angular warning message before editing master visualization
       // const qChild = handler.layout.qChildList.qItems.filter((c: QChild) => c.qData.qExtendsId === id);
       // const type = qChild.length > 0 ? qChild[0].qData.visualization : '';
       // GridService.editMaster(id, type);

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Tabs, Box, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Tabs, Box } from '@mui/material';
 import { TabButton, TextContainer } from './common/styled';
 import ScrollButtons from './ScrollButtons';
 import MenuButton from './MenuButton';
@@ -12,16 +12,25 @@ interface CotaninerProps {
   containerModel: ContainerModel;
 }
 
+const findIndexOfChild = (layout: Layout, value: string) => {
+  const childIndex = layout.qChildList?.qItems.findIndex((child: QChild) => child.qInfo.qId === value);
+  return childIndex !== -1 ? childIndex : 0;
+};
+
 export default function Container({ containerModel }: CotaninerProps) {
   const layout = containerModel.layoutService.getLayout();
   if (!layout) return null;
-  const [tabValue, setTabValue] = useState(
-    layout.defaultTab
-      ? layout.qChildList?.qItems.findIndex((child: QChild) => child.qInfo.qId === layout.defaultTab)
-      : 0
-  );
+  const initialTabValue = layout.activeTab && layout.activeTab !== '' ? layout.activeTab : layout.defaultTab;
+  const [tabValue, setTabValue] = useState(initialTabValue ? findIndexOfChild(layout, initialTabValue) : 0);
 
-  const chartObjects: ChartObject[] = [];
+  useEffect(() => {
+    const childIndex = findIndexOfChild(layout, layout.activeTab ?? '');
+    if (childIndex !== tabValue) {
+      setTabValue(childIndex);
+    }
+  }, [layout.activeTab]);
+
+  const chartObjects: MergedLayoutChild[] = [];
   layout.children?.map((child: PropertiesChild) => {
     const childListItem = layout.qChildList?.qItems.find((innerItem: any) =>
       child.isMaster ? innerItem.qData.qExtendsId === child.refId : innerItem.qData.containerChildId === child.refId
@@ -33,7 +42,9 @@ export default function Container({ containerModel }: CotaninerProps) {
 
   const handleChange = (_event: any, newValue: number) => {
     setTabValue(newValue);
+    containerUtil.applySoftPatches(containerModel.model, layout.qChildList.qItems[newValue]?.qInfo.qId, 'activeTab');
   };
+
   return (
     <Box
       style={{
@@ -50,22 +61,20 @@ export default function Container({ containerModel }: CotaninerProps) {
             <MenuButton layout={layout} chartObjects={chartObjects} tabValue={tabValue} setTabValue={setTabValue} />
           )}
           <Tabs value={tabValue} onChange={handleChange} sx={{ display: 'inline-flex', minHeight: 'unset' }}>
-            {chartObjects.map((chart: ChartObject) => (
+            {chartObjects.map((chart: MergedLayoutChild) => (
               <TabButton
                 id={`container-tab-${chart.refId}`}
                 data-testid={`container-tab-${chart.refId}`}
                 key={chart.refId}
                 label={
-                  <TextContainer>
-                    <Typography
-                      variant="inherit"
-                      component="span"
-                      fontSize="13px"
-                      color={COLORS.TEXT_PRIMARY}
-                      whiteSpace="nowrap"
-                    >
-                      {containerUtil.getTranslationFromChild(chart, containerModel.translator)}
-                    </Typography>
+                  <TextContainer
+                    variant="inherit"
+                    component="span"
+                    fontSize="13px"
+                    color={COLORS.TEXT_PRIMARY}
+                    whiteSpace="nowrap"
+                  >
+                    {containerUtil.getTranslationFromChild(chart, containerModel.translator)}
                   </TextContainer>
                 }
               ></TabButton>
@@ -74,7 +83,7 @@ export default function Container({ containerModel }: CotaninerProps) {
         </Box>
       )}
       {chartObjects.map(
-        (chart: ChartObject, index: number) =>
+        (chart: MergedLayoutChild, index: number) =>
           chart.qInfo && (
             <TabPanel data-testid={`tab-panel-${chart.refId}`} value={tabValue} activeTab={index} key={chart.qInfo.qId}>
               <Chart chart={chart} containerModel={containerModel} />

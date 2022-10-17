@@ -3,6 +3,7 @@ export default function createContainerModel({
   themeService,
   embed,
   app,
+  model,
   options,
   translator,
 }: ContainerModelProps) {
@@ -11,6 +12,7 @@ export default function createContainerModel({
     themeService,
     embed,
     app,
+    model,
     options,
     translator,
   };
