@@ -7,6 +7,7 @@ import {
   useApp,
   useModel,
   useOptions,
+  useConstraints,
   useTranslator,
 } from '@nebula.js/stardust';
 import createContainerModel from '../models/container-model';
@@ -18,9 +19,10 @@ interface UseModelsProps {
   core?: {
     element: HTMLElement;
   };
+  visualizations?: Visualizations;
 }
 
-const UseModels = ({ core }: UseModelsProps) => {
+const UseModels = ({ core, visualizations }: UseModelsProps) => {
   const app = useApp();
   const layout = useStaleLayout();
   const theme = useTheme();
@@ -28,6 +30,7 @@ const UseModels = ({ core }: UseModelsProps) => {
   const options = useOptions();
   const translator = useTranslator();
   const model = useModel();
+  const constraints = useConstraints();
 
   const [models, setModels] = useState();
 
@@ -46,14 +49,16 @@ const UseModels = ({ core }: UseModelsProps) => {
       themeService,
       embed,
       app,
+      constraints,
       model,
       options,
       translator,
+      visualizations,
     });
     setModels({
       containerModel,
     });
-  }, [core, layout, app, model, options, embed, translator]);
+  }, [core, layout, app, constraints, model, options, embed, translator, visualizations]);
 
   return models;
 };

@@ -6,6 +6,8 @@ export default function createContainerModel({
   model,
   options,
   translator,
+  constraints,
+  visualizations,
 }: ContainerModelProps) {
   const state = {
     layoutService,
@@ -15,6 +17,8 @@ export default function createContainerModel({
     model,
     options,
     translator,
+    constraints,
+    visualizations,
   };
 
   return {

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Tabs, Box } from '@mui/material';
+import { Tabs, Box, Typography } from '@mui/material';
 import { TabButton, TextContainer } from './common/styled';
 import ScrollButtons from './ScrollButtons';
 import MenuButton from './MenuButton';
 import TabPanel from './TabPanel';
 import Chart from './Chart';
+import ViewDisabledIcon from '../icons/ViewDisabled';
 import { COLORS } from '../theme/src/internal/variables';
 import containerUtil from '../utils/container-util';
 import { getMergedChildrenList } from '../utils/container-items';
@@ -31,7 +32,11 @@ export default function Container({ containerModel }: CotaninerProps) {
     }
   }, [layout.activeTab]);
 
-  const chartObjects = getMergedChildrenList(layout);
+  const [chartObjects, setChartObjects] = useState(getMergedChildrenList(layout, !containerModel.constraints.active));
+
+  useEffect(() => {
+    setChartObjects(getMergedChildrenList(layout, !containerModel.constraints.active));
+  }, [layout.children, layout.qChildList]);
 
   const handleChange = (_event: any, newValue: number) => {
     setTabValue(newValue);
@@ -60,19 +65,26 @@ export default function Container({ containerModel }: CotaninerProps) {
                 data-testid={`container-tab-${chart.refId}`}
                 key={chart.refId}
                 label={
-                  <TextContainer
-                    variant="inherit"
-                    component="span"
-                    fontSize="13px"
-                    color={COLORS.TEXT_PRIMARY}
-                    whiteSpace="nowrap"
-                  >
-                    {containerUtil.getTranslationFromChild(
-                      chart,
-                      containerModel.translator,
-                      containerModel.visualizations
+                  <Box display="flex" width="100%">
+                    <TextContainer
+                      variant="inherit"
+                      component="span"
+                      fontSize="13px"
+                      color={COLORS.TEXT_PRIMARY}
+                      whiteSpace="nowrap"
+                    >
+                      {containerUtil.getTranslationFromChild(
+                        chart,
+                        containerModel.translator,
+                        containerModel.visualizations
+                      )}
+                    </TextContainer>
+                    {!chart.visible && (
+                      <Typography variant="inherit" component="span" paddingLeft="8px">
+                        <ViewDisabledIcon />
+                      </Typography>
                     )}
-                  </TextContainer>
+                  </Box>
                 }
               ></TabButton>
             ))}

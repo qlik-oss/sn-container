@@ -23,3 +23,7 @@ declare interface Selections {
   isActive(): boolean;
   begin(path: string): void;
 }
+
+declare interface Constraints {
+  active?: boolean;
+}

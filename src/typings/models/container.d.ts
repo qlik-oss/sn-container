@@ -6,6 +6,8 @@ declare interface ContainerModelProps {
   model: Model;
   options: Options;
   translator: TranslatorType;
+  constraints: Constraints;
+  visualizations?: Visualizations;
 }
 
 declare interface ContainerModel {
@@ -16,4 +18,6 @@ declare interface ContainerModel {
   model: Model;
   options: Options;
   translator: TranslatorType;
+  constraints: Constraints;
+  visualizations?: Visualizations;
 }

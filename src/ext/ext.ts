@@ -1,7 +1,7 @@
 import ContainerHandler from './containerHandler';
 import containerUtil from '../utils/container-util';
 
-function fetchContainerTabs(qItems: QChild[], children: PropertiesChild[], { translator, sense }: EnvironmentType) {
+function fetchContainerTabs(qItems: QChild[], children: LayoutChild[], { translator, sense }: EnvironmentType) {
   const options: DropdownOption[] = [];
   children.forEach((child, index) => {
     const item = qItems.find(
@@ -9,7 +9,7 @@ function fetchContainerTabs(qItems: QChild[], children: PropertiesChild[], { tra
     );
     if (item) {
       const translation = containerUtil.getTranslationFromChild(
-        { ...child, ...item },
+        { ...child, ...item, visible: undefined },
         translator,
         sense.visualizations
       );
@@ -310,6 +310,7 @@ export default function ext(env: EnvironmentType) {
     definition: {
       type: 'items',
       component: 'accordion',
+      defaultActiveTabIndex: 0,
       items: {
         data,
         content,

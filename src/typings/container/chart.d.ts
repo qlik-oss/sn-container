@@ -1,1 +1,3 @@
-declare interface MergedLayoutChild extends PropertiesChild, QChild {}
+declare interface MergedLayoutChild extends PropertiesChild, QChild {
+  visible?: boolean;
+}

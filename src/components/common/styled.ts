@@ -30,7 +30,7 @@ export const TextContainer = styled(Typography)(() => ({
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
   textAlign: 'left',
-  width: '100%',
+  flex: '1 1 0',
 }));
 
 export const PopoverListItemButton = styled(ListItemButton)({

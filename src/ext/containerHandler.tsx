@@ -21,8 +21,12 @@ function getMasterObjects(layout: Layout) {
   return layout.children ? layout.children.filter((c) => c.isMaster).map((c) => c.refId) : [];
 }
 
-function getAvailableCharts(mo: MasterObject[], model: Model, { translator, sense }: EnvironmentType) {
-  const { visualizations } = sense;
+function getAvailableCharts(
+  mo: MasterObject[],
+  model: Model,
+  translator: TranslatorType,
+  visualizations: Visualizations
+) {
   const layoutMasterObjects = getMasterObjects(model.layout);
   const chartValues = visualizations.getRegisteredNames().map((visualization: string) => {
     const libInfo = visualizations.getType(visualization).getLibraryInfo();
@@ -97,7 +101,7 @@ async function addItemToContainer(model: Model, childProps: TODO, childName: str
   return undoInfo.endGroup(groupId);
 }
 
-async function createVisualization(model: Model, childProps: TODO, visualizations: Visualizations) {
+async function createVisualization(model: Model, childProps: TODO, visualizations: Visualizations | undefined) {
   const props = await propertiesGenerator.createProperties(
     model.app.enigmaModel,
     childProps.visualization,
@@ -108,21 +112,23 @@ async function createVisualization(model: Model, childProps: TODO, visualization
 
 function showAddItemDialog(model: Model, target: HTMLElement | null, env: EnvironmentType) {
   model.app.getMasterObjectList().then((mo) => {
-    const items = getAvailableCharts(mo, model, env);
-    ReactDOM.render(
-      <AddChartWrapper
-        target={target}
-        items={items}
-        onSelect={(_event, item) => {
-          if (item.qExtendsId) {
-            addItemToContainer(model, item, item.name);
-          } else {
-            createVisualization(model, item, env.sense.visualizations);
-          }
-        }}
-      />,
-      target
-    );
+    if (env.sense.visualizations) {
+      const items = getAvailableCharts(mo, model, env.translator, env.sense.visualizations);
+      ReactDOM.render(
+        <AddChartWrapper
+          target={target}
+          items={items}
+          onSelect={(_event, item) => {
+            if (item.qExtendsId) {
+              addItemToContainer(model, item, item.name);
+            } else {
+              createVisualization(model, item, env.sense.visualizations);
+            }
+          }}
+        />,
+        target
+      );
+    }
   });
 }
 

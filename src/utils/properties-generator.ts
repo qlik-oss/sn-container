@@ -14,7 +14,8 @@ function getInitialProperties(type: string, visualizations: Visualizations) {
   return getChartType(type, visualizations)?.getInitialProperties();
 }
 
-async function createProperties(app: App, type: string, visualizations: Visualizations) {
+async function createProperties(app: App, type: string, visualizations: Visualizations | undefined) {
+  if (!visualizations) return undefined;
   const newExtension = await getExtensionType(type, visualizations);
   const initialProperties = await getInitialProperties(type, visualizations);
   newExtension.mapProperties();

@@ -1,11 +1,16 @@
-const getMergedChildrenList = (layout: Layout) => {
+import containerUtil from './container-util';
+
+const getMergedChildrenList = (layout: Layout, ignoreInvisible?: boolean) => {
   const chartObjects: MergedLayoutChild[] = [];
-  layout.children?.map((child: PropertiesChild) => {
+  layout.children?.map((child: LayoutChild) => {
     const childListItem = layout.qChildList?.qItems.find((innerItem: any) =>
       child.isMaster ? innerItem.qData.qExtendsId === child.refId : innerItem.qData.containerChildId === child.refId
     );
     if (childListItem) {
-      chartObjects.push({ ...child, ...childListItem });
+      const visible = containerUtil.evaluateCondition(child.condition);
+      if (!ignoreInvisible || visible) {
+        chartObjects.push({ ...child, ...childListItem, visible: containerUtil.evaluateCondition(child.condition) });
+      }
     }
   });
 

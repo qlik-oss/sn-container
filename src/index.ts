@@ -11,7 +11,7 @@ export default function supernova(env: EnvironmentType) {
     ext: ext(env),
     component() {
       const core = useCore();
-      const models = useModels({ core });
+      const models = useModels({ core, visualizations: env.sense?.visualizations });
       useRender({ core, models });
     },
   };
