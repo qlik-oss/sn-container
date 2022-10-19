@@ -80,7 +80,7 @@ export default function Container({ containerModel }: CotaninerProps) {
                       )}
                     </TextContainer>
                     {!chart.visible && (
-                      <Typography variant="inherit" component="span" paddingLeft="8px">
+                      <Typography variant="inherit" component="span" color={COLORS.TEXT_PRIMARY} paddingLeft="8px">
                         <ViewDisabledIcon />
                       </Typography>
                     )}
