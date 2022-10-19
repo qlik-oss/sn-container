@@ -10,6 +10,6 @@ declare interface ContainerModel {
   layoutService: LayoutService;
   themeService: ThemeService;
   embed: Embed;
-  app: string;
+  app: App;
   options: Options;
 }
