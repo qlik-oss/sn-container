@@ -3,6 +3,9 @@ declare module '@nebula.js/stardust';
 /** Environment. (supernova parameter) */
 declare interface EnvironmentType {
   translator: TranslatorType;
+  sense: {
+    visualizations?: Visualizations;
+  };
 }
 
 /** Translator. */

@@ -1,14 +1,18 @@
 import ContainerHandler from './containerHandler';
 import containerUtil from '../utils/container-util';
 
-function fetchContainerTabs(qItems: QChild[], children: PropertiesChild[], translator: TranslatorType) {
+function fetchContainerTabs(qItems: QChild[], children: PropertiesChild[], { translator, sense }: EnvironmentType) {
   const options: DropdownOption[] = [];
   children.forEach((child, index) => {
     const item = qItems.find(
       (item) => child.refId === item.qData.containerChildId || child.refId === item.qData.qExtendsId
     );
     if (item) {
-      const translation = containerUtil.getTranslationFromChild({ ...child, ...item }, translator);
+      const translation = containerUtil.getTranslationFromChild(
+        { ...child, ...item },
+        translator,
+        sense.visualizations
+      );
       options[index] = { translation, value: item.qInfo.qId };
     }
   });
@@ -117,8 +121,8 @@ export default function ext(env: EnvironmentType) {
           editProps: {
             component: 'button',
             translation: 'Object.Container.Props.EditProperties',
-            action(_item: PropertiesChild) {
-              // containerHandler.editProps(item.refId);
+            action(item: PropertiesChild, _handler: PropertyHandler, args: PropertyArgs) {
+              containerHandler.editProps(args.model, item.refId);
             },
             show(item: PropertiesChild) {
               return !item.isMaster;
@@ -294,7 +298,7 @@ export default function ext(env: EnvironmentType) {
             defaultValue: undefined,
             tid: 'container-default-tab',
             options(_data: ContainerProperties, handler: PropertyHandler) {
-              return fetchContainerTabs(handler.layout.qChildList.qItems, handler.layout.children, env.translator);
+              return fetchContainerTabs(handler.layout.qChildList.qItems, handler.layout.children, env);
             },
           },
         },

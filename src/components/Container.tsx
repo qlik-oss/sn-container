@@ -7,6 +7,7 @@ import TabPanel from './TabPanel';
 import Chart from './Chart';
 import { COLORS } from '../theme/src/internal/variables';
 import containerUtil from '../utils/container-util';
+import { getMergedChildrenList } from '../utils/container-items';
 
 interface CotaninerProps {
   containerModel: ContainerModel;
@@ -30,15 +31,7 @@ export default function Container({ containerModel }: CotaninerProps) {
     }
   }, [layout.activeTab]);
 
-  const chartObjects: MergedLayoutChild[] = [];
-  layout.children?.map((child: PropertiesChild) => {
-    const childListItem = layout.qChildList?.qItems.find((innerItem: any) =>
-      child.isMaster ? innerItem.qData.qExtendsId === child.refId : innerItem.qData.containerChildId === child.refId
-    );
-    if (childListItem) {
-      chartObjects.push({ ...child, ...childListItem });
-    }
-  });
+  const chartObjects = getMergedChildrenList(layout);
 
   const handleChange = (_event: any, newValue: number) => {
     setTabValue(newValue);
@@ -74,7 +67,11 @@ export default function Container({ containerModel }: CotaninerProps) {
                     color={COLORS.TEXT_PRIMARY}
                     whiteSpace="nowrap"
                   >
-                    {containerUtil.getTranslationFromChild(chart, containerModel.translator)}
+                    {containerUtil.getTranslationFromChild(
+                      chart,
+                      containerModel.translator,
+                      containerModel.visualizations
+                    )}
                   </TextContainer>
                 }
               ></TabButton>

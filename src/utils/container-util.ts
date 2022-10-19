@@ -1,5 +1,3 @@
-import Vizualisations from './visualizations';
-
 type PropertyName = 'activeTab' | 'defaultTab';
 
 function forbiddenVisualization(visualization: string) {
@@ -9,6 +7,10 @@ function forbiddenVisualization(visualization: string) {
     'qlik-tabbed-container',
     'qlik-trellis-container',
   ];
+  // ToDo get product info from environment
+  // if (ProductInfo.isQCS()) {
+  //   forbiddenVisualizations.push('qlik-on-demand-reporting');
+  // }
   return forbiddenVisualizations.indexOf(visualization) > -1;
 }
 
@@ -30,10 +32,14 @@ function applySoftPatches(model: Model, newValue: string | number, propertyName:
   }
 }
 
-function getTranslationFromChild(chartObject: MergedLayoutChild, translator: TranslatorType) {
+function getTranslationFromChild(
+  chartObject: MergedLayoutChild,
+  translator: TranslatorType,
+  visualizations?: Visualizations
+) {
   let translation = '';
-  if (chartObject?.label === '') {
-    const libInfo = Vizualisations.getType(chartObject.qData.visualization).getLibraryInfo();
+  if (chartObject?.label === '' && visualizations?.getType) {
+    const libInfo = visualizations.getType(chartObject.qData.visualization).getLibraryInfo();
     translation = libInfo.translationKey ? translator.get(libInfo.translationKey) : libInfo.name;
   } else {
     translation = chartObject.label;
@@ -41,8 +47,19 @@ function getTranslationFromChild(chartObject: MergedLayoutChild, translator: Tra
   return translation;
 }
 
+function onChildChange(onSwitch: boolean, model: Model, child: MergedLayoutChild | undefined) {
+  // scope.cell.setObject(child, scope.items.getOptions());
+  // if (!scope.object.model.layout.qExtendsId) {
+  //   if (StageState.propertiesOpen) {
+  //     StageState.setSelectedObject(createSelectedObject(scope.object, scope.cell));
+  //     StageState.propertiesOpen = true;
+  //   }
+  // }
+}
+
 export default {
   forbiddenVisualization,
   applySoftPatches,
   getTranslationFromChild,
+  onChildChange,
 };
