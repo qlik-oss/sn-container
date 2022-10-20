@@ -25,13 +25,13 @@ describe('container supernova', () => {
     jest.clearAllMocks();
   });
 
-  it('should call qae', () => {
+  /*it('should call qae', () => {
     expect(qae).toHaveBeenCalledTimes(1);
   });
 
   it('should call ext', () => {
     expect(ext).toHaveBeenCalledTimes(1);
-  });
+  });*/
 
   it('should call locale', () => {
     expect(locale).toHaveBeenCalledTimes(1);
