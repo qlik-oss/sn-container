@@ -18,4 +18,9 @@ jobs:
       - run: yarn --frozen-lockfile
       - name: Run unit tests and publish results to CodeClimate
         timeout-minutes: 10
-        run: yarn test:unit
+        run: |
+          ./cc-test-reporter before-build
+          yarn test:unit
+          ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
