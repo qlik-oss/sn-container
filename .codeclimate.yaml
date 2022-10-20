@@ -21,14 +21,13 @@ checks:
 exclude_patterns:
   - '.circleci/'
   - '.github/'
+  - '.husky/'
   - '**/scripts/'
   - '**/apps/'
   - '**/api-specifications/'
   - '**/core/'
   - '**/*.d.ts'
-  - '**/src/const/*.ts'
+  - '**/src/mocks/'
   - '**/src/theme/'
   - '**/src/icons/'
   - tests/
-  - test/
-  - 'spec/'
