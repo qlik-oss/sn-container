@@ -8,7 +8,7 @@ on:
 
 jobs:
   publish-dev:
-    needs: [validate, build, test-unit]
+    needs: [build, test-unit]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
