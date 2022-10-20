@@ -1,7 +1,5 @@
 import env from '../mocks/environment';
 import supernova from '..';
-import qae from '../qae';
-import ext from '../ext/ext';
 import locale from '../locale';
 import { useRender, useCore, useModels } from '../hooks';
 
