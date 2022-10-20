@@ -1,5 +1,7 @@
 import env from '../mocks/environment';
 import supernova from '..';
+import qae from '../qae';
+import ext from '../ext/ext';
 import locale from '../locale';
 import { useRender, useCore, useModels } from '../hooks';
 
@@ -23,13 +25,13 @@ describe('container supernova', () => {
     jest.clearAllMocks();
   });
 
-  /*it('should call qae', () => {
+  it('should call qae', () => {
     expect(qae).toHaveBeenCalledTimes(1);
   });
 
   it('should call ext', () => {
     expect(ext).toHaveBeenCalledTimes(1);
-  });*/
+  });
 
   it('should call locale', () => {
     expect(locale).toHaveBeenCalledTimes(1);
