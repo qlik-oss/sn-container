@@ -27,6 +27,8 @@ exclude_patterns:
   - '**/core/'
   - '**/*.d.ts'
   - '**/src/const/*.ts'
+  - '**/src/theme/'
+  - '**/src/icons/'
   - tests/
   - test/
   - 'spec/'
