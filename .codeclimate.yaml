@@ -19,14 +19,13 @@ checks:
   duplication:
     enabled: true
 exclude_patterns:
-  - '.circleci/'
-  - '.github/'
-  - '**/scripts/'
-  - '**/apps/'
-  - '**/api-specifications/'
-  - '**/core/'
+  - 'scripts/'
+  - 'apps/'
+  - 'api-specifications/'
+  - 'core/'
+  - '**/mocks/'
+  - '**/theme/'
+  - '**/icons/'
   - '**/*.d.ts'
-  - '**/src/const/*.ts'
-  - tests/
-  - test/
-  - 'spec/'
+  - '**/__tests__/'
+  - '**/node_modules'
