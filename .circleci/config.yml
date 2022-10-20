@@ -95,8 +95,6 @@ jobs:
             fi
 
   test:
-    environment:
-      CC_TEST_REPORTER_ID: 59b6981ca16974795365184a8409d698492051729af53f21a645b05b17642ab9
     working_directory: ~/container
     docker:
       - image: circleci/node:17.2-browsers
