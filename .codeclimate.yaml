@@ -19,15 +19,12 @@ checks:
   duplication:
     enabled: true
 exclude_patterns:
-  - '.circleci/'
-  - '.github/'
-  - '.husky/'
-  - '**/scripts/'
-  - '**/apps/'
-  - '**/api-specifications/'
-  - '**/core/'
+  - 'scripts/'
+  - 'apps/'
+  - 'api-specifications/'
+  - 'core/'
+  - 'src/mocks/'
+  - 'src/theme/'
+  - 'src/icons/'
   - '**/*.d.ts'
-  - '**/src/mocks/'
-  - '**/src/theme/'
-  - '**/src/icons/'
-  - tests/
+  - '**/__tests__/'
