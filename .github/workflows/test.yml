@@ -16,6 +16,10 @@ jobs:
           node-version: 17
           cache: yarn
       - run: yarn --frozen-lockfile
+      - name: Install Code Climate Test Reporter
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
       - name: Run unit tests and publish results to CodeClimate
         timeout-minutes: 10
         run: |
