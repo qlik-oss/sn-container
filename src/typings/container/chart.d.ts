@@ -1,1 +1,1 @@
-declare interface ChartObject extends LayoutChild, QChild {}
+declare interface ChartObject extends PropertiesChild, QChild {}

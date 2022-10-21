@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <path id="luiicons_next-a" d="M8.5 8L4 3.5 5.5 2 11.5 8 5.5 14 4 12.5 8.5 8z"/>
+  </defs>
+  <use fill-rule="evenodd" xlink:href="#luiicons_next-a"/>
+</svg>

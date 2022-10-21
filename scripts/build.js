@@ -7,6 +7,7 @@ const path = require('path');
 const build = require('@nebula.js/cli-build');
 const sense = require('@nebula.js/cli-sense');
 const copyExt = require('./copy-ext');
+const buildIcons = require('../src/icons/src/index');
 
 const args = yargs(process.argv.slice(2)).argv;
 const buildExt = args.ext;
@@ -42,6 +43,9 @@ const buildExtension = async () => {
 };
 
 const main = async () => {
+  console.log('---> BUILDING ICONS');
+  // converting the svgs into react components
+  buildIcons.writeComponents();
   console.log('---> BUILDING SUPERNOVA');
   const watcher = await build(buildArgs);
   if (buildExt) {
