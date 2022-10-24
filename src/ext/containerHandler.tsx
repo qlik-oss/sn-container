@@ -47,12 +47,10 @@ function getAvailableCharts(
           !containerUtil.forbiddenVisualization(mo.qData.visualization) && layoutMasterObjects.indexOf(mo.qInfo.qId) < 0
       )
       .map((mo) => {
-        const icon = visualizations.getIconName(mo.qData.visualization);
         return {
           qExtendsId: mo.qInfo.qId,
           visualization: mo.qData.visualization,
           name: mo.qData.name,
-          icon: icon ? `lui-icon--${icon}` : undefined,
         };
       })
       .sort((i1, i2) => (i1.name > i2.name ? 1 : -1)),
@@ -112,8 +110,9 @@ async function createVisualization(model: Model, childProps: TODO, visualization
 
 function showAddItemDialog(model: Model, target: HTMLElement | null, env: EnvironmentType) {
   model.app.getMasterObjectList().then((mo) => {
-    if (env.sense.visualizations) {
-      const items = getAvailableCharts(mo, model, env.translator, env.sense.visualizations);
+    const { visualizationApi } = env.sense;
+    if (visualizationApi?.visualizations) {
+      const items = getAvailableCharts(mo, model, env.translator, visualizationApi.visualizations);
       ReactDOM.render(
         <AddChartWrapper
           target={target}
@@ -122,7 +121,7 @@ function showAddItemDialog(model: Model, target: HTMLElement | null, env: Enviro
             if (item.qExtendsId) {
               addItemToContainer(model, item, item.name);
             } else {
-              createVisualization(model, item, env.sense.visualizations);
+              createVisualization(model, item, visualizationApi.visualizations);
             }
           }}
         />,
@@ -151,9 +150,9 @@ const ContainerHandler = (env: EnvironmentType) => {
     editProps(model: Model, refId: string) {
       const newChild = getMergedChild(model.layout, refId);
       console.log('newchild===', newChild);
-      if (newChild && newChild.qInfo?.qId) {
+      if (newChild && newChild.qInfo?.qId && env.sense.visualizationApi) {
         containerUtil.applySoftPatches(model, newChild.qInfo.qId, 'activeTab');
-        containerUtil.onChildChange(true, model, newChild);
+        containerUtil.onChildChange(model, newChild, env.sense.visualizationApi);
       }
     },
     isValidMaster(_refId: string, _app: App) {

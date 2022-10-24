@@ -4,7 +4,7 @@ declare module '@nebula.js/stardust';
 declare interface EnvironmentType {
   translator: TranslatorType;
   sense: {
-    visualizations?: Visualizations;
+    visualizationApi?: VisualizationApi;
   };
 }
 

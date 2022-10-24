@@ -27,6 +27,7 @@ declare interface PropertyPatch {
 declare interface Model {
   createChild(childProps: MasterObject): Promise<{ id: string }>;
   getProperties(): Promise<ContainerProperties>;
+  getLayout(): Promise<Layout>;
   id(id: string, childProps: MasterObject, id1: string): unknown;
   layout: Layout;
   properties: ContainerProperties;

@@ -11,7 +11,7 @@ function fetchContainerTabs(qItems: QChild[], children: LayoutChild[], { transla
       const translation = containerUtil.getTranslationFromChild(
         { ...child, ...item, visible: undefined },
         translator,
-        sense.visualizations
+        sense.visualizationApi?.visualizations
       );
       options[index] = { translation, value: item.qInfo.qId };
     }

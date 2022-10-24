@@ -6,7 +6,8 @@ interface App {
   getMasterObjectList(): Promise<MasterObject[]>;
   properties: AppProperties;
   getUndoInfoObject(): Promise<UndoInfo>;
-  enigmaModel: any;
+  enigmaModel: Model;
+  getLayout(): Promise<any>;
 }
 
 interface AppProperties {
@@ -15,6 +16,9 @@ interface AppProperties {
 
 interface GenericObject {
   getLayout: Function;
+  layout: Layout;
+  enigmaModel: Model;
+  id: string;
 }
 
 interface Field {

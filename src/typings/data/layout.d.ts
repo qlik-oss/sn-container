@@ -35,7 +35,10 @@ declare interface LayoutChild extends PropertiesChild {
 }
 
 declare interface Layout extends ContainerProperties {
+  qExtendsId?: string;
   snapshotData?: any;
   qChildList: QChildList;
   children: LayoutChild[];
+  visualization: string;
+  hasExternalChildren: boolean;
 }

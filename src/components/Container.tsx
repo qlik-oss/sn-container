@@ -14,25 +14,24 @@ interface CotaninerProps {
   containerModel: ContainerModel;
 }
 
-const findIndexOfChild = (layout: Layout, value: string) => {
-  const childIndex = layout.qChildList?.qItems.findIndex((child: QChild) => child.qInfo.qId === value);
+const findIndexOfChild = (chartObjects: MergedLayoutChild[], value: string) => {
+  const childIndex = chartObjects.findIndex((child: QChild) => child.qInfo.qId === value);
   return childIndex !== -1 ? childIndex : 0;
 };
 
 export default function Container({ containerModel }: CotaninerProps) {
   const layout = containerModel.layoutService.getLayout();
   if (!layout) return null;
-  const initialTabValue = layout.activeTab && layout.activeTab !== '' ? layout.activeTab : layout.defaultTab;
-  const [tabValue, setTabValue] = useState(initialTabValue ? findIndexOfChild(layout, initialTabValue) : 0);
+  const [chartObjects, setChartObjects] = useState(getMergedChildrenList(layout, !containerModel.constraints.active));
+  const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
-    const childIndex = findIndexOfChild(layout, layout.activeTab ?? '');
+    const initialTabValue = layout.activeTab && layout.activeTab !== '' ? layout.activeTab : layout.defaultTab;
+    const childIndex = findIndexOfChild(chartObjects, initialTabValue ?? '');
     if (childIndex !== tabValue) {
-      setTabValue(childIndex);
+      setTabValue(childIndex !== -1 ? childIndex : 0);
     }
   }, [layout.activeTab]);
-
-  const [chartObjects, setChartObjects] = useState(getMergedChildrenList(layout, !containerModel.constraints.active));
 
   useEffect(() => {
     setChartObjects(getMergedChildrenList(layout, !containerModel.constraints.active));
