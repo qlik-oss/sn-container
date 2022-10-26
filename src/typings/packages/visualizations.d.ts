@@ -30,5 +30,5 @@ declare interface Visualizations {
 declare interface VisualizationApi {
   editMaster(id: string, type: string): void;
   visualizations: Visualizations;
-  changePropertyPanel(object: GenericObject): Promise<void>;
+  changePropertyPanel(model: Model, object: GenericObject): Promise<void>;
 }

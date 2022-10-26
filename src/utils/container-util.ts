@@ -59,14 +59,9 @@ function getTranslationFromChild(
 //       const appLayout = await app.getLayout();
 //       const properties = await childModel.getProperties();
 //       const layout = await childModel.getLayout();
-//       console.log('layout==', layout);
-//       console.log('appLayout==', appLayout);
-//       console.log('properties==', properties);
 //       const visType = visualizations.getType(layout.visualization);
-//       console.log('visType==', visType);
 //       await visType.load();
 //       const ext = await visType.getExtensionType();
-//       console.log('ext===', ext);
 //       ext.mapProperties();
 //       if (!ext.model) {
 //         ext.model = childModel; // SUI-6568
@@ -88,7 +83,6 @@ function getTranslationFromChild(
 //         app,
 //         model: childModel,
 //       };
-//       console.log('ppContent===', ppContent);
 //       return ppContent;
 //     },
 //   };
@@ -101,7 +95,7 @@ function onChildChange(model: Model, child: MergedLayoutChild | undefined, visua
     model.app.getObject(child.qInfo.qId).then((childObject) => {
       console.log('childObject===', childObject);
       if (!childObject.layout.qExtendsId) {
-        changePropertyPanel(childObject);
+        changePropertyPanel(model, childObject);
       }
     });
   }
