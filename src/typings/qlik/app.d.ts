@@ -19,6 +19,7 @@ interface GenericObject {
   layout: Layout;
   enigmaModel: Model;
   id: string;
+  app: App;
 }
 
 interface Field {

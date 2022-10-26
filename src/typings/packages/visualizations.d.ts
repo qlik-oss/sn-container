@@ -16,7 +16,7 @@ declare interface ExtensionType {
 
 declare interface Visualization {
   getLibraryInfo(): LibraryInfo;
-  getExtensionType(): ExtensionType;
+  getExtensionType(): Promise<ExtensionType>;
   getInitialProperties(): BasicProperties;
   load(): Promise<void>;
   getIconName(): string;
@@ -27,13 +27,8 @@ declare interface Visualizations {
   getRegisteredNames(): string[];
 }
 
-declare interface StageState {
-  propertiesOpen: boolean;
-  setSelectedObject(obj: any): void;
-}
-
 declare interface VisualizationApi {
   editMaster(id: string, type: string): void;
   visualizations: Visualizations;
-  stageState: StageState;
+  changePropertyPanel(object: GenericObject): Promise<void>;
 }
