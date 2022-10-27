@@ -1,4 +1,5 @@
 import { Button, Tab, styled, Box, ListItemButton } from '@mui/material';
+import React from 'react';
 import { GREYSCALE } from '../../theme/src/internal/variables';
 
 export const NavigationButton = styled(Button)(() => ({
@@ -9,7 +10,7 @@ export const NavigationButton = styled(Button)(() => ({
   borderRadius: 3,
   minWidth: 36,
   maxWidth: 36,
-}));
+})) as React.ElementType;
 
 export const TabButton = styled(Tab)(() => ({
   minHeight: 'unset',
@@ -23,7 +24,7 @@ export const TabButton = styled(Tab)(() => ({
   '&:hover': {
     paddingBottom: 8,
   },
-}));
+})) as React.ElementType;
 
 export const TextContainer = styled(Box)(() => ({
   textAlign: 'left',
@@ -31,10 +32,10 @@ export const TextContainer = styled(Box)(() => ({
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
-}));
+})) as React.ElementType;
 
 export const PopoverListItemButton = styled(ListItemButton)({
   wordBreak: 'break-word',
   minHeight: '24px',
   padding: '4px 4px 4px 12px',
-});
+}) as React.ElementType;
