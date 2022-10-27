@@ -6,16 +6,16 @@ import PreviousIcon from '../icons/Previous';
 interface ScrollButtonsProps {
   chartObjects: MergedLayoutChild[];
   tabValue: number;
-  setTabValue: (newTabValue: number) => void;
+  handleChange: (event: any, newTabValue: number) => void;
 }
 
-export default function ScrollButtons({ chartObjects, tabValue, setTabValue }: ScrollButtonsProps) {
+export default function ScrollButtons({ chartObjects, tabValue, handleChange }: ScrollButtonsProps) {
   const isFirstTabSelected = !tabValue;
   const isLastTabSelected = tabValue >= chartObjects.length - 1;
   return (
     <>
       <NavigationButton
-        onClick={() => setTabValue(tabValue - 1)}
+        onClick={(e: any) => handleChange(e, tabValue - 1)}
         sx={{
           borderTopRightRadius: 0,
           borderBottomRightRadius: 0,
@@ -25,7 +25,7 @@ export default function ScrollButtons({ chartObjects, tabValue, setTabValue }: S
         <PreviousIcon />
       </NavigationButton>
       <NavigationButton
-        onClick={() => setTabValue(tabValue + 1)}
+        onClick={(e: any) => handleChange(e, tabValue + 1)}
         sx={{
           borderTopLeftRadius: 0,
           borderBottomLeftRadius: 0,

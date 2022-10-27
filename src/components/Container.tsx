@@ -52,10 +52,10 @@ export default function Container({ containerModel }: CotaninerProps) {
       {layout.showTabs !== false && (
         <Box display="flex" alignItems="center">
           {layout.useScrollButton !== false && (
-            <ScrollButtons chartObjects={chartObjects} tabValue={tabValue} setTabValue={setTabValue} />
+            <ScrollButtons chartObjects={chartObjects} tabValue={tabValue} handleChange={handleChange} />
           )}
           {layout.useDropdown !== false && (
-            <MenuButton layout={layout} chartObjects={chartObjects} tabValue={tabValue} setTabValue={setTabValue} />
+            <MenuButton layout={layout} chartObjects={chartObjects} tabValue={tabValue} handleChange={handleChange} />
           )}
           <Tabs value={tabValue} onChange={handleChange} sx={{ display: 'inline-flex', minHeight: 'unset' }}>
             {chartObjects.map((chart: MergedLayoutChild) => (

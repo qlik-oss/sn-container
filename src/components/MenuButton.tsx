@@ -9,10 +9,10 @@ interface MenuButtonProps {
   layout: Layout;
   chartObjects: MergedLayoutChild[];
   tabValue: number;
-  setTabValue: (newTabValue: number) => void;
+  handleChange: (event: any, newTabValue: number) => void;
 }
 
-export default function MenuButton({ layout, chartObjects, tabValue, setTabValue }: MenuButtonProps) {
+export default function MenuButton({ layout, chartObjects, tabValue, handleChange }: MenuButtonProps) {
   const [anchorEl, setAnchorEl] = useState(null);
   const handlePopoverOpen = (event: any) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -21,8 +21,8 @@ export default function MenuButton({ layout, chartObjects, tabValue, setTabValue
     setAnchorEl(null);
   };
 
-  const handleClickOnChart = (index: number) => {
-    setTabValue(index);
+  const handleClickOnChart = (event: any, index: number) => {
+    handleChange(event, index);
     handlePopoverClose();
   };
 
@@ -54,7 +54,7 @@ export default function MenuButton({ layout, chartObjects, tabValue, setTabValue
           {chartObjects.map((chart, index) => (
             <PopoverListItemButton
               component="li"
-              onClick={() => handleClickOnChart(index)}
+              onClick={(e: any) => handleClickOnChart(e, index)}
               key={chart.cId}
               title={chart.label}
             >
