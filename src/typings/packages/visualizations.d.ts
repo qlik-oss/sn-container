@@ -17,7 +17,7 @@ declare interface ExtensionType {
 declare interface Visualization {
   getLibraryInfo(): LibraryInfo;
   getExtensionType(): Promise<ExtensionType>;
-  getInitialProperties(): BasicProperties;
+  getInitialProperties(): Promise<BasicProperties>;
   load(): Promise<void>;
   getIconName(): string;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavigationButton } from './common/styled';
+import { StyledButton } from './common/styled';
 import NextIcon from '../icons/Next';
 import PreviousIcon from '../icons/Previous';
 
@@ -14,7 +14,7 @@ export default function ScrollButtons({ chartObjects, tabValue, handleChange }: 
   const isLastTabSelected = tabValue >= chartObjects.length - 1;
   return (
     <>
-      <NavigationButton
+      <StyledButton
         onClick={(e: any) => handleChange(e, tabValue - 1)}
         sx={{
           borderTopRightRadius: 0,
@@ -23,8 +23,8 @@ export default function ScrollButtons({ chartObjects, tabValue, handleChange }: 
         }}
       >
         <PreviousIcon />
-      </NavigationButton>
-      <NavigationButton
+      </StyledButton>
+      <StyledButton
         onClick={(e: any) => handleChange(e, tabValue + 1)}
         sx={{
           borderTopLeftRadius: 0,
@@ -33,7 +33,7 @@ export default function ScrollButtons({ chartObjects, tabValue, handleChange }: 
         }}
       >
         <NextIcon />
-      </NavigationButton>
+      </StyledButton>
     </>
   );
 }

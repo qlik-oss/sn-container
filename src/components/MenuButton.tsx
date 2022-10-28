@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Popover, List, ListItem, ListItemIcon, Typography } from '@mui/material';
-import { NavigationButton, PopoverListItemButton } from './common/styled';
+import { StyledButton, PopoverListItemButton } from './common/styled';
 import UnorderedListIcon from '../icons/UnorderedList';
 import CheckboxTickIcon from '../icons/CheckboxTick';
 import { COLORS } from '../theme/src/internal/variables';
@@ -28,12 +28,9 @@ export default function MenuButton({ layout, chartObjects, tabValue, handleChang
 
   return (
     <>
-      <NavigationButton
-        sx={{ marginLeft: layout.useScrollButton !== false ? '4px' : '0px' }}
-        onClick={handlePopoverOpen}
-      >
+      <StyledButton sx={{ marginLeft: layout.useScrollButton !== false ? '4px' : '0px' }} onClick={handlePopoverOpen}>
         <UnorderedListIcon />
-      </NavigationButton>
+      </StyledButton>
       <Popover
         onClose={handlePopoverClose}
         open={Boolean(anchorEl)}

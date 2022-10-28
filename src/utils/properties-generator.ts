@@ -6,11 +6,11 @@ function getChartType(type: string, visualizations: Visualizations) {
   return visualizations.getType(type);
 }
 
-function getExtensionType(type: string, visualizations: Visualizations) {
+async function getExtensionType(type: string, visualizations: Visualizations) {
   return getChartType(type, visualizations)?.getExtensionType();
 }
 
-function getInitialProperties(type: string, visualizations: Visualizations) {
+async function getInitialProperties(type: string, visualizations: Visualizations) {
   return getChartType(type, visualizations)?.getInitialProperties();
 }
 

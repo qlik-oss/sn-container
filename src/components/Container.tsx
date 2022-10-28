@@ -5,12 +5,13 @@ import ScrollButtons from './ScrollButtons';
 import MenuButton from './MenuButton';
 import TabPanel from './TabPanel';
 import Chart from './Chart';
+import EmptyContainer from './EmptyContainer';
 import ViewDisabledIcon from '../icons/ViewDisabled';
 import { COLORS } from '../theme/src/internal/variables';
 import containerUtil from '../utils/container-util';
 import { getMergedChildrenList } from '../utils/container-items';
 
-interface CotaninerProps {
+interface ContainerProps {
   containerModel: ContainerModel;
 }
 
@@ -19,7 +20,7 @@ const findIndexOfChild = (chartObjects: MergedLayoutChild[], value: string) => {
   return childIndex !== -1 ? childIndex : 0;
 };
 
-export default function Container({ containerModel }: CotaninerProps) {
+export default function Container({ containerModel }: ContainerProps) {
   const layout = containerModel.layoutService.getLayout();
   if (!layout) return null;
   const [chartObjects, setChartObjects] = useState(getMergedChildrenList(layout, !containerModel.constraints.active));
@@ -42,6 +43,8 @@ export default function Container({ containerModel }: CotaninerProps) {
     containerUtil.applySoftPatches(containerModel.model, layout.qChildList.qItems[newValue]?.qInfo.qId, 'activeTab');
   };
 
+  const isContainerEmpty = chartObjects.length === 0;
+
   return (
     <Box
       style={{
@@ -49,7 +52,8 @@ export default function Container({ containerModel }: CotaninerProps) {
         width: '100%',
       }}
     >
-      {layout.showTabs !== false && (
+      {isContainerEmpty && <EmptyContainer containerModel={containerModel} />}
+      {!isContainerEmpty && layout.showTabs !== false && (
         <Box display="flex" alignItems="center">
           {layout.useScrollButton !== false && (
             <ScrollButtons chartObjects={chartObjects} tabValue={tabValue} handleChange={handleChange} />
@@ -75,7 +79,7 @@ export default function Container({ containerModel }: CotaninerProps) {
                       {containerUtil.getTranslationFromChild(
                         chart,
                         containerModel.translator,
-                        containerModel.visualizations
+                        containerModel.visualizationApi?.visualizations
                       )}
                     </TextContainer>
                     {!chart.visible && (

@@ -108,11 +108,15 @@ async function createVisualization(model: Model, childProps: TODO, visualization
   return addItemToContainer(model, props, childProps.name);
 }
 
-function showAddItemDialog(model: Model, target: HTMLElement | null, env: EnvironmentType) {
+function showAddItemDialog(
+  model: Model,
+  target: HTMLElement | null,
+  translator: TranslatorType,
+  visualizationApi: VisualizationApi | undefined
+) {
   model.app.getMasterObjectList().then((mo) => {
-    const { visualizationApi } = env.sense;
     if (visualizationApi?.visualizations) {
-      const items = getAvailableCharts(mo, model, env.translator, visualizationApi.visualizations);
+      const items = getAvailableCharts(mo, model, translator, visualizationApi.visualizations);
       ReactDOM.render(
         <AddChartWrapper
           target={target}
@@ -131,7 +135,7 @@ function showAddItemDialog(model: Model, target: HTMLElement | null, env: Enviro
   });
 }
 
-const ContainerHandler = (env: EnvironmentType) => {
+const ContainerHandler = (translator: TranslatorType, visualizationApi: VisualizationApi | undefined) => {
   // ToDo find a way to load appMasterObjects before the show()
   // const appMasterObjects: string[] = [];
   // app.getMasterObjectList().then((masterObjects) => {
@@ -145,14 +149,14 @@ const ContainerHandler = (env: EnvironmentType) => {
       removeObject(model, id);
     },
     addChild(model: Model, target: HTMLElement) {
-      showAddItemDialog(model, target, env);
+      showAddItemDialog(model, target, translator, visualizationApi);
     },
     editProps(model: Model, refId: string) {
       const newChild = getMergedChild(model.layout, refId);
       console.log('newchild===', newChild);
-      if (newChild && newChild.qInfo?.qId && env.sense.visualizationApi) {
+      if (newChild && newChild.qInfo?.qId && visualizationApi?.visualizations) {
         containerUtil.applySoftPatches(model, newChild.qInfo.qId, 'activeTab');
-        containerUtil.onChildChange(model, newChild, env.sense.visualizationApi);
+        containerUtil.onChildChange(model, newChild, visualizationApi);
       }
     },
     isValidMaster(_refId: string, _app: App) {

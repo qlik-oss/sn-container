@@ -19,10 +19,10 @@ interface UseModelsProps {
   core?: {
     element: HTMLElement;
   };
-  visualizations?: Visualizations;
+  visualizationApi?: VisualizationApi;
 }
 
-const UseModels = ({ core, visualizations }: UseModelsProps) => {
+const UseModels = ({ core, visualizationApi }: UseModelsProps) => {
   const app = useApp();
   const layout = useStaleLayout();
   const theme = useTheme();
@@ -53,12 +53,12 @@ const UseModels = ({ core, visualizations }: UseModelsProps) => {
       model,
       options,
       translator,
-      visualizations,
+      visualizationApi,
     });
     setModels({
       containerModel,
     });
-  }, [core, layout, app, constraints, model, options, embed, translator, visualizations]);
+  }, [core, layout, app, constraints, model, options, embed, translator, visualizationApi]);
 
   return models;
 };

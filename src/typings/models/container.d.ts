@@ -7,7 +7,7 @@ declare interface ContainerModelProps {
   options: Options;
   translator: TranslatorType;
   constraints: Constraints;
-  visualizations?: Visualizations;
+  visualizationApi?: VisualizationApi;
 }
 
 declare interface ContainerModel {
@@ -19,5 +19,5 @@ declare interface ContainerModel {
   options: Options;
   translator: TranslatorType;
   constraints: Constraints;
-  visualizations?: Visualizations;
+  visualizationApi?: VisualizationApi;
 }

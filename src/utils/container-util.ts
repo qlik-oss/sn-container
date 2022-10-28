@@ -47,48 +47,6 @@ function getTranslationFromChild(
   return translation;
 }
 
-// ToDo: remove when it's confirmed that this function will be picked from sense-client
-// function createSelectedObject(childObject: GenericObject, visualizations: Visualizations) {
-//   const { app } = childObject;
-//   const selObj = {
-//     id: childObject.id,
-//     type: 'gridCell',
-//     customObject: childObject,
-//     async getAllPropertyPanelContent() {
-//       const childModel = childObject.enigmaModel;
-//       const appLayout = await app.getLayout();
-//       const properties = await childModel.getProperties();
-//       const layout = await childModel.getLayout();
-//       const visType = visualizations.getType(layout.visualization);
-//       await visType.load();
-//       const ext = await visType.getExtensionType();
-//       ext.mapProperties();
-//       if (!ext.model) {
-//         ext.model = childModel; // SUI-6568
-//       }
-//       const ppContent = {
-//         // definition: propertyMapper.mapDefinition(ext.definition),
-//         definition: ext.definition,
-//         globalChangeListeners: undefined,
-//         type: layout.visualization,
-//         ext,
-//         handler: ext.getCreatePropertyHandler.call(ext, childModel),
-//         iconName: visType.getIconName(),
-//         titleRef: 'title',
-//         headerLabel: 'Back',
-//         headerAction() {},
-//         properties,
-//         layout,
-//         localeInfo: appLayout.qLocaleInfo,
-//         app,
-//         model: childModel,
-//       };
-//       return ppContent;
-//     },
-//   };
-//   return selObj;
-// }
-
 function onChildChange(model: Model, child: MergedLayoutChild | undefined, visualizationApi: VisualizationApi) {
   const { changePropertyPanel } = visualizationApi;
   if (child && changePropertyPanel) {

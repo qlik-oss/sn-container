@@ -1,14 +1,13 @@
 import { Button, Tab, styled, ListItem, ListItemButton, Typography } from '@mui/material';
 import { GREYSCALE } from '../../theme/src/internal/variables';
 
-export const NavigationButton = styled(Button)(() => ({
+export const StyledButton = styled(Button)(() => ({
   border: `1px solid ${GREYSCALE.GREYSCALE_70}`,
   padding: '0px 9px',
   color: GREYSCALE.GREYSCALE_35,
   height: 28,
   borderRadius: 3,
   minWidth: 36,
-  maxWidth: 36,
 }));
 
 export const TabButton = styled(Tab)(() => ({
