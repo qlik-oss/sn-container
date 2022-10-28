@@ -53,7 +53,7 @@ function onChildChange(model: Model, child: MergedLayoutChild | undefined, visua
     model.app.getObject(child.qInfo.qId).then((childObject) => {
       console.log('childObject===', childObject);
       if (!childObject.layout.qExtendsId) {
-        changePropertyPanel(model, childObject);
+        changePropertyPanel(childObject, model);
       }
     });
   }
