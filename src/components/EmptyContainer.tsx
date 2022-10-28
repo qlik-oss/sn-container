@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Box, List, ListItem } from '@mui/material';
 import BoxIcon from '../icons/Box';
 import { StyledButton } from './common/styled';
@@ -11,6 +11,7 @@ interface EmptyContaninerProps {
 export default function EmptyContainer({ containerModel }: EmptyContaninerProps) {
   const { translator, model, visualizationApi } = containerModel;
 
+  const popupElementRef = useRef(null);
   const [containerHandler, setContainerHandler] = useState(undefined);
 
   useEffect(() => {
@@ -19,10 +20,10 @@ export default function EmptyContainer({ containerModel }: EmptyContaninerProps)
     }
   }, [visualizationApi?.visualizations]);
 
-  const handleAddChartButton = (event: any) => {
-    console.log('event===', event);
+  const handleAddChartButton = () => {
+    console.log('popupElementRef===', popupElementRef);
     if (containerHandler) {
-      containerHandler.addChild(model, event.target);
+      containerHandler.addChild(model, popupElementRef.current);
     }
   };
 
@@ -46,6 +47,7 @@ export default function EmptyContainer({ containerModel }: EmptyContaninerProps)
           </StyledButton>
         </ListItem>
       </List>
+      <Box ref={popupElementRef} />
     </Box>
   );
 }
