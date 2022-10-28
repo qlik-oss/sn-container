@@ -14,7 +14,7 @@ function removeObject(model: Model, childId: string) {
   model.properties.children = model.properties.children.filter(
     (child) => child.cId !== childId && child.refId !== refId
   );
-  model.setProperties(model.properties).then(() => model.destroyChild(childId));
+  model.setProperties(model.properties).then(async () => model.destroyChild(childId));
 }
 
 function getMasterObjects(layout: Layout) {

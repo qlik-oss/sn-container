@@ -83,11 +83,11 @@ export default function ext(env: EnvironmentType) {
             type: 'string',
             translation: 'Object.Container.Props.Label',
             expression: 'optional',
-            show: (item: PropertiesChild, handler: PropertyHandler) => {
+            show: async (item: PropertiesChild, handler: PropertyHandler) => {
               return (
                 !item.isMaster ||
                 (item.isMaster &&
-                  containerHandler.isValidMaster(item.refId, handler.app) &&
+                  (await containerHandler.isValidMaster(item.refId, handler.app)) &&
                   !containerHandler.isAppPublished(handler.app))
               );
             },
@@ -109,11 +109,11 @@ export default function ext(env: EnvironmentType) {
                 properties.condition = { qStringExpression: { qExpr: `=${properties.condition}` } };
               }
             },
-            show: (item: PropertiesChild, handler: PropertyHandler) => {
+            show: async (item: PropertiesChild, handler: PropertyHandler) => {
               return (
                 !item.isMaster ||
                 (item.isMaster &&
-                  containerHandler.isValidMaster(item.refId, handler.app) &&
+                  (await containerHandler.isValidMaster(item.refId, handler.app)) &&
                   !containerHandler.isAppPublished(handler.app))
               );
             },
@@ -139,10 +139,10 @@ export default function ext(env: EnvironmentType) {
           editMasterText: {
             component: 'text',
             translation: 'Object.Linked.Edit.PropPanel.Text',
-            show: (item: PropertiesChild, handler: PropertyHandler) => {
+            show: async (item: PropertiesChild, handler: PropertyHandler) => {
               return (
                 item.isMaster &&
-                containerHandler.isValidMaster(item.refId, handler.app) &&
+                (await containerHandler.isValidMaster(item.refId, handler.app)) &&
                 !containerHandler.isAppPublished(handler.app)
               );
             },
@@ -150,10 +150,10 @@ export default function ext(env: EnvironmentType) {
           notEditMasterText: {
             component: 'text',
             translation: 'Object.Linked.NoEdit.PropPanel.Text',
-            show: (item: PropertiesChild, handler: PropertyHandler) => {
+            show: async (item: PropertiesChild, handler: PropertyHandler) => {
               return (
                 item.isMaster &&
-                containerHandler.isValidMaster(item.refId, handler.app) &&
+                (await containerHandler.isValidMaster(item.refId, handler.app)) &&
                 containerHandler.isAppPublished(handler.app)
               );
             },
@@ -164,10 +164,10 @@ export default function ext(env: EnvironmentType) {
             action(_item: PropertiesChild) {
               // containerHandler.editMasterProps(item.refId);
             },
-            show: (item: PropertiesChild, handler: PropertyHandler) => {
+            show: async (item: PropertiesChild, handler: PropertyHandler) => {
               return (
                 item.isMaster &&
-                containerHandler.isValidMaster(item.refId, handler.app) &&
+                (await containerHandler.isValidMaster(item.refId, handler.app)) &&
                 !containerHandler.isAppPublished(handler.app)
               );
             },
@@ -175,8 +175,8 @@ export default function ext(env: EnvironmentType) {
           invalidMasterText: {
             component: 'text',
             translation: 'Object.Invalid.Info',
-            show: (item: PropertiesChild, handler: PropertyHandler) => {
-              return item.isMaster && !containerHandler.isValidMaster(item.refId, handler.app);
+            show: async (item: PropertiesChild, handler: PropertyHandler) => {
+              return item.isMaster && !(await containerHandler.isValidMaster(item.refId, handler.app));
             },
           },
         },
