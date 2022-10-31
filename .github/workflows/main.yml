@@ -32,3 +32,16 @@ jobs:
       - run: yarn --frozen-lockfile
       - name: Check build
         run: yarn build
+
+  publish-dev:
+    needs: [validate, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 17
+          cache: yarn
+      - run: yarn --frozen-lockfile
+      - name: Create extension
+        run: zip -r "sn-container-ext.zip" "./sn-container-ext"
