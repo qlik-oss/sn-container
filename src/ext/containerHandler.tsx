@@ -39,21 +39,23 @@ function getAvailableCharts(
       isThirdParty: libInfo.isThirdParty,
     };
   });
+
+  const moSorted = Util.localeOrderBy(translator, mo, (t: MasterObject) => t.qData.name);
   const masterObjects = {
     translation: translator.get('Object.Container.MasterItems'),
-    values: mo
+    values: moSorted
       .filter(
-        (mo) =>
-          !containerUtil.forbiddenVisualization(mo.qData.visualization) && layoutMasterObjects.indexOf(mo.qInfo.qId) < 0
+        (masterObject) =>
+          !containerUtil.forbiddenVisualization(masterObject.qData.visualization) &&
+          layoutMasterObjects.indexOf(masterObject.qInfo.qId) < 0
       )
-      .map((mo) => {
+      .map((masterObject) => {
         return {
-          qExtendsId: mo.qInfo.qId,
-          visualization: mo.qData.visualization,
-          name: mo.qData.name,
+          qExtendsId: masterObject.qInfo.qId,
+          visualization: masterObject.qData.visualization,
+          name: masterObject.qData.name,
         };
-      })
-      .sort((i1, i2) => (i1.name > i2.name ? 1 : -1)),
+      }),
   };
   const charts = {
     translation: translator.get('Common.Charts'),
@@ -73,7 +75,6 @@ function getAvailableCharts(
       })
       .sort((i1, i2) => (i1.name > i2.name ? 1 : -1)),
   };
-
   return [masterObjects, charts, customObjects];
 }
 
@@ -153,7 +154,6 @@ const ContainerHandler = (translator: TranslatorType, visualizationApi: Visualiz
     },
     editProps(model: Model, refId: string) {
       const newChild = getMergedChild(model.layout, refId);
-      console.log('newchild===', newChild);
       if (newChild && newChild.qInfo?.qId && visualizationApi?.visualizations) {
         containerUtil.applySoftPatches(model, newChild.qInfo.qId, 'activeTab');
         containerUtil.onChildChange(model, newChild, visualizationApi);

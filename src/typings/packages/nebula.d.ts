@@ -12,6 +12,7 @@ declare interface EnvironmentType {
 declare interface TranslatorType {
   get: Function;
   add: Function;
+  language: string;
 }
 
 declare interface RectType {

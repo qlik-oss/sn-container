@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, List, ListItem } from '@mui/material';
+import { Box, List, ListItem, Typography } from '@mui/material';
 import BoxIcon from '../icons/Box';
 import { StyledButton } from './common/styled';
 import ContainerHandler from '../ext/containerHandler';
@@ -42,9 +42,16 @@ export default function EmptyContainer({ containerModel }: EmptyContaninerProps)
           <BoxIcon style={{ fontSize: '24px' }} />
         </ListItem>
         <ListItem>
-          <StyledButton sx={{ width: '250px' }} onClick={handleAddChartButton}>
-            {translator.get('Object.Container.AddItem')}
-          </StyledButton>
+          {containerModel.constraints?.active && (
+            <StyledButton sx={{ width: '250px' }} onClick={handleAddChartButton}>
+              <Typography variant="inherit">{translator.get('Object.Container.AddItem')}</Typography>
+            </StyledButton>
+          )}
+          {!containerModel.constraints?.active && (
+            <Box>
+              <Typography variant="inherit">{translator.get('Object.Container.EmptyHint')}</Typography>
+            </Box>
+          )}
         </ListItem>
       </List>
       <Box ref={popupElementRef} />
