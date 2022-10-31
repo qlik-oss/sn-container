@@ -17,67 +17,6 @@ function removeObject(model: Model, childId: string) {
   model.setProperties(model.properties).then(async () => model.destroyChild(childId));
 }
 
-function getMasterObjects(layout: Layout) {
-  return layout.children ? layout.children.filter((c) => c.isMaster).map((c) => c.refId) : [];
-}
-
-function getAvailableCharts(
-  mo: MasterObject[],
-  model: Model,
-  translator: TranslatorType,
-  visualizations: Visualizations
-) {
-  const layoutMasterObjects = getMasterObjects(model.layout);
-  const chartValues = visualizations.getRegisteredNames().map((visualization: string) => {
-    const libInfo = visualizations.getType(visualization).getLibraryInfo();
-    return {
-      name: libInfo.translationKey ? translator.get(libInfo.translationKey) : libInfo.name,
-      visualization,
-      icon: libInfo.icon ? `lui-icon--${libInfo.icon}` : undefined,
-      visible: libInfo.visible,
-      isLibraryItem: libInfo.isLibraryItem,
-      isThirdParty: libInfo.isThirdParty,
-    };
-  });
-
-  const moSorted = Util.localeOrderBy(translator, mo, (t: MasterObject) => t.qData.name);
-  const masterObjects = {
-    translation: translator.get('Object.Container.MasterItems'),
-    values: moSorted
-      .filter(
-        (masterObject) =>
-          !containerUtil.forbiddenVisualization(masterObject.qData.visualization) &&
-          layoutMasterObjects.indexOf(masterObject.qInfo.qId) < 0
-      )
-      .map((masterObject) => {
-        return {
-          qExtendsId: masterObject.qInfo.qId,
-          visualization: masterObject.qData.visualization,
-          name: masterObject.qData.name,
-        };
-      }),
-  };
-  const charts = {
-    translation: translator.get('Common.Charts'),
-    values: chartValues
-      .filter((item) => {
-        const flag = item.visible && item.isLibraryItem && !containerUtil.forbiddenVisualization(item.visualization);
-        return flag && !item.isThirdParty;
-      })
-      .sort((i1, i2) => (i1.name > i2.name ? 1 : -1)),
-  };
-  const customObjects = {
-    translation: translator.get('Common.CustomObjects'),
-    values: chartValues
-      .filter((item) => {
-        const flag = item.visible && item.isLibraryItem && !containerUtil.forbiddenVisualization(item.visualization);
-        return flag && item.isThirdParty;
-      })
-      .sort((i1, i2) => (i1.name > i2.name ? 1 : -1)),
-  };
-  return [masterObjects, charts, customObjects];
-}
-
 async function addItemToContainer(model: Model, childProps: TODO, childName: string) {
   if (containerUtil.forbiddenVisualization(childProps.visualization)) {
     return undefined;
@@ -111,17 +50,18 @@ async function createVisualization(model: Model, childProps: TODO, visualization
 
 function showAddItemDialog(
   model: Model,
-  target: HTMLElement | null,
+  target: Element | null,
   translator: TranslatorType,
   visualizationApi: VisualizationApi | undefined
 ) {
-  model.app.getMasterObjectList().then((mo) => {
-    if (visualizationApi?.visualizations) {
-      const items = getAvailableCharts(mo, model, translator, visualizationApi.visualizations);
+  if (visualizationApi?.visualizations) {
+    const key = Util.generateId();
+    containerUtil.getAvailableCharts(model, visualizationApi.visualizations, translator).then((items) => {
       ReactDOM.render(
         <AddChartWrapper
           target={target}
           items={items}
+          key={key}
           onSelect={(_event, item) => {
             if (item.qExtendsId) {
               addItemToContainer(model, item, item.name);
@@ -132,8 +72,8 @@ function showAddItemDialog(
         />,
         target
       );
-    }
-  });
+    });
+  }
 }
 
 const ContainerHandler = (translator: TranslatorType, visualizationApi: VisualizationApi | undefined) => {
@@ -149,7 +89,7 @@ const ContainerHandler = (translator: TranslatorType, visualizationApi: Visualiz
     removeChild(model: Model, id: string) {
       removeObject(model, id);
     },
-    addChild(model: Model, target: HTMLElement) {
+    addChild(model: Model, target: Element | null) {
       showAddItemDialog(model, target, translator, visualizationApi);
     },
     editProps(model: Model, refId: string) {

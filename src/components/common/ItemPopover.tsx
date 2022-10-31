@@ -9,7 +9,7 @@ type ItemType = {
 };
 
 interface ItemPopoverProps {
-  anchorEl: HTMLElement | null;
+  anchorEl: Element | null;
   onClose(): void;
   onSelect: (event: any, item: any) => void;
   items: ItemType[];

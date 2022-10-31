@@ -73,8 +73,12 @@ export default function ext(env: EnvironmentType) {
           console.log('addChild child handler===', handler);
           console.log('args.model.items==', args.model.items);
           const button = document.querySelector('.pp-toplist-add-button');
-          const popoverWrapper = document.createElement('div');
-          button?.appendChild(popoverWrapper);
+          let popoverWrapper = button?.querySelector('.add-chart-popover');
+          if (!popoverWrapper) {
+            popoverWrapper = document.createElement('div');
+            popoverWrapper.classList.add('add-chart-popover');
+            button?.appendChild(popoverWrapper);
+          }
           containerHandler.addChild(args.model, popoverWrapper);
         },
         items: {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ItemPopover from '../common/ItemPopover';
 
 type TODO = any;
@@ -9,13 +9,17 @@ type ChartType = {
 };
 
 interface AddChartWrapperProps {
-  target: HTMLElement | null;
+  target: Element | null;
   items: ChartType[];
   onSelect: (event: any, item: TODO) => void;
+  key: string;
 }
 
-export default function AddChartWrapper({ target, items, onSelect }: AddChartWrapperProps) {
-  const [anchorEl, setAnchorEl] = useState(target);
+export default function AddChartWrapper({ target, key, items, onSelect }: AddChartWrapperProps) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  useEffect(() => {
+    setAnchorEl(target);
+  }, [key]);
   const onClose = () => {
     setAnchorEl(null);
   };

@@ -21,7 +21,6 @@ export default function EmptyContainer({ containerModel }: EmptyContaninerProps)
   }, [visualizationApi?.visualizations]);
 
   const handleAddChartButton = () => {
-    console.log('popupElementRef===', popupElementRef);
     if (containerHandler) {
       containerHandler.addChild(model, popupElementRef.current);
     }

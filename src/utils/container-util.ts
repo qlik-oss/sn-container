@@ -1,3 +1,5 @@
+import Util from './util';
+
 type PropertyName = 'activeTab' | 'defaultTab';
 
 function forbiddenVisualization(visualization: string) {
@@ -76,7 +78,65 @@ function evaluateCondition(condition: string | undefined) {
   return condVal !== 0;
 }
 
+function getMasterObjects(layout: Layout) {
+  return layout.children ? layout.children.filter((c) => c.isMaster).map((c) => c.refId) : [];
+}
+
+async function getAvailableCharts(model: Model, visualizations: Visualizations, translator: TranslatorType) {
+  const mo = await model.app.getMasterObjectList();
+  const layoutMasterObjects = getMasterObjects(model.layout);
+  const chartValues = visualizations.getRegisteredNames().map((visualization: string) => {
+    const libInfo = visualizations.getType(visualization).getLibraryInfo();
+    return {
+      name: libInfo.translationKey ? translator.get(libInfo.translationKey) : libInfo.name,
+      visualization,
+      icon: libInfo.icon ? `lui-icon--${libInfo.icon}` : undefined,
+      visible: libInfo.visible,
+      isLibraryItem: libInfo.isLibraryItem,
+      isThirdParty: libInfo.isThirdParty,
+    };
+  });
+
+  const moSorted = Util.localeOrderBy(translator, mo, (t: MasterObject) => t.qData.name);
+  const masterObjects = {
+    translation: translator.get('Object.Container.MasterItems'),
+    values: moSorted
+      .filter(
+        (masterObject) =>
+          !forbiddenVisualization(masterObject.qData.visualization) &&
+          layoutMasterObjects.indexOf(masterObject.qInfo.qId) < 0
+      )
+      .map((masterObject) => {
+        return {
+          qExtendsId: masterObject.qInfo.qId,
+          visualization: masterObject.qData.visualization,
+          name: masterObject.qData.name,
+        };
+      }),
+  };
+  const charts = {
+    translation: translator.get('Common.Charts'),
+    values: chartValues
+      .filter((item) => {
+        const flag = item.visible && item.isLibraryItem && !forbiddenVisualization(item.visualization);
+        return flag && !item.isThirdParty;
+      })
+      .sort((i1, i2) => (i1.name > i2.name ? 1 : -1)),
+  };
+  const customObjects = {
+    translation: translator.get('Common.CustomObjects'),
+    values: chartValues
+      .filter((item) => {
+        const flag = item.visible && item.isLibraryItem && !forbiddenVisualization(item.visualization);
+        return flag && item.isThirdParty;
+      })
+      .sort((i1, i2) => (i1.name > i2.name ? 1 : -1)),
+  };
+  return [masterObjects, charts, customObjects];
+}
+
 export default {
+  getAvailableCharts,
   forbiddenVisualization,
   applySoftPatches,
   getTranslationFromChild,
