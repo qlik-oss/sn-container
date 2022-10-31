@@ -27,12 +27,14 @@ export default function Container({ containerModel }: ContainerProps) {
   const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
+    console.log('activeTab===', layout.activeTab);
+    console.log('chartObjects===', chartObjects);
     const initialTabValue = layout.activeTab && layout.activeTab !== '' ? layout.activeTab : layout.defaultTab;
     const childIndex = findIndexOfChild(chartObjects, initialTabValue ?? '');
     if (childIndex !== tabValue) {
       setTabValue(childIndex !== -1 ? childIndex : 0);
     }
-  }, [layout.activeTab]);
+  }, [chartObjects, layout.activeTab]);
 
   useEffect(() => {
     setChartObjects(getMergedChildrenList(layout, !containerModel.constraints.active));

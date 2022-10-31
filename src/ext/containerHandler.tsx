@@ -78,12 +78,7 @@ function showAddItemDialog(
 
 const ContainerHandler = (translator: TranslatorType, visualizationApi: VisualizationApi | undefined) => {
   // ToDo find a way to load appMasterObjects before the show()
-  // const appMasterObjects: string[] = [];
-  // app.getMasterObjectList().then((masterObjects) => {
-  //   masterObjects.forEach((mo) => {
-  //     appMasterObjects.push(mo.qInfo.qId);
-  //   });
-  // });
+  const appMasterObjects: string[] = [];
 
   return {
     removeChild(model: Model, id: string) {
@@ -95,14 +90,18 @@ const ContainerHandler = (translator: TranslatorType, visualizationApi: Visualiz
     editProps(model: Model, refId: string) {
       const newChild = getMergedChild(model.layout, refId);
       if (newChild && newChild.qInfo?.qId && visualizationApi?.visualizations) {
+        console.log('newChild.qInfo===', newChild.qInfo);
         containerUtil.applySoftPatches(model, newChild.qInfo.qId, 'activeTab');
         containerUtil.onChildChange(model, newChild, visualizationApi);
       }
     },
-    isValidMaster(_refId: string, _app: App) {
-      return true;
-      // ToDo find a way to load appMasterObjects before the show()
-      // return appMasterObjects.indexOf(refId) > -1;
+    isValidMaster(refId: string, app: App) {
+      app.getMasterObjectList().then((masterObjects) => {
+        masterObjects.forEach((mo) => {
+          appMasterObjects.push(mo.qInfo.qId);
+        });
+      });
+      return appMasterObjects.indexOf(refId) > -1;
     },
     isAppPublished(app: App) {
       return app.properties.published;
