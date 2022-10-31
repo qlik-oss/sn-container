@@ -120,6 +120,11 @@ const layout = {
   container: {
     ...basicProps,
     qHyperCube,
+    label: '',
+    children: [],
+    qChildList: { qItems: [] },
+    defaultTab: '',
+    condition: {},
   },
   containerWithChild: {
     ...basicProps,
