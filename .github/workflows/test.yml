@@ -20,11 +20,12 @@ jobs:
         run: |
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
-      - name: Run unit tests and publish results to CodeClimate
+      - name: Run unit tests
         timeout-minutes: 10
         run: |
           ./cc-test-reporter before-build
           yarn test:unit
-          ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
+      - name: Publish results to CodeClimate
+        run: ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
