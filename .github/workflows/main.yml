@@ -30,12 +30,13 @@ jobs:
           node-version: 17
           cache: yarn
       - run: yarn --frozen-lockfile
-      - uses: actions/upload-artifact@v3
+      - name: Check build
+        run: yarn build
+      - name: Upload build
+        uses: actions/upload-artifact@v3
         with:
           name: sn-container-ext
           path: sn-container-ext
-      - name: Check build
-        run: yarn build
 
   publish-dev:
     needs: [validate, build]
@@ -47,7 +48,8 @@ jobs:
           node-version: 17
           cache: yarn
       - run: yarn --frozen-lockfile
-      - uses: actions/download-artifact@v3
+      - name: Download build
+        uses: actions/download-artifact@v3
         with:
           name: sn-container-ext
       - name: Create extension
