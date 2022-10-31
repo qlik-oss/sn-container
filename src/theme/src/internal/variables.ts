@@ -90,5 +90,5 @@ export const WEIGHTS = {
 };
 
 export const VARIOUS = {
-  FONT_FAMILY: "'Source Sans Pro', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+  FONT_FAMILY: `${'Source Sans Pro'}, ${'HelveticaNeue'}, ${'Helvetica Neue'}, Helvetica, Arial, sans-serif`,
 };
