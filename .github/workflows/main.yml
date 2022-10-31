@@ -52,6 +52,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: sn-container-ext
-          path: ./container-ext
+          path: ./sn-container-ext
       - name: Create extension
         run: zip -r "sn-container-ext.zip" "./sn-container-ext"
