@@ -1,1 +1,42 @@
-{}
+{
+  "Object_Container_AddItem": {
+    "id": "Object.Container.AddItem",
+    "locale": {
+      "en-US": "Add content",
+      "zh-TW": "新增內容",
+      "zh-CN": "添加内容",
+      "tr-TR": "İçerik ekle",
+      "sv-SE": "Lägg till innehåll",
+      "it-IT": "Aggiungi contenuto",
+      "es-ES": "Añadir contenido",
+      "de-DE": "Inhalt hinzufügen",
+      "pl-PL": "Dodaj zawartość",
+      "nl-NL": "Inhoud toevoegen",
+      "ko-KR": "콘텐츠 추가",
+      "pt-BR": "Adicionar conteúdo",
+      "fr-FR": "Ajouter un contenu",
+      "ja-JP": "コンテンツの追加",
+      "ru-RU": "Добавить содержимое"
+    }
+  },
+  "Object_Container_EmptyHint": {
+    "id": "Object.Container.EmptyHint",
+    "locale": {
+      "en-US": "Empty container",
+      "zh-TW": "空的容器",
+      "zh-CN": "空容器",
+      "tr-TR": "Kapsayıcı boş",
+      "sv-SE": "Tom behållare",
+      "it-IT": "Contenitore vuoto",
+      "es-ES": "Contenedor vacío",
+      "de-DE": "Leere Sammelbox",
+      "pl-PL": "Pusty kontener",
+      "nl-NL": "Lege container",
+      "ko-KR": "빈 컨테이너",
+      "pt-BR": "Esvaziar contêiner",
+      "fr-FR": "Conteneur vide",
+      "ja-JP": "コンテナーが空です",
+      "ru-RU": "Пустой контейнер"
+    }
+  }
+}
