@@ -27,8 +27,6 @@ export default function Container({ containerModel }: ContainerProps) {
   const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
-    console.log('activeTab===', layout.activeTab);
-    console.log('chartObjects===', chartObjects);
     const initialTabValue = layout.activeTab && layout.activeTab !== '' ? layout.activeTab : layout.defaultTab;
     const childIndex = findIndexOfChild(chartObjects, initialTabValue ?? '');
     if (childIndex !== tabValue) {

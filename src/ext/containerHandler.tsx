@@ -90,7 +90,6 @@ const ContainerHandler = (translator: TranslatorType, visualizationApi: Visualiz
     editProps(model: Model, refId: string) {
       const newChild = getMergedChild(model.layout, refId);
       if (newChild && newChild.qInfo?.qId && visualizationApi?.visualizations) {
-        console.log('newChild.qInfo===', newChild.qInfo);
         containerUtil.applySoftPatches(model, newChild.qInfo.qId, 'activeTab');
         containerUtil.onChildChange(model, newChild, visualizationApi);
       }

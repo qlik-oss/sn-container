@@ -53,7 +53,6 @@ function onChildChange(model: Model, child: MergedLayoutChild | undefined, visua
   const { changePropertyPanel } = visualizationApi;
   if (child && changePropertyPanel) {
     model.app.getObject(child.qInfo.qId).then((childObject) => {
-      console.log('childObject===', childObject);
       if (!childObject.layout.qExtendsId) {
         changePropertyPanel(childObject, model);
       }
