@@ -91,7 +91,7 @@ const ContainerHandler = (translator: TranslatorType, visualizationApi: Visualiz
       const newChild = getMergedChild(model.layout, refId);
       if (newChild && newChild.qInfo?.qId && visualizationApi?.visualizations) {
         containerUtil.applySoftPatches(model, newChild.qInfo.qId, 'activeTab');
-        containerUtil.onChildChange(model, newChild, visualizationApi);
+        containerUtil.onChildEdit(model, newChild, visualizationApi);
       }
     },
     isValidMaster(refId: string, app: App) {

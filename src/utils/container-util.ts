@@ -49,7 +49,7 @@ function getTranslationFromChild(
   return translation;
 }
 
-function onChildChange(model: Model, child: MergedLayoutChild | undefined, visualizationApi: VisualizationApi) {
+function onChildEdit(model: Model, child: MergedLayoutChild | undefined, visualizationApi: VisualizationApi) {
   const { changePropertyPanel } = visualizationApi;
   if (child && changePropertyPanel) {
     model.app.getObject(child.qInfo.qId).then((childObject) => {
@@ -139,6 +139,6 @@ export default {
   forbiddenVisualization,
   applySoftPatches,
   getTranslationFromChild,
-  onChildChange,
+  onChildEdit,
   evaluateCondition,
 };

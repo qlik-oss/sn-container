@@ -28,6 +28,7 @@ export default function Chart({ chart, containerModel }: ChartComponentProps) {
   useEffect(() => {
     const chartId = chart.qInfo.qId;
     app.getObject(chartId).then((model) => {
+      console.log('selected chart model====', model);
       embed.render({
         id: chartId,
         element: el.current,

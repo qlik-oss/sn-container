@@ -11,15 +11,18 @@ export const StyledButton = styled(Button)(() => ({
 }));
 
 export const TabButton = styled(Tab)(() => ({
-  minHeight: 'unset',
   padding: '8px 12px 10px 12px',
   fontFamily: 'inherit',
   alignItems: 'flex-start',
+  minHeight: 'unset !important', // to avoid override from sprout-focus-visible
   height: 38,
   maxWidth: 200,
   minWidth: 100,
   '&:hover': {
     paddingBottom: 8,
+  },
+  '&:focus-visible': {
+    padding: '6px 12px 8px 12px !important', // to avoid override from sprout-focus-visible
   },
 }));
 
