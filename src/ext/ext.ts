@@ -20,7 +20,6 @@ function fetchContainerTabs(qItems: QChild[], children: LayoutChild[], { transla
 }
 
 export default function ext(env: EnvironmentType) {
-  console.log('env===', env);
   const containerHandler = ContainerHandler(env.translator, env.sense.visualizationApi);
   const data = {
     uses: 'data',

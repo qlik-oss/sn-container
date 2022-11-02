@@ -5,6 +5,7 @@ import Util from '../utils/util';
 import containerUtil from '../utils/container-util';
 import propertiesGenerator from '../utils/properties-generator';
 import { getMergedChild } from '../utils/container-items';
+import masterObjectList from '../utils/master-object-list';
 
 type TODO = any;
 
@@ -77,9 +78,6 @@ function showAddItemDialog(
 }
 
 const ContainerHandler = (translator: TranslatorType, visualizationApi: VisualizationApi | undefined) => {
-  // ToDo find a way to load appMasterObjects before the show()
-  const appMasterObjects: string[] = [];
-
   return {
     removeChild(model: Model, id: string) {
       removeObject(model, id);
@@ -94,13 +92,14 @@ const ContainerHandler = (translator: TranslatorType, visualizationApi: Visualiz
         containerUtil.onChildEdit(model, newChild, visualizationApi);
       }
     },
-    isValidMaster(refId: string, app: App) {
-      app.getMasterObjectList().then((masterObjects) => {
-        masterObjects.forEach((mo) => {
-          appMasterObjects.push(mo.qInfo.qId);
-        });
-      });
-      return appMasterObjects.indexOf(refId) > -1;
+    isValidMaster(refId: string) {
+      const appMasterObjectList = masterObjectList.getMasterObjectList();
+      for (let i = 0; i < appMasterObjectList.length; i++) {
+        if (refId === appMasterObjectList[i].qInfo.qId) {
+          return true;
+        }
+      }
+      return false;
     },
     isAppPublished(app: App) {
       return app.properties.published;
