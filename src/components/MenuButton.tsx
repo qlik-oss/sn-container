@@ -12,9 +12,11 @@ interface MenuButtonProps {
   handleChange: (event: any, newTabValue: number) => void;
 }
 
+type AnchorElState = null | HTMLButtonElement;
+
 export default function MenuButton({ layout, chartObjects, tabValue, handleChange }: MenuButtonProps) {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const handlePopoverOpen = (event: any) => {
+  const [anchorEl, setAnchorEl] = useState(null as AnchorElState);
+  const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
   const handlePopoverClose = () => {
