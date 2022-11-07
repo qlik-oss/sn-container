@@ -116,7 +116,7 @@ export default function ext(env: EnvironmentType) {
               return (
                 !item.isMaster ||
                 (item.isMaster &&
-                  containerHandler.isValidMaster(item.refId, handler.app) &&
+                  containerHandler.isValidMaster(item.refId) &&
                   !containerHandler.isAppPublished(handler.app))
               );
             },
@@ -145,7 +145,7 @@ export default function ext(env: EnvironmentType) {
             show: (item: PropertiesChild, handler: PropertyHandler) => {
               return (
                 item.isMaster &&
-                containerHandler.isValidMaster(item.refId, handler.app) &&
+                containerHandler.isValidMaster(item.refId) &&
                 !containerHandler.isAppPublished(handler.app)
               );
             },
@@ -156,7 +156,7 @@ export default function ext(env: EnvironmentType) {
             show: (item: PropertiesChild, handler: PropertyHandler) => {
               return (
                 item.isMaster &&
-                containerHandler.isValidMaster(item.refId, handler.app) &&
+                containerHandler.isValidMaster(item.refId) &&
                 containerHandler.isAppPublished(handler.app)
               );
             },
@@ -170,7 +170,7 @@ export default function ext(env: EnvironmentType) {
             show: (item: PropertiesChild, handler: PropertyHandler) => {
               return (
                 item.isMaster &&
-                containerHandler.isValidMaster(item.refId, handler.app) &&
+                containerHandler.isValidMaster(item.refId) &&
                 !containerHandler.isAppPublished(handler.app)
               );
             },
@@ -178,8 +178,8 @@ export default function ext(env: EnvironmentType) {
           invalidMasterText: {
             component: 'text',
             translation: 'Object.Invalid.Info',
-            show: (item: PropertiesChild, handler: PropertyHandler) => {
-              return item.isMaster && !containerHandler.isValidMaster(item.refId, handler.app);
+            show: (item: PropertiesChild) => {
+              return item.isMaster && !containerHandler.isValidMaster(item.refId);
             },
           },
         },
