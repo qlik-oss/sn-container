@@ -1,6 +1,3 @@
-const translator: TranslatorType = {
-  get: jest.fn().mockImplementation((translation: string) => translation),
-  add: jest.fn(),
-};
-const env: EnvironmentType = { translator, sense: {} };
+import translatorMock from './translator';
+const env: EnvironmentType = { translator: translatorMock, sense: {} };
 export default env;

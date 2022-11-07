@@ -34,7 +34,6 @@ declare interface Model {
   handler: PropertyHandler;
   setProperties(properties: ContainerProperties): Promise<ContainerProperties>;
   destroyChild(childId: string): Promise<void>;
-  items?: any;
   showPP: boolean;
   app: App;
   applyPatches(patches: PropertyPatch[], isSoftPatch: boolean): Promise<void>;

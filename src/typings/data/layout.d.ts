@@ -40,5 +40,4 @@ declare interface Layout extends ContainerProperties {
   qChildList: QChildList;
   children: LayoutChild[];
   visualization: string;
-  hasExternalChildren: boolean;
 }
