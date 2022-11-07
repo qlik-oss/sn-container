@@ -7,8 +7,6 @@ import propertiesGenerator from '../utils/properties-generator';
 import { getMergedChild } from '../utils/container-items';
 import masterObjectList from '../utils/master-object-list';
 
-type TODO = any;
-
 function removeObject(model: Model, childId: string) {
   const qChild = model.layout.qChildList.qItems.filter((c: QChild) => c.qInfo.qId === childId);
   const refId = qChild.length > 0 ? qChild[0].qData.qExtendsId || qChild[0].qData.containerChildId : '';
@@ -18,7 +16,7 @@ function removeObject(model: Model, childId: string) {
   model.setProperties(model.properties).then(async () => model.destroyChild(childId));
 }
 
-async function addItemToContainer(model: Model, childProps: TODO, childName: string) {
+async function addItemToContainer(model: Model, childProps: any, childName: string) {
   if (containerUtil.forbiddenVisualization(childProps.visualization)) {
     return undefined;
   }
@@ -40,7 +38,11 @@ async function addItemToContainer(model: Model, childProps: TODO, childName: str
   return undoInfo.endGroup(groupId);
 }
 
-async function createVisualization(model: Model, childProps: TODO, visualizations: Visualizations | undefined) {
+async function createVisualization(
+  model: Model,
+  childProps: ChartOfAnyType,
+  visualizations: Visualizations | undefined
+) {
   const props = await propertiesGenerator.createProperties(
     model.app.enigmaModel,
     childProps.visualization,
@@ -63,7 +65,7 @@ function showAddItemDialog(
           target={target}
           items={items}
           key={key}
-          onSelect={(_event, item) => {
+          onSelect={(_event, item: ChartOfAnyType) => {
             if (item.qExtendsId) {
               addItemToContainer(model, item, item.name);
             } else {

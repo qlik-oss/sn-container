@@ -90,7 +90,7 @@ export default function ext(env: EnvironmentType) {
               return (
                 !item.isMaster ||
                 (item.isMaster &&
-                  containerHandler.isValidMaster(item.refId, handler.app) &&
+                  containerHandler.isValidMaster(item.refId) &&
                   !containerHandler.isAppPublished(handler.app))
               );
             },

@@ -23,7 +23,7 @@ export default function MenuButton({ layout, chartObjects, tabValue, handleChang
     setAnchorEl(null);
   };
 
-  const handleClickOnChart = (event: any, index: number) => {
+  const handleClickOnChart = (event: AnchorElState, index: number) => {
     handleChange(event, index);
     handlePopoverClose();
   };
@@ -53,7 +53,7 @@ export default function MenuButton({ layout, chartObjects, tabValue, handleChang
           {chartObjects.map((chart, index) => (
             <PopoverListItemButton
               component="li"
-              onClick={(e: any) => handleClickOnChart(e, index)}
+              onClick={(e: HTMLButtonElement) => handleClickOnChart(e, index)}
               key={chart.cId}
               title={chart.label}
             >

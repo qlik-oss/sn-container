@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import ItemPopover from '../common/ItemPopover';
 
-type TODO = any;
-
 type ChartType = {
-  values: TODO[];
+  values: ChartOfAnyType[];
   translation: string;
 };
 
 interface AddChartWrapperProps {
   target: Element | null;
   items: ChartType[];
-  onSelect: (event: any, item: TODO) => void;
+  onSelect: (event: any, item: ChartOfAnyType) => void;
   key: string;
 }
 
 export default function AddChartWrapper({ target, key, items, onSelect }: AddChartWrapperProps) {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   useEffect(() => {
     setAnchorEl(target);
   }, [key]);
@@ -24,7 +22,7 @@ export default function AddChartWrapper({ target, key, items, onSelect }: AddCha
     setAnchorEl(null);
   };
 
-  const handleClickOnChart = (event: any, chart: TODO) => {
+  const handleClickOnChart = (event: any, chart: ChartOfAnyType) => {
     onSelect(event, chart);
     onClose();
   };

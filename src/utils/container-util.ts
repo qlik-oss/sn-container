@@ -89,7 +89,6 @@ async function getAvailableCharts(model: Model, visualizations: Visualizations, 
     return {
       name: libInfo.translationKey ? translator.get(libInfo.translationKey) : libInfo.name,
       visualization,
-      icon: libInfo.icon ? `lui-icon--${libInfo.icon}` : undefined,
       visible: libInfo.visible,
       isLibraryItem: libInfo.isLibraryItem,
       isThirdParty: libInfo.isThirdParty,
@@ -107,9 +106,9 @@ async function getAvailableCharts(model: Model, visualizations: Visualizations, 
       )
       .map((masterObject) => {
         return {
-          qExtendsId: masterObject.qInfo.qId,
-          visualization: masterObject.qData.visualization,
           name: masterObject.qData.name,
+          visualization: masterObject.qData.visualization,
+          qExtendsId: masterObject.qInfo.qId,
         };
       }),
   };

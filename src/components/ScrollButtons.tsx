@@ -6,7 +6,7 @@ import PreviousIcon from '../icons/Previous';
 interface ScrollButtonsProps {
   chartObjects: MergedLayoutChild[];
   tabValue: number;
-  handleChange: (event: any, newTabValue: number) => void;
+  handleChange: (event: HTMLButtonElement, newTabValue: number) => void;
 }
 
 export default function ScrollButtons({ chartObjects, tabValue, handleChange }: ScrollButtonsProps) {
@@ -15,7 +15,7 @@ export default function ScrollButtons({ chartObjects, tabValue, handleChange }: 
   return (
     <>
       <StyledButton
-        onClick={(e: any) => handleChange(e, tabValue - 1)}
+        onClick={(e: HTMLButtonElement) => handleChange(e, tabValue - 1)}
         sx={{
           borderTopRightRadius: 0,
           borderBottomRightRadius: 0,
@@ -25,7 +25,7 @@ export default function ScrollButtons({ chartObjects, tabValue, handleChange }: 
         <PreviousIcon />
       </StyledButton>
       <StyledButton
-        onClick={(e: any) => handleChange(e, tabValue + 1)}
+        onClick={(e: HTMLButtonElement) => handleChange(e, tabValue + 1)}
         sx={{
           borderTopLeftRadius: 0,
           borderBottomLeftRadius: 0,

@@ -12,7 +12,7 @@ export default function EmptyContainer({ containerModel }: EmptyContaninerProps)
   const { translator, model, visualizationApi } = containerModel;
 
   const popupElementRef = useRef(null);
-  const [containerHandler, setContainerHandler] = useState(undefined);
+  const [containerHandler, setContainerHandler] = useState<any>(undefined);
 
   useEffect(() => {
     if (visualizationApi?.visualizations) {
