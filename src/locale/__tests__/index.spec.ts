@@ -8,7 +8,7 @@ describe('locale', () => {
 
   it('should add translations when they do not exist', () => {
     autoRegister(env.translator);
-    expect(env.translator.add).not.toHaveBeenCalled(); // Update when we add translations
+    expect(env.translator.add).toHaveBeenCalledTimes(2);
   });
   it('should not add translations when they already exist', () => {
     env.translator.get = (translation: string) => `_${translation}`;

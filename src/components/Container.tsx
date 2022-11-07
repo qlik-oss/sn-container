@@ -23,7 +23,7 @@ const findIndexOfChild = (chartObjects: MergedLayoutChild[], value: string) => {
 export default function Container({ containerModel }: ContainerProps) {
   const layout = containerModel.layoutService.getLayout();
   if (!layout) return null;
-  const [chartObjects, setChartObjects] = useState(getMergedChildrenList(layout, !containerModel.constraints.active));
+  const [chartObjects, setChartObjects] = useState(getMergedChildrenList(layout, !containerModel.constraints?.active));
   const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Container({ containerModel }: ContainerProps) {
   }, [chartObjects, layout.activeTab]);
 
   useEffect(() => {
-    setChartObjects(getMergedChildrenList(layout, !containerModel.constraints.active));
+    setChartObjects(getMergedChildrenList(layout, !containerModel.constraints?.active));
   }, [layout.children, layout.qChildList]);
 
   const handleChange = (_event: any, newValue: number) => {

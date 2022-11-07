@@ -1,11 +1,18 @@
-import layoutService from './layout-service';
+import layoutServiceMock from './layout-service';
+import modelMock from './model';
+import translatorMock from './translator';
+import appMock from './app';
 
 export default {
   containerModel: {
-    layoutService,
+    layoutService: layoutServiceMock,
     themeService: { getTheme: () => 'light' },
     embed: { render: jest.fn(async () => Promise.resolve({ data: {} })) },
-    app: {},
+    app: appMock,
+    constraints: undefined,
+    model: modelMock,
     options: { direction: 'ltr' },
+    translator: translatorMock,
+    visualizationApi: undefined,
   },
 };
