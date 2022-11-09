@@ -9,7 +9,7 @@ type ChartType = {
 interface AddChartWrapperProps {
   target: Element | null;
   items: ChartType[];
-  onSelect: (event: HTMLElement, item: ChartOfAnyType) => void;
+  onSelect: (event: HTMLLIElement, item: ChartOfAnyType) => void;
   key: string;
 }
 
@@ -22,7 +22,7 @@ export default function AddChartWrapper({ target, key, items, onSelect }: AddCha
     setAnchorEl(null);
   };
 
-  const handleClickOnChart = (event: any, chart: ChartOfAnyType) => {
+  const handleClickOnChart = (event: HTMLLIElement, chart: ChartOfAnyType) => {
     onSelect(event, chart);
     onClose();
   };

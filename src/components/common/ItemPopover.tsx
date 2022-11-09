@@ -42,7 +42,7 @@ export default function ItemPopover({ anchorEl, onClose, onSelect, items }: Item
             {itemType.values.map((item) => (
               <PopoverListItemButton
                 component="li"
-                onClick={(e: HTMLElement) => onSelect(e, item)}
+                onClick={(e: HTMLLIElement) => onSelect(e, item)}
                 key={item.name}
                 title={item.name}
               >

@@ -65,7 +65,7 @@ function showAddItemDialog(
           target={target}
           items={items}
           key={key}
-          onSelect={(_event, item: ChartOfAnyType) => {
+          onSelect={(_event: HTMLLIElement, item: ChartOfAnyType) => {
             if (item.qExtendsId) {
               addItemToContainer(model, item, item.name);
             } else {
