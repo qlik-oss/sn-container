@@ -12,7 +12,7 @@ import useModels from '../use-models';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe('use-core', () => {
+describe('use-models', () => {
   const core: any = {};
   let models;
   let setModels;

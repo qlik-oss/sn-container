@@ -57,20 +57,12 @@ export default function ext(env: EnvironmentType) {
         grouped: true,
         remove(item: PropertiesChild, _properties: ContainerProperties, handler: PropertyHandler, args: PropertyArgs) {
           handler.layout.qChildList.qItems.forEach((child: QChild) => {
-            if (
-              child.qData.containerChildId === item.refId ||
-              (child.qData.qExtendsId && child.qData.qExtendsId === item.refId)
-            ) {
+            if (child.qData.containerChildId === item.refId || child.qData.qExtendsId === item.refId) {
               containerHandler.removeChild(args.model, child.qInfo.qId);
             }
           });
         },
-        add(_item: PropertiesChild, properties: ContainerProperties, handler: PropertyHandler, args: any) {
-          console.log('addChild child _item===', _item);
-          console.log('addChild child _data===', properties);
-          console.log('addChild child args===', args);
-          console.log('addChild child handler===', handler);
-          console.log('args.model.items==', args.model.items);
+        add(_item: PropertiesChild, _properties: ContainerProperties, _handler: PropertyHandler, args: any) {
           const button = document.querySelector('.pp-toplist-add-button');
           let popoverWrapper = button?.querySelector('.add-chart-popover');
           if (!popoverWrapper) {

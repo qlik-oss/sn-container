@@ -9,7 +9,7 @@ type ChartType = {
 interface AddChartWrapperProps {
   target: Element | null;
   items: ChartType[];
-  onSelect: (event: any, item: ChartOfAnyType) => void;
+  onSelect: (event: HTMLElement, item: ChartOfAnyType) => void;
   key: string;
 }
 

@@ -7,7 +7,7 @@ interface App {
   properties: AppProperties;
   getUndoInfoObject(): Promise<UndoInfo>;
   enigmaModel: Model;
-  getLayout(): Promise<any>;
+  getLayout(): Promise<Layout>;
 }
 
 interface AppProperties {
@@ -45,7 +45,7 @@ type MasterObject = {
   containerChildId: string;
 };
 
-interface Undoinfo {
+interface UndoInfo {
   startGroup(): Promise<string>;
-  endGroup(): Primise<null>;
+  endGroup(groupId: string): Promise<null>;
 }

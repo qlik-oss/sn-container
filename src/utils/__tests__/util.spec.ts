@@ -1,6 +1,6 @@
 import utils from '../util';
 
-describe('ext util', () => {
+describe('util', () => {
   describe('generateId', () => {
     it('should be a string', () => {
       const id = utils.generateId();

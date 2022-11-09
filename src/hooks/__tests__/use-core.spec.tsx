@@ -21,17 +21,11 @@ describe('use-core', () => {
   };
 
   beforeEach(() => {
+    jest.spyOn(nebula, 'useState').mockReturnValue([core, setCore]);
     jest.spyOn(nebula, 'useEffect').mockImplementation(React.useEffect);
     jest.spyOn(nebula, 'useElement').mockReturnValue({});
-    jest.spyOn(nebula, 'useLayout').mockReturnValue({});
-    jest.spyOn(nebula, 'useOptions').mockReturnValue({});
-    jest.spyOn(nebula, 'useStaleLayout').mockReturnValue({});
-    jest.spyOn(nebula, 'useTranslator').mockReturnValue({});
-    jest.spyOn(nebula, 'useModel').mockReturnValue({});
-    jest.spyOn(nebula, 'useConstraints').mockReturnValue({});
     jest.spyOn(useViewState, 'default').mockReturnValue('some-view-state');
     setCore = jest.fn();
-    jest.spyOn(nebula, 'useState').mockReturnValue([core, setCore]);
     mount(<Component />);
   });
 
