@@ -21,11 +21,11 @@ describe('use-core', () => {
   };
 
   beforeEach(() => {
+    setCore = jest.fn();
     jest.spyOn(nebula, 'useState').mockReturnValue([core, setCore]);
     jest.spyOn(nebula, 'useEffect').mockImplementation(React.useEffect);
     jest.spyOn(nebula, 'useElement').mockReturnValue({});
     jest.spyOn(useViewState, 'default').mockReturnValue('some-view-state');
-    setCore = jest.fn();
     mount(<Component />);
   });
 
