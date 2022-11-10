@@ -1,27 +1,182 @@
-function fetchContainerTabs(qItems: QChild[], children: PropertiesChild[]) {
+import ContainerHandler from './containerHandler';
+import containerUtil from '../utils/container-util';
+
+function fetchContainerTabs(qItems: QChild[], children: LayoutChild[], { translator, sense }: EnvironmentType) {
   const options: DropdownOption[] = [];
   children.forEach((child, index) => {
     const item = qItems.find(
       (item) => child.refId === item.qData.containerChildId || child.refId === item.qData.qExtendsId
     );
     if (item) {
-      // ToDo - create a new nebula hook that picks up the registered visualizations
-      // if (child?.label === '') {
-      //   const libInfo = Visualizations.getType(item.qData.visualization).getLibraryInfo();
-      //   translation = libInfo.translationKey ? translator.get(libInfo.translationKey) : libInfo.name;
-      // } else {
-      //   translation = child.label;
-      // }
-      options[index] = { translation: child.label, value: item.qInfo.qId };
+      const translation = containerUtil.getTranslationFromChild(
+        { ...child, ...item, visible: undefined },
+        translator,
+        sense.visualizationApi?.visualizations
+      );
+      options[index] = { translation, value: item.qInfo.qId };
     }
   });
   return options;
 }
 
-export default function ext() {
+export default function ext(env: EnvironmentType) {
+  const containerHandler = ContainerHandler(env.translator, env.sense.visualizationApi);
   const data = {
     uses: 'data',
     show: false,
+  };
+  const content = {
+    type: 'items',
+    translation: 'Object.Container.Props.Content',
+    items: [
+      {
+        translation: 'Object.Container.Props.Chart',
+        component: 'text',
+        show(properties: ContainerProperties) {
+          return properties.children.length <= 1;
+        },
+      },
+      {
+        translation: 'Common.Charts',
+        component: 'text',
+        show(properties: ContainerProperties) {
+          return properties.children.length > 1;
+        },
+      },
+      {
+        type: 'array',
+        ref: 'children',
+        itemTitleRef(properties: ContainerProperties) {
+          return properties.label;
+        },
+        allowAdd: true,
+        customAdd: true,
+        allowMove: true,
+        allowRemove: true,
+        addTranslation: 'Object.Container.Props.Add',
+        grouped: true,
+        remove(item: PropertiesChild, _properties: ContainerProperties, handler: PropertyHandler, args: PropertyArgs) {
+          handler.layout.qChildList.qItems.forEach((child: QChild) => {
+            if (child.qData.containerChildId === item.refId || child.qData.qExtendsId === item.refId) {
+              containerHandler.removeChild(args.model, child.qInfo.qId);
+            }
+          });
+        },
+        add(_item: PropertiesChild, _properties: ContainerProperties, _handler: PropertyHandler, args: any) {
+          const button = document.querySelector('.pp-toplist-add-button');
+          let popoverWrapper = button?.querySelector('.add-chart-popover');
+          if (!popoverWrapper) {
+            popoverWrapper = document.createElement('div');
+            popoverWrapper.classList.add('add-chart-popover');
+            button?.appendChild(popoverWrapper);
+          }
+          containerHandler.addChild(args.model, popoverWrapper);
+        },
+        items: {
+          label: {
+            ref: 'label',
+            type: 'string',
+            translation: 'Object.Container.Props.Label',
+            expression: 'optional',
+            show: (item: PropertiesChild, handler: PropertyHandler) => {
+              return (
+                !item.isMaster ||
+                (item.isMaster &&
+                  containerHandler.isValidMaster(item.refId) &&
+                  !containerHandler.isAppPublished(handler.app))
+              );
+            },
+          },
+          condition: {
+            ref: 'condition',
+            translation: 'Object.Container.Props.ShowCondition',
+            type: 'string',
+            defaultValue: '',
+            expression: 'optional',
+            change(properties: ContainerProperties) {
+              // inject = if there isn't one
+              if (
+                properties.condition &&
+                !properties.condition.qStringExpression &&
+                properties.condition[0] !== '/' &&
+                properties.condition[1] !== '/'
+              ) {
+                properties.condition = { qStringExpression: { qExpr: `=${properties.condition}` } };
+              }
+            },
+            show: (item: PropertiesChild, handler: PropertyHandler) => {
+              return (
+                !item.isMaster ||
+                (item.isMaster &&
+                  containerHandler.isValidMaster(item.refId) &&
+                  !containerHandler.isAppPublished(handler.app))
+              );
+            },
+          },
+          editProps: {
+            component: 'button',
+            translation: 'Object.Container.Props.EditProperties',
+            action(item: PropertiesChild, _handler: PropertyHandler, args: PropertyArgs) {
+              containerHandler.editProps(args.model, item.refId);
+            },
+            show(item: PropertiesChild) {
+              return !item.isMaster;
+            },
+          },
+          editMasterHeader: {
+            component: 'text',
+            style: 'sHeader',
+            translation: 'Object.Linked.NoEdit.PropPanel.Title',
+            show(item: PropertiesChild) {
+              return item.isMaster;
+            },
+          },
+          editMasterText: {
+            component: 'text',
+            translation: 'Object.Linked.Edit.PropPanel.Text',
+            show: (item: PropertiesChild, handler: PropertyHandler) => {
+              return (
+                item.isMaster &&
+                containerHandler.isValidMaster(item.refId) &&
+                !containerHandler.isAppPublished(handler.app)
+              );
+            },
+          },
+          notEditMasterText: {
+            component: 'text',
+            translation: 'Object.Linked.NoEdit.PropPanel.Text',
+            show: (item: PropertiesChild, handler: PropertyHandler) => {
+              return (
+                item.isMaster &&
+                containerHandler.isValidMaster(item.refId) &&
+                containerHandler.isAppPublished(handler.app)
+              );
+            },
+          },
+          editMaster: {
+            component: 'button',
+            translation: 'Object.Container.Props.Edit',
+            action(_item: PropertiesChild) {
+              // containerHandler.editMasterProps(item.refId);
+            },
+            show: (item: PropertiesChild, handler: PropertyHandler) => {
+              return (
+                item.isMaster &&
+                containerHandler.isValidMaster(item.refId) &&
+                !containerHandler.isAppPublished(handler.app)
+              );
+            },
+          },
+          invalidMasterText: {
+            component: 'text',
+            translation: 'Object.Invalid.Info',
+            show: (item: PropertiesChild) => {
+              return item.isMaster && !containerHandler.isValidMaster(item.refId);
+            },
+          },
+        },
+      },
+    ],
   };
 
   const settings = {
@@ -138,7 +293,7 @@ export default function ext() {
             defaultValue: undefined,
             tid: 'container-default-tab',
             options(_data: ContainerProperties, handler: PropertyHandler) {
-              return fetchContainerTabs(handler.layout.qChildList.qItems, handler.layout.children);
+              return fetchContainerTabs(handler.layout.qChildList.qItems, handler.layout.children, env);
             },
           },
         },
@@ -150,8 +305,10 @@ export default function ext() {
     definition: {
       type: 'items',
       component: 'accordion',
+      defaultActiveTabIndex: 0,
       items: {
         data,
+        content,
         settings,
       },
     },

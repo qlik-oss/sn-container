@@ -1,7 +1,8 @@
 import extFn from '../ext';
+import envMock from '../../mocks/environment';
 
 describe('data-definition', () => {
-  const ext = extFn();
+  const ext = extFn(envMock);
 
   it('should have correct properties', () => {
     expect(ext).toHaveProperty('definition');

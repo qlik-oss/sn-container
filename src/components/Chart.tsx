@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 
 interface ChartComponentProps {
-  chart: ChartObject;
+  chart: MergedLayoutChild;
   containerModel: ContainerModel;
 }
 

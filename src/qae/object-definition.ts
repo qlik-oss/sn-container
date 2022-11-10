@@ -31,6 +31,16 @@ const objectDefinition = () => {
      * @default
      */
     title: '',
+    // default child list definition
+    qChildListDef: {
+      qData: {
+        visualization: '/visualization',
+        containerChildId: '/containerChildId',
+        qExtendsId: '/qExtendsId',
+        title: '/title',
+        showCondition: '/showCondition',
+      },
+    },
   };
 
   return definition;

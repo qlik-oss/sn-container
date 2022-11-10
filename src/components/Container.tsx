@@ -1,38 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, Box, Typography } from '@mui/material';
 import { TabButton, TextContainer } from './common/styled';
 import ScrollButtons from './ScrollButtons';
 import MenuButton from './MenuButton';
 import TabPanel from './TabPanel';
 import Chart from './Chart';
+import EmptyContainer from './EmptyContainer';
+import ViewDisabledIcon from '../icons/ViewDisabled';
 import { COLORS } from '../theme/src/internal/variables';
+import containerUtil from '../utils/container-util';
+import { getMergedChildrenList } from '../utils/container-items';
 
-interface CotaninerProps {
+interface ContainerProps {
   containerModel: ContainerModel;
 }
 
-export default function Container({ containerModel }: CotaninerProps) {
+const findIndexOfChild = (chartObjects: MergedLayoutChild[], value: string) => {
+  const childIndex = chartObjects.findIndex((child: QChild) => child.qInfo.qId === value);
+  return childIndex !== -1 ? childIndex : 0;
+};
+
+export default function Container({ containerModel }: ContainerProps) {
   const layout = containerModel.layoutService.getLayout();
   if (!layout) return null;
-  const [tabValue, setTabValue] = useState(
-    layout.defaultTab
-      ? layout.qChildList?.qItems.findIndex((child: QChild) => child.qInfo.qId === layout.defaultTab)
-      : 0
-  );
+  const [chartObjects, setChartObjects] = useState(getMergedChildrenList(layout, !containerModel.constraints?.active));
+  const [tabValue, setTabValue] = useState(0);
 
-  const chartObjects: ChartObject[] = [];
-  layout.children?.map((child: PropertiesChild) => {
-    const childListItem = layout.qChildList?.qItems.find((innerItem: any) =>
-      child.isMaster ? innerItem.qData.qExtendsId === child.refId : innerItem.qData.containerChildId === child.refId
-    );
-    if (childListItem) {
-      chartObjects.push({ ...child, ...childListItem });
+  useEffect(() => {
+    const initialTabValue = layout.activeTab && layout.activeTab !== '' ? layout.activeTab : layout.defaultTab;
+    const childIndex = findIndexOfChild(chartObjects, initialTabValue ?? '');
+    if (childIndex !== tabValue) {
+      setTabValue(childIndex !== -1 ? childIndex : 0);
     }
-  });
+  }, [chartObjects, layout.activeTab]);
+
+  useEffect(() => {
+    setChartObjects(getMergedChildrenList(layout, !containerModel.constraints?.active));
+  }, [layout.children, layout.qChildList]);
 
   const handleChange = (_event: any, newValue: number) => {
     setTabValue(newValue);
+    containerUtil.applySoftPatches(containerModel.model, layout.qChildList.qItems[newValue]?.qInfo.qId, 'activeTab');
   };
+
+  const isContainerEmpty = chartObjects.length === 0;
+
   return (
     <Box
       style={{
@@ -40,32 +52,42 @@ export default function Container({ containerModel }: CotaninerProps) {
         width: '100%',
       }}
     >
-      {layout.showTabs !== false && (
+      {isContainerEmpty && <EmptyContainer containerModel={containerModel} />}
+      {!isContainerEmpty && layout.showTabs !== false && (
         <Box display="flex" alignItems="center">
           {layout.useScrollButton !== false && (
-            <ScrollButtons chartObjects={chartObjects} tabValue={tabValue} setTabValue={setTabValue} />
+            <ScrollButtons chartObjects={chartObjects} tabValue={tabValue} handleChange={handleChange} />
           )}
           {layout.useDropdown !== false && (
-            <MenuButton layout={layout} chartObjects={chartObjects} tabValue={tabValue} setTabValue={setTabValue} />
+            <MenuButton layout={layout} chartObjects={chartObjects} tabValue={tabValue} handleChange={handleChange} />
           )}
           <Tabs value={tabValue} onChange={handleChange} sx={{ display: 'inline-flex', minHeight: 'unset' }}>
-            {chartObjects.map((chart: ChartObject) => (
+            {chartObjects.map((chart: MergedLayoutChild) => (
               <TabButton
                 id={`container-tab-${chart.refId}`}
                 data-testid={`container-tab-${chart.refId}`}
                 key={chart.refId}
                 label={
-                  <TextContainer>
-                    <Typography
+                  <Box display="flex" width="100%">
+                    <TextContainer
                       variant="inherit"
                       component="span"
                       fontSize="13px"
                       color={COLORS.TEXT_PRIMARY}
                       whiteSpace="nowrap"
                     >
-                      {chart.label}
-                    </Typography>
-                  </TextContainer>
+                      {containerUtil.getTranslationFromChild(
+                        chart,
+                        containerModel.translator,
+                        containerModel.visualizationApi?.visualizations
+                      )}
+                    </TextContainer>
+                    {!chart.visible && (
+                      <Typography variant="inherit" component="span" color={COLORS.TEXT_PRIMARY} paddingLeft="8px">
+                        <ViewDisabledIcon />
+                      </Typography>
+                    )}
+                  </Box>
                 }
               ></TabButton>
             ))}
@@ -73,7 +95,7 @@ export default function Container({ containerModel }: CotaninerProps) {
         </Box>
       )}
       {chartObjects.map(
-        (chart: ChartObject, index: number) =>
+        (chart: MergedLayoutChild, index: number) =>
           chart.qInfo && (
             <TabPanel data-testid={`tab-panel-${chart.refId}`} value={tabValue} activeTab={index} key={chart.qInfo.qId}>
               <Chart chart={chart} containerModel={containerModel} />

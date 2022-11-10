@@ -14,9 +14,11 @@ declare interface ContainerProperties extends BasicProperties {
   children: PropertiesChild[];
   defaultTab: string;
   condition: any;
+  activeTab?: string;
 }
 
 declare interface PropertyHandler {
+  app: App;
   layout: Layout;
 }
 

@@ -3,14 +3,22 @@ export default function createContainerModel({
   themeService,
   embed,
   app,
+  model,
   options,
+  translator,
+  constraints,
+  visualizationApi,
 }: ContainerModelProps) {
   const state = {
     layoutService,
     themeService,
     embed,
     app,
+    model,
     options,
+    translator,
+    constraints,
+    visualizationApi,
   };
 
   return {

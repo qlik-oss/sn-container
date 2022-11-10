@@ -81,7 +81,6 @@ export const SIZES = {
   SWITCH_THUMB_SIZE: 12,
 };
 
-// TODO: Decide on weights with UX
 export const WEIGHTS = {
   LIGHT: 300,
   REGULAR: 400,

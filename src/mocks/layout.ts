@@ -43,6 +43,7 @@ const basicProps = {
   title: 'title',
   subtitle: 'subTitle',
   qSelectionInfo: {},
+  visualization: 'visualization',
 };
 
 const children = [

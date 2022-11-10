@@ -12,7 +12,7 @@ import useModels from '../use-models';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe('use-core', () => {
+describe('use-models', () => {
   const core: any = {};
   let models;
   let setModels;
@@ -30,6 +30,9 @@ describe('use-core', () => {
     jest.spyOn(nebula, 'useEmbed').mockReturnValue({});
     jest.spyOn(nebula, 'useApp').mockReturnValue({});
     jest.spyOn(nebula, 'useOptions').mockReturnValue({});
+    jest.spyOn(nebula, 'useModel').mockReturnValue({});
+    jest.spyOn(nebula, 'useTranslator').mockReturnValue({});
+    jest.spyOn(nebula, 'useConstraints').mockReturnValue({});
     jest.spyOn(qlikChartModules, 'themeService').mockReturnValue({});
     jest.spyOn(qlikChartModules, 'layoutService').mockReturnValue({});
     jest.mock('../../models/container-model', () => {

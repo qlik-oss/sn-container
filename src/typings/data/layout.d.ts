@@ -30,7 +30,14 @@ declare interface QChildList {
   qItems: QChild[];
 }
 
+declare interface LayoutChild extends PropertiesChild {
+  condition?: string;
+}
+
 declare interface Layout extends ContainerProperties {
+  qExtendsId?: string;
   snapshotData?: any;
   qChildList: QChildList;
+  children: LayoutChild[];
+  visualization: string;
 }

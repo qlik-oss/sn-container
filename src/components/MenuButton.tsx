@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { Popover, List, ListItem, ListItemIcon, Typography } from '@mui/material';
-import { NavigationButton, PopoverListItemButton } from './common/styled';
+import { StyledButton, PopoverListItemButton } from './common/styled';
 import UnorderedListIcon from '../icons/UnorderedList';
 import CheckboxTickIcon from '../icons/CheckboxTick';
 import { COLORS } from '../theme/src/internal/variables';
 
 interface MenuButtonProps {
   layout: Layout;
-  chartObjects: ChartObject[];
+  chartObjects: MergedLayoutChild[];
   tabValue: number;
-  setTabValue: (newTabValue: number) => void;
+  handleChange: (event: any, newTabValue: number) => void;
 }
 
 type AnchorElState = null | HTMLButtonElement;
 
-export default function MenuButton({ layout, chartObjects, tabValue, setTabValue }: MenuButtonProps) {
+export default function MenuButton({ layout, chartObjects, tabValue, handleChange }: MenuButtonProps) {
   const [anchorEl, setAnchorEl] = useState(null as AnchorElState);
   const handlePopoverOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -23,19 +23,16 @@ export default function MenuButton({ layout, chartObjects, tabValue, setTabValue
     setAnchorEl(null);
   };
 
-  const handleClickOnChart = (index: number) => {
-    setTabValue(index);
+  const handleClickOnChart = (event: AnchorElState, index: number) => {
+    handleChange(event, index);
     handlePopoverClose();
   };
 
   return (
     <>
-      <NavigationButton
-        sx={{ marginLeft: layout.useScrollButton !== false ? '4px' : '0px' }}
-        onClick={handlePopoverOpen}
-      >
+      <StyledButton sx={{ marginLeft: layout.useScrollButton !== false ? '4px' : '0px' }} onClick={handlePopoverOpen}>
         <UnorderedListIcon />
-      </NavigationButton>
+      </StyledButton>
       <Popover
         onClose={handlePopoverClose}
         open={Boolean(anchorEl)}
@@ -56,7 +53,7 @@ export default function MenuButton({ layout, chartObjects, tabValue, setTabValue
           {chartObjects.map((chart, index) => (
             <PopoverListItemButton
               component="li"
-              onClick={() => handleClickOnChart(index)}
+              onClick={(e: HTMLButtonElement) => handleClickOnChart(e, index)}
               key={chart.cId}
               title={chart.label}
             >

@@ -8,10 +8,10 @@ export default function supernova(env: EnvironmentType) {
 
   return {
     qae: createQae(),
-    ext: ext(),
+    ext: ext(env),
     component() {
       const core = useCore();
-      const models = useModels({ core });
+      const models = useModels({ core, visualizationApi: env.sense?.visualizationApi });
       useRender({ core, models });
     },
   };

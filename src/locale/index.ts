@@ -4,8 +4,12 @@ import all from './all.json';
   ! The all.json file contains the translations tranferred from sense-client
   ! They have been retrieved by running the code bellow:
 
+  import Translator from '@qlik-trial/translator';
+  import { initTranslator } from '../../../../js/lib/translator'; //replace with correct path
+  import { detectLocale } from '../../../../js/lib/locale'; //replace with correct path
+
   const retrieveTranslation = async(lang, text) => {
-    await Translator.setup(lang);
+    await initTranslator(detectLocale(lang));
     return `"${lang}": "${translator(text)}",\n`;
   };
 
@@ -25,6 +29,7 @@ import all from './all.json';
   const initializeTranslationRetrieval = async () => {
     const textList =[
       "Object.Container.AddItem",
+      "Object.Container.EmptyHin",
     ];
 
     for(let i = 0;  i < textList.length; i++) {
