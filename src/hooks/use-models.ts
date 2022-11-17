@@ -22,7 +22,7 @@ interface UseModelsProps {
   visualizationApi?: VisualizationApi;
 }
 
-const UseModels = ({ core, visualizationApi }: UseModelsProps) => {
+const useModels = ({ core, visualizationApi }: UseModelsProps) => {
   const app = useApp();
   const layout = useStaleLayout();
   const theme = useTheme();
@@ -63,4 +63,4 @@ const UseModels = ({ core, visualizationApi }: UseModelsProps) => {
   return models;
 };
 
-export default UseModels;
+export default useModels;
