@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import React from 'react';
 import { Button, Tab, styled, ListItem, ListItemButton, Typography } from '@mui/material';
 import { GREYSCALE } from '../../theme/src/internal/variables';
